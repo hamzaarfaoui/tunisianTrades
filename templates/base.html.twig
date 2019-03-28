@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}{% endblock %}</title>
+        {% include 'includes/front/css.html.twig' %}
+        {% block stylesheets %}{% endblock %}
+    </head>
+    <body>
+        <!-- HEADER -->
+        {% include 'includes/front/header.html.twig' %}
+        <!-- /HEADER -->
+        <p>
+            {% block body %}{% endblock %}
+        </p>
+        <!-- FOOTER -->
+        {% include 'includes/front/footer.html.twig' %}
+        <!-- /FOOTER -->
+        {% include 'includes/front/js.html.twig' %}
+        {% block javascripts %}{% endblock %}
+    </body>
+</html>

@@ -1,0 +1,11 @@
+index_page:
+    path: /
+    controller: App\Controller\Front\FrontController::indexPage
+    
+product_by_category:
+    path: /{id}/{title}
+    controller: App\Controller\Front\FrontController::productByCategory    
+    
+product_page:
+    path: /product
+    controller: App\Controller\Front\FrontController::productPage    

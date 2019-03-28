@@ -1,0 +1,7 @@
+payement_page:
+    path: /payement
+    controller: App\Controller\Front\CommandesController::payement
+    
+livraison_page:
+    path: /livraison
+    controller: App\Controller\Front\CommandesController::livraison      
