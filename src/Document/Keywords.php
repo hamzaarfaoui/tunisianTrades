@@ -74,7 +74,7 @@ class Keywords
         return $this->categorie;
     }
     /**
-     * @param Categories $categorie
+     * @param Categorie $categorie
      *
      * @return self
      */

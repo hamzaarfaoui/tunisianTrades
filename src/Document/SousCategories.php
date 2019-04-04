@@ -72,7 +72,7 @@ class SousCategories
     /** @MongoDB\ReferenceMany(targetDocument="Products", mappedBy="sousCategories") */
     protected $products;
     
-    /** @MongoDB\ReferenceMany(targetDocument="Caracteristiques", mappedBy="sousCategories") */
+    /** @MongoDB\ReferenceMany(targetDocument="Caracteristiques", mappedBy="sousCategorie") */
     protected $caracteristiques;
     
     /** 

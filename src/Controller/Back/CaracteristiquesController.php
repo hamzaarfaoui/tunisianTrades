@@ -16,7 +16,11 @@ class CaracteristiquesController extends Controller
     {
         $dm = $this->get('doctrine_mongodb')->getManager();
         $caracteristiques = $dm->getRepository('App:Caracteristiques')->findAll();
-        return $this->render('Products/back/caracteristiques/list.html.twig', array('caracteristiques' => $caracteristiques));
+        $categories = $dm->getRepository('App:SousCategories')->findAll();
+        return $this->render('Products/back/caracteristiques/list.html.twig', array(
+            'caracteristiques' => $caracteristiques,
+            'categories' => $categories
+        ));
     }
     
     /*
@@ -37,6 +41,8 @@ class CaracteristiquesController extends Controller
         $dm = $this->get('doctrine_mongodb')->getManager();
         $caracteristique = new Caracteristiques();
         $caracteristique->setName($request->get('nom'));
+        $categorie = $dm->getRepository('App:SousCategories')->find($request->get('categorie'));
+        $caracteristique->setSousCategorie($categorie);
         $dm->persist($caracteristique);
         $dm->flush();
         $request->getSession()->getFlashBag()->add('success', "Caracteristique ".$caracteristique->getName()." a été ajoutée");
@@ -51,6 +57,8 @@ class CaracteristiquesController extends Controller
         $dm = $this->get('doctrine_mongodb')->getManager();
         $caracteristique = $dm->getRepository('App:Caracteristiques')->find($id);
         $caracteristique->setName($request->get('nom'));
+        $categorie = $dm->getRepository('App:SousCategories')->find($request->get('categorie'));
+        $caracteristique->setSousCategorie($categorie);
         $dm->persist($caracteristique);
         $dm->flush();
         $request->getSession()->getFlashBag()->add('success', "Caracteristique ".$caracteristique->getName()." a été mis à jour");

@@ -293,7 +293,12 @@
                                 <br><br>
                                 <h3><em>{{product.price}} TND</em></h3>
                             </div>
-
+                            <div class="text-center">
+                                <h3>Mots clés</h3>
+                                {% for keyword in product.keywords %}
+                                    <span class="label label-sm label-success" style="margin: 5px;"><b></b></span>
+                                {% endfor %}
+                            </div>
                             <br><br>
                             <center>
                                 <div style="background-color: #ECEFF1;padding: 5px;;width: 60%;border-radius: 10px;">

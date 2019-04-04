@@ -1,11 +1,7 @@
 {% extends "layoutAdmin.html.twig" %}
 {% block stylesheets %}
     <!-- BEGIN PAGE LEVEL STYLES -->
-    <link href="{{ asset('template/assets/global/plugins/jquery-file-upload/blueimp-gallery/blueimp-gallery.min.css') }}" rel="stylesheet"/>
-<link href="{{ asset('template/assets/global/plugins/jquery-file-upload/css/jquery.fileupload.css') }}" rel="stylesheet"/>
-<link href="{{ asset('template/assets/global/plugins/jquery-file-upload/css/jquery.fileupload-ui.css') }}" rel="stylesheet"/>
-
-
+  
     <link rel="stylesheet" type="text/css" href="{{ asset('template/assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css') }}"/>
     <link rel="stylesheet" type="text/css" href="{{ asset('template/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css') }}"/>
     <link rel="stylesheet" type="text/css" href="{{ asset('template/assets/global/plugins/jquery-tags-input/jquery.tagsinput.css') }}"/>
@@ -14,8 +10,13 @@
     <link href="{{ asset('template/assets/global/css/components-rounded.css') }}" id="style_components" rel="stylesheet" type="text/css"/>
     <link href="{{ asset('template/assets/global/css/plugins.css') }}" rel="stylesheet" type="text/css"/>
     <link href="{{ asset('template/assets/admin/layout4/css/layout.css') }}" rel="stylesheet" type="text/css"/>
-    <link id="style_color" {{ asset('template/assets/admin/layout4/css/themes/light.css') }}" rel="stylesheet" type="text/css"/>
+    <link id="style_color" href="{{ asset('template/assets/admin/layout4/css/themes/light.css') }}" rel="stylesheet" type="text/css"/>
     <!-- END PAGE LEVEL STYLES -->
+      <link href="{{ asset('template/assets/global/plugins/jquery-file-upload/blueimp-gallery/blueimp-gallery.min.css') }}" rel="stylesheet"/>
+<link href="{{ asset('template/assets/global/plugins/jquery-file-upload/css/jquery.fileupload.css') }}" rel="stylesheet"/>
+<link href="{{ asset('template/assets/global/plugins/jquery-file-upload/css/jquery.fileupload-ui.css') }}" rel="stylesheet"/>
+
+
     
 {% endblock %}
 {% block title %}Tableau de bord | Nouveau produit{% endblock %}
@@ -44,7 +45,7 @@
                     <i class="fa fa-circle"></i>
                 </li>
                 <li>
-                    Nouvel marchand
+                    Nouvel produit
                 </li>
             </ul>
             <!-- END PAGE BREADCRUMB -->
@@ -85,6 +86,11 @@
                                         <li>
                                             <a href="#tab_reviews" data-toggle="tab">
                                                 Promotions
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#tab_keywords" data-toggle="tab">
+                                                Mots clés
                                             </a>
                                         </li>
                                     </ul>
@@ -277,6 +283,11 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="tab-pane" id="tab_keywords">
+                                            <h3>Mots clés</h3>
+                                            <input id="tags_1" type="text" class="form-control tags" name="keywords"/>
+                                            
+                                        </div>
                                     </div>
                                 </div>
                                                     <br>
@@ -296,35 +307,7 @@
     <!-- END CONTENT -->
 {% endblock %}
 {% block javascripts %}
-    <script src="{{ asset('template/assets/global/plugins/fancybox/source/jquery.fancybox.pack.js') }}"></script>
-<!-- END PAGE LEVEL PLUGINS-->
-<!-- BEGIN:File Upload Plugin JS files-->
-<!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
-<script src="{{ asset('template/assets/global/plugins/jquery-file-upload/js/vendor/jquery.ui.widget.js') }}"></script>
-<!-- The Templates plugin is included to render the upload/download listings -->
-<script src="{{ asset('template/assets/global/plugins/jquery-file-upload/js/vendor/tmpl.min.js') }}"></script>
-<!-- The Load Image plugin is included for the preview images and image resizing functionality -->
-<script src="{{ asset('template/assets/global/plugins/jquery-file-upload/js/vendor/load-image.min.js') }}"></script>
-<!-- The Canvas to Blob plugin is included for image resizing functionality -->
-<script src="{{ asset('template/assets/global/plugins/jquery-file-upload/js/vendor/canvas-to-blob.min.js') }}"></script>
-<!-- blueimp Gallery script -->
-<script src="{{ asset('template/assets/global/plugins/jquery-file-upload/blueimp-gallery/jquery.blueimp-gallery.min.js') }}"></script>
-<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
-<script src="{{ asset('template/assets/global/plugins/jquery-file-upload/js/jquery.iframe-transport.js') }}"></script>
-<!-- The basic File Upload plugin -->
-<script src="{{ asset('template/assets/global/plugins/jquery-file-upload/js/jquery.fileupload.js') }}"></script>
-<!-- The File Upload processing plugin -->
-<script src="{{ asset('template/assets/global/plugins/jquery-file-upload/js/jquery.fileupload-process.js') }}"></script>
-<!-- The File Upload image preview & resize plugin -->
-<script src="{{ asset('template/assets/global/plugins/jquery-file-upload/js/jquery.fileupload-image.js') }}"></script>
-<!-- The File Upload audio preview plugin -->
-<script src="{{ asset('template/assets/global/plugins/jquery-file-upload/js/jquery.fileupload-audio.js') }}"></script>
-<!-- The File Upload video preview plugin -->
-<script src="{{ asset('template/assets/global/plugins/jquery-file-upload/js/jquery.fileupload-video.js') }}"></script>
-<!-- The File Upload validation plugin -->
-<script src="{{ asset('template/assets/global/plugins/jquery-file-upload/js/jquery.fileupload-validate.js') }}"></script>
-<!-- The File Upload user interface plugin -->
-<script src="{{ asset('template/assets/global/plugins/jquery-file-upload/js/jquery.fileupload-ui.js') }}"></script>
+  
     <!-- BEGIN PAGE LEVEL PLUGINS -->
     <script type="text/javascript" src="{{ asset('template/assets/global/plugins/fuelux/js/spinner.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('template/assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js') }}"></script>
@@ -416,6 +399,7 @@
             Metronic.init(); // init metronic core components
             Layout.init(); // init current layout
             Demo.init(); // init demo features
+            ComponentsFormTools.init();
         });
     </script>
 {% endblock %}

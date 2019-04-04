@@ -12,6 +12,7 @@ use App\Document\TelephonesUser;
 use App\Document\TelephonesStore;
 use App\Document\MediasImages;
 use App\Document\Promotions;
+use App\Document\Keywords;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -169,9 +170,21 @@ class ProductBackController extends Controller
                 $dm->persist($valeur);
             }
         }
+        /*start keywords*/
+        $keywords_input = $request->get('keywords');
+        $keywords_array = explode(", ", $keywords_input);
+        foreach ($keywords_array as $item) {
+            $keyword = new Keywords();
+            $keyword->setName($item);
+            $keyword->setProduct($product);
+            $product->addKeyword($keyword);
+            $dm->persist($keyword);
+        }
+        /*end kewords*/
         /*start Caractéristique valeur document*/
         $dm->persist($product);
         /*end store document*/
+        
         $dm->flush();
         $request->getSession()->getFlashBag()->add('success', "Le produit ".$product->getName()." a été ajoutée");
         return $this->redirectToRoute('dashboard_product_details', array('id' => $product->getId()));
@@ -241,10 +254,20 @@ class ProductBackController extends Controller
         foreach ($valeurs as $valeur){
             if($valeur->getId() == $request->get('valeur'.$valeur->getCaracteristique()->getId())){
                 $product->addValeur($valeur);
-                $valeur->addProduct($product);
-                $dm->persist($valeur);
             }
         }
+        /*start keywords*/
+        $keywords_input = $request->get('keywords');
+        $keywords_array = explode(",", $keywords_input);
+        foreach ($keywords_array as $item) {
+            $keyword = new Keywords();
+            $keyword->setName($item);
+            $keyword->setProduct($product);
+            $product->addKeyword($keyword);
+            $dm->persist($keyword);
+        }
+        //dump($product);die();
+        /*end kewords*/
         /*start Caractéristique valeur document*/
         $dm->persist($product);
         /*end store document*/

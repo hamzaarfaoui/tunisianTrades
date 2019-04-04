@@ -74,7 +74,7 @@ class Caracteristiques
     }
     
     /**
-     * @param SousCategories $sousCategorie
+     * @param SousCategorie $sousCategorie
      *
      * @return self
      */
