@@ -263,10 +263,11 @@ class ProductBackController extends Controller
             $keyword = new Keywords();
             $keyword->setName($item);
             $keyword->setProduct($product);
-            $product->addKeyword($keyword);
+            $keyword->setCategorie($product->getSousCategorie());
             $dm->persist($keyword);
+            $product->addKeyword($keyword);
         }
-        //dump($product);die();
+        
         /*end kewords*/
         /*start Caractéristique valeur document*/
         $dm->persist($product);
