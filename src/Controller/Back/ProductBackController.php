@@ -172,14 +172,16 @@ class ProductBackController extends Controller
         }
         /*start keywords*/
         $keywords_input = $request->get('keywords');
-        $keywords_array = explode(", ", $keywords_input);
+        $keywords_array = explode(",", $keywords_input);
         foreach ($keywords_array as $item) {
             $keyword = new Keywords();
             $keyword->setName($item);
             $keyword->setProduct($product);
-            $product->addKeyword($keyword);
+            $keyword->setCategorie($product->getSousCategorie());
             $dm->persist($keyword);
+            $product->addKeyword($keyword);
         }
+        
         /*end kewords*/
         /*start Caractéristique valeur document*/
         $dm->persist($product);
@@ -324,7 +326,7 @@ class ProductBackController extends Controller
             $product->setSousCategorie($sc);
         }
         /*start medias Images document*/
-        if (isset($_FILES["images"]['name']) && !empty($_FILES["images"]['name'])) {
+        if (isset($_FILES["images"]['name']) && empty($_FILES["images"]['name'])) {
             foreach ($product->getMediasImages() as $img){
                 $dm->remove($img);
             }
@@ -342,7 +344,7 @@ class ProductBackController extends Controller
             }
         }
         /*end medias Images document*/
-        if (isset($_FILES["iconeC"]) && !empty($_FILES["iconeC"])) {
+        if (isset($_FILES["iconeC"]) && empty($_FILES["iconeC"])) {
             $file = $_FILES["iconeC"]["name"];
             $File_Ext = substr($file, strrpos($file, '.'));
             $fileName = md5(uniqid()) . $File_Ext;
@@ -372,6 +374,25 @@ class ProductBackController extends Controller
                 $dm->persist($valeur);
             }
         }
+        
+        /*start keywords*/
+        $keywords_input = $request->get('keywords');
+        $keywords_array = explode(",", $keywords_input);
+        $keywords_product = $dm->getRepository('App:Keywords')->findBy(array('product'=>$product));
+        foreach ($keywords_product as $k){
+            $product->removeKeyword($k);
+            $dm->remove($k);
+        }
+        foreach ($keywords_array as $item) {
+                $keyword = new Keywords();
+                $keyword->setName($item);
+                $keyword->setProduct($product);
+                $keyword->setCategorie($product->getSousCategorie());
+                $dm->persist($keyword);
+                $product->addKeyword($keyword);
+        }
+        
+        /*end kewords*/
         /*start Caractéristique valeur document*/
         $dm->persist($product);
         /*end store document*/

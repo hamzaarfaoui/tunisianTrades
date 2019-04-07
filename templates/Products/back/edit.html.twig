@@ -91,6 +91,11 @@
                                                 Promotions
                                             </a>
                                         </li>
+                                        <li>
+                                            <a href="#tab_keywords" data-toggle="tab">
+                                                Mots clés
+                                            </a>
+                                        </li>
                                     </ul>
                                     <div class="tab-content no-space">
                                         <div class="tab-pane active" id="tab_general">
@@ -269,6 +274,11 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="tab-pane" id="tab_keywords">
+                                            <h3>Mots clés</h3>
+                                            <input id="tags_1" type="text" class="form-control tags" name="keywords" value="{% for keyword in product.keywords %}{{ keyword.name }}{% if(keyword != product.keywords|last) %},{% endif %}{% endfor %}"/>
+                                            
+                                        </div>
                                     </div>
                                 </div>
                                                     <br>
@@ -408,6 +418,7 @@
             Metronic.init(); // init metronic core components
             Layout.init(); // init current layout
             Demo.init(); // init demo features
+            ComponentsFormTools.init();
         });
     </script>
 {% endblock %}

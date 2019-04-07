@@ -4,6 +4,7 @@ namespace App\Controller\Front;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use App\Document\Products;
+use Symfony\Component\HttpFoundation\Request;
 
 class FrontController extends Controller
 {
@@ -24,10 +25,13 @@ class FrontController extends Controller
     /*
      * Product page
      */
-    public function productPage()
+    public function productPage($id)
     {
         $dm = $this->get('doctrine_mongodb')->getManager();
-        return $this->render('Products/front/details.html.twig');
+        $product = $dm->getRepository('App:Products')->find($id);
+        return $this->render('Products/front/details.html.twig', array(
+            'product' => $product
+        ));
     }
     
     /*
@@ -47,10 +51,25 @@ class FrontController extends Controller
     /*
      * search result
      */
-    public function searchResult()
+    public function searchResult(Request $request)
     {
         $dm = $this->get('doctrine_mongodb')->getManager();
-        return $this->render('frontend/searchResult.html.twig');
+        $search = $request->get('search');
+        $products = $dm->getRepository('App:Products')->findAll();
+        $keyword = $dm->getRepository('App:Keywords')->findOneBy(array('name' => $search));
+        $result = array();
+        foreach ($products as $product){
+            if(count($product->getKeywords())>0){
+                $keywords = $dm->getRepository('App:Keywords')->findBy(array('product' => $product));
+                if(in_array($keyword, $keywords, true)){
+                    $result[] = $product;
+                }
+            }
+        }
+        dump($result);die();
+        return $this->render('frontend/searchResult.html.twig', array(
+            'products' => $result
+        ));
     }
     
     /*

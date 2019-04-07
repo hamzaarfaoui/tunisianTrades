@@ -3,9 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/var/www/html/tunisianTrades/templates/Products/back/details.html.twig</file>
             <file>file:/var/www/html/tunisianTrades/src/Controller/Back/ProductBackController.php</file>
-            <file>file:/var/www/html/tunisianTrades/templates/index.html.twig</file>
+            <file>file:/var/www/html/tunisianTrades/templates/Products/back/new.html.twig</file>
+            <file>file:/var/www/html/tunisianTrades/templates/Products/back/newByStore.html.twig</file>
+            <file>file:/var/www/html/tunisianTrades/templates/Products/back/edit.html.twig</file>
+            <file>file:/var/www/html/tunisianTrades/src/Controller/Front/FrontController.php</file>
         </group>
     </open-files>
 </project-private>

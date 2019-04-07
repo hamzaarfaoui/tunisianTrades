@@ -4,8 +4,12 @@ index_page:
     
 product_by_category:
     path: /{id}/categorie/{title}
-    controller: App\Controller\Front\FrontController::productByCategory    
+    controller: App\Controller\Front\FrontController::productByCategory   
+    
+search_result:
+    path: /result
+    controller: App\Controller\Front\FrontController::searchResult     
     
 product_page:
-    path: /product
+    path: /product/{titre}/{id}
     controller: App\Controller\Front\FrontController::productPage    

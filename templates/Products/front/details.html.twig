@@ -1,5 +1,5 @@
 {% extends "base.html.twig" %}
-{% block title %}Shopping LAND{% endblock %}
+{% block title %}{{ product.name }}{% endblock %}
 {% block stylesheets %}{% endblock %}
 {% block body %}
     <!-- NAVIGATION -->
@@ -389,31 +389,23 @@
                     <div class="col-md-6">
                         <div id="product-main-view">
                             <div class="product-view">
-                                <img src="{{asset('e-shop/img/main-product01.jpg') }}" alt="">
+                                <img style="height: 400px;" src="{{ asset('uploads/products/images/') }}{{ product.image }}" alt="">
                             </div>
-                            <div class="product-view">
-                                <img src="{{asset('e-shop/img/main-product02.jpg') }}" alt="">
-                            </div>
-                            <div class="product-view">
-                                <img src="{{asset('e-shop/img/main-product03.jpg') }}" alt="">
-                            </div>
-                            <div class="product-view">
-                                <img src="{{asset('e-shop/img/main-product04.jpg') }}" alt="">
-                            </div>
+                            {% for image in product.getMediasImages() %}
+                                <div class="product-view">
+                                    <img style="height: 400px;" src="{{ asset('uploads/products/gallery/') }}{{ image.name }}" alt="">
+                                </div>
+                            {% endfor %}
                         </div>
                         <div id="product-view">
                             <div class="product-view">
-                                <img src="{{asset('e-shop/img/thumb-product01.jpg') }}" alt="">
+                                <img style="width: 100%;height: 100px;" src="{{ asset('uploads/products/images/') }}{{ product.image }}" alt="">
                             </div>
-                            <div class="product-view">
-                                <img src="{{asset('e-shop/img/thumb-product02.jpg') }}" alt="">
-                            </div>
-                            <div class="product-view">
-                                <img src="{{asset('e-shop/img/thumb-product03.jpg') }}" alt="">
-                            </div>
-                            <div class="product-view">
-                                <img src="{{asset('e-shop/img/thumb-product04.jpg') }}" alt="">
-                            </div>
+                            {% for image in product.getMediasImages() %}
+                                <div class="product-view">
+                                    <img style="width: 100%;height: 100px;" src="{{ asset('uploads/products/gallery/') }}{{ image.name }}" alt="">
+                                </div>
+                            {% endfor %}
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -422,7 +414,7 @@
                                 <span>New</span>
                                 <span class="sale">-20%</span>
                             </div>
-                            <h2 class="product-name">Product Name Goes Here</h2>
+                            <h2 class="product-name">{{ product.name }}</h2>
                             <h3 class="product-price">$32.50 <del class="product-old-price">$45.00</del></h3>
                             <div>
                                 <div class="product-rating">
@@ -434,10 +426,9 @@
                                 </div>
                                 <a href="#">3 Review(s) / Add Review</a>
                             </div>
-                            <p><strong>Availability:</strong> In Stock</p>
-                            <p><strong>Brand:</strong> E-SHOP</p>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-                                dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                            <p><strong>Disponibilité :</strong> {{ product.qte>0?'En stock':'Faible' }}</p>
+                            <p><strong>Boutique : </strong> {{ product.store.name }}</p>
+                            <p>{{ product.content }}</p>
                             <div class="product-options">
                                 <ul class="size-option">
                                     <li><span class="text-uppercase">Size:</span></li>
