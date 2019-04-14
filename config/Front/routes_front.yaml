@@ -11,5 +11,5 @@ search_result:
     controller: App\Controller\Front\FrontController::searchResult     
     
 product_page:
-    path: /product/{titre}/{id}
+    path: /product/{id}
     controller: App\Controller\Front\FrontController::productPage    

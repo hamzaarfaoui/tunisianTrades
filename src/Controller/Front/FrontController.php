@@ -61,12 +61,13 @@ class FrontController extends Controller
         foreach ($products as $product){
             if(count($product->getKeywords())>0){
                 $keywords = $dm->getRepository('App:Keywords')->findBy(array('product' => $product));
-                if(in_array($keyword, $keywords, true)){
-                    $result[] = $product;
+                foreach ($keywords as $k){
+                    if($keyword->getName() == $k->getName()){
+                        $result[] = $product;
+                    }
                 }
             }
         }
-        dump($result);die();
         return $this->render('frontend/searchResult.html.twig', array(
             'products' => $result
         ));

@@ -31,7 +31,7 @@
                                             <span>New</span>
                                             <span class="sale">-20%</span>
                                         </div>
-                                        <a href="{{ path('product_page', {titre:product.name, id:product.id}) }}" class="main-btn quick-view"> Détails</a>
+                                        <a href="{{ path('product_page', {id:product.id}) }}" class="main-btn quick-view"> Détails</a>
                                         <img src="{{ asset('uploads/products/images/') }}{{ product.image }}" alt="">
                                     </div>
                                     <div class="product-body">
@@ -47,7 +47,8 @@
                                         <div class="product-btns">
                                             <button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
                                             <!--<button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button>-->
-                                            <button class="primary-btn add-to-cart"><i class="fa fa-shopping-cart"></i> </button>
+                                            {#<a href="{{ path('add_product_to_cart', {id:product.id}) }}" class="primary-btn add-to-cart"><i class="fa fa-plus"></i> <i class="fa fa-shopping-cart"></i> panier</a>#}
+                                            <button class="primary-btn add-to-cart" data-id="{{product.id}}"><i class="fa fa-plus"></i> <i class="fa fa-shopping-cart"></i> panier</button>
                                         </div>
                                     </div>
                                 </div>

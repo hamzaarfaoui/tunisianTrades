@@ -1,0 +1,45 @@
+{% set totalHT = 0 %}
+{% set totalTTC = 0%}
+{% set refTva = {} %}
+{% set panier = app.session.get('panier') %}
+{% for product in products %}
+    {% set totalHT = totalHT + (product.price * panier[product.id]) %}
+    {% set totalTTC = totalTTC + (product.price * panier[product.id]) %}
+{% endfor %}
+<li class="header-cart dropdown default-dropdown">
+    <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+        <div class="header-btns-icon">
+            <i class="fa fa-shopping-cart"></i>
+            <span class="qty">{{articles}}</span>
+        </div>
+        <strong class="text-uppercase">Panier:</strong>
+        <br><br>
+        <b><span class="total-cart"></span> TND</b>
+    </a>
+    <div class="custom-menu">
+        <div id="shopping-cart">
+            <div class="shopping-cart-list">
+                {% if articles > 0 %}
+                    {% for product in products %}
+                        <div class="product product-widget product-in-cart{{ product.id }}">
+                            <div class="product-thumb">
+                                <img src="{{ asset('uploads/products/images/') }}{{ product.image }}" alt="">
+                            </div>
+                            <div class="product-body">
+                                <h3 class="product-price">{{ product.price }} TND <span class="qty">x{{ panier[product.id] }}</span></h3>
+                                <h2 class="product-name"><a href="{{ path('product_page', {id:product.id}) }}">{{ product.name }}</a></h2>
+                            </div>
+                            <button class="cancel-btn" data-id="{{ product.id }}"><i class="fa fa-trash"></i></button>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    Panier vide
+                {% endif %}
+            </div>
+            <div class="shopping-cart-btns">
+                <a href="{{ path('cart_page') }}" class="main-btn">Mon Panier</a>
+                <button class="primary-btn" style="fony-size: 14px;">Valider <i class="fa fa-arrow-circle-right"></i></button>
+            </div>
+        </div>
+    </div>
+</li>

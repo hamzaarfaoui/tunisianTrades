@@ -1,0 +1,70 @@
+<script>
+    fetchTotalCart();
+    /*start add product to cart*/
+    $('.add-to-cart').click(function(){
+        var id = $(this).data('id');
+        addProductToCart(id);
+    });
+    function addProductToCart(id) {
+        var url = '{{ path('add_product_to_cart', {'id': 'valeurselectionnee'}) }}';
+        url = url.replace("valeurselectionnee", id);
+        $.ajax({
+            url: url,
+            method: "POST",
+            error: function (data) {
+                console.log('Erreur d\'ajouter le produit au panier');
+            },
+            success: function (data) {
+                fetchTotalCart();
+                $(".qty").css("background-color", "#f44336");
+                console.log(data['message']);
+                //setTimeout(function(){ $('#msg-alert').html('<div class="alert alert-success">'+data['message']+'</div><br><br>'); }, 3000);
+            }
+        });
+    }
+    /*end remove product from cart*/
+    
+    /*start add product to cart*/
+    $('.cancel-btn, .cancel-product').click(function(){
+        var id = $(this).data('id');
+        removeProductFromCart(id);
+    });
+    function removeProductFromCart(id) {
+        var url = '{{ path('remove_product_from_cart', {'id': 'valeurselectionnee'}) }}';
+        url = url.replace("valeurselectionnee", id);
+        $.ajax({
+            url: url,
+            method: "POST",
+            error: function (data) {
+                console.log('Erreur de retirer le produit du panier');
+            },
+            success: function (data) {
+                fetchTotalCart();
+                $('.product-in-cart'+id).hide();
+                //console.log(data['message']);
+                //setTimeout(function(){ $('#msg-alert').html('<div class="alert alert-success">'+data['message']+'</div><br><br>'); }, 3000);
+            }
+        });
+    }
+    /*end add product to cart*/
+    
+    /* start get total cart*/
+    function fetchTotalCart() {
+        var total;
+        $.ajax({
+            url: '{{ path('fetch_total_cart') }}',
+            method: "POST",
+            error: function (data) {
+                console.log('Erreur de calculer le total du panier');
+            },
+            success: function (data) {
+                $('.total-cart').html(data['total']);
+                $('.qty').html(data['qte']);
+                console.log(data['total']);
+                //setTimeout(function(){ $('#msg-alert').html('<div class="alert alert-success">'+data['message']+'</div><br><br>'); }, 3000);
+            }
+        });
+        
+    }
+    /* end get total cart*/
+</script>
