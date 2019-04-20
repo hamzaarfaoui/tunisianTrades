@@ -10,11 +10,9 @@
     <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
         <div class="header-btns-icon">
             <i class="fa fa-shopping-cart"></i>
-            <span class="qty">{{articles}}</span>
+            <span class="qty nn">{{articles}}</span>
         </div>
-        <strong class="text-uppercase">Panier:</strong>
-        <br><br>
-        <b><span class="total-cart"></span> TND</b>
+        <strong class="text-uppercase"><span class="total-cart"></span> TND</strong>
     </a>
     <div class="custom-menu">
         <div id="shopping-cart">
@@ -33,7 +31,7 @@
                         </div>
                     {% endfor %}
                 {% else %}
-                    Panier vide
+                    <span style="text-align: center">Panier vide</span>
                 {% endif %}
             </div>
             <div class="shopping-cart-btns">

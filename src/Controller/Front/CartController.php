@@ -32,24 +32,41 @@ class CartController extends Controller
     {
         $dm = $this->get('doctrine_mongodb')->getManager();
         $session = $request->getSession();
-        $array_product_ids = "";
+        
+        $list = '';
+        $list_in_table = '';
+        $total = 0;
         if (!$session->has('panier')){
+            $total = 0;
             $articles = 0;
             $array_product_ids = [];
-        }
-        else{
+        }else{
             $articles = count($session->get('panier'));
             $array_product_ids = $session->get('panier');
+            $products = $dm->getRepository('App:Products')->findArray(array_keys($array_product_ids));
+            if(count($products) > 0){
+                foreach ($products as $product){
+                    $total+=$product->getPrice();
+                    $list .= '<div class="product product-widget product-in-cart'.$product->getId().'">';
+                    $list .= '<div class="product-thumb">'; 
+                    $list .= '<img src="http://'.$_SERVER['HTTP_HOST'] . '/uploads/products/images/'. $product->getImage().'"/>';
+                    $list .= '</div>';
+                    $list .= '<div class="product-body">'; 
+                    $list .= '<h3 class="product-price">'.$product->getPrice().' TND <span class="qty">1</span></h3>';
+                    $list .= '<h2 class="product-name">'.$product->getName().'</h2>';
+                    $list .= '</div>';
+                    $list .= '<button class="cancel-btn" data-id="'.$product->getId().'"><i class="fa fa-trash"></i></button>';
+                    $list .= '</div>';
+                }
+            }else{
+                $list .= '<span style="text-align: center">Panier vide</span>';
+                $list_in_table .= '<tr><td colspan="6" class="text-center"><strong>Votre panier est vide</strong></td></tr>';
+            }
         }
-        if($session->get('panier') == ""){
-            
-        }
-        $products = $dm->getRepository('App:Products')->findArray(array_keys($array_product_ids));
-        $total = 0;
-        foreach ($products as $product){
-            $total+=$product->getPrice();
-        }
-        return new JsonResponse(array('status' => 'ok', 'total' => $total, 'qte' => $articles));
+        
+        
+        
+        return new JsonResponse(array('status' => 'ok', 'total' => $total, 'qte' => $articles, 'products' => $list, 'products_table' => $list_in_table));
     }
     
     /*
@@ -98,6 +115,32 @@ class CartController extends Controller
         }
         $session->set('panier',$panier);
         return new JsonResponse(array('status'=>'OK', 'message'=>'Produit ajouté en panier'));
+    }
+    
+    
+    /*
+     * Modification de la quantité d'produit dans le panier 
+     */
+    public function setProductQte(Request $request, $id)
+    {
+        $session = $request->getSession();
+        if (!$session->has('panier')) {$session->set('panier',array());}
+        $dm = $this->get('doctrine_mongodb')->getManager();
+        $panier = $session->get('panier');
+        $product = $dm->getRepository('App:Products')->find($id);
+        $total_price_product = $product->getPrice();
+        $total = 0;
+        if (array_key_exists($id, $panier)) {
+            if ($request->query->get('qte') != null) {$panier[$id] = $request->query->get('qte');}
+            
+        } else {
+            if ($request->query->get('qte') != null)
+            {$panier[$id] = $request->query->get('qte');}
+            else
+            { $panier[$id] = 1;}
+        }
+        $session->set('panier',$panier);
+        return new JsonResponse(array('status'=>'OK', 'message'=>'Quantité modifiée'));
     }
     
     /*

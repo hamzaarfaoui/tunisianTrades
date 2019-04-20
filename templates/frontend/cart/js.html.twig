@@ -16,7 +16,7 @@
             },
             success: function (data) {
                 fetchTotalCart();
-                $(".qty").css("background-color", "#f44336");
+                $(".nn").css("background-color", "#f44336");
                 console.log(data['message']);
                 //setTimeout(function(){ $('#msg-alert').html('<div class="alert alert-success">'+data['message']+'</div><br><br>'); }, 3000);
             }
@@ -55,16 +55,40 @@
             url: '{{ path('fetch_total_cart') }}',
             method: "POST",
             error: function (data) {
-                console.log('Erreur de calculer le total du panier');
             },
             success: function (data) {
                 $('.total-cart').html(data['total']);
-                $('.qty').html(data['qte']);
-                console.log(data['total']);
-                //setTimeout(function(){ $('#msg-alert').html('<div class="alert alert-success">'+data['message']+'</div><br><br>'); }, 3000);
+                $('.nn').html(data['qte']);
+                $('.shopping-cart-list').html(data['products']);
+                if(data['total'] == 0){
+                    $('.table-list-products-in-cart').html(data['products_table']);
+                }
+                
+                //setTimeout(function(){ $('#msg-alert').html('<div class="alert alert-success">'+data['message']+'</div><br><br>'); }, 3000);#}
             }
         });
         
     }
     /* end get total cart*/
+    
+    /* start change quantite */
+    $('.input-qte').keypress(function(){
+        //fetchTotalCart($(this).data('id'));
+    });
+    function changeQte(id) {
+        var url = '{{ path('change_qte', {'id': 'valeurselectionnee'}) }}';
+        url = url.replace("valeurselectionnee", id);
+        $.ajax({
+            url: url,
+            method: "POST",
+            error: function (data) {
+                console.log('Erreur de changer la quantité du produit dans panier');
+            },
+            success: function (data) {
+                console.log('la quantité du produit a été changée dans panier');
+                
+            }
+        });
+    }
+    /* end change quantite */
 </script>

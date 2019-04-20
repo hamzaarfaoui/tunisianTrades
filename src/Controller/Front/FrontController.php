@@ -56,13 +56,13 @@ class FrontController extends Controller
         $dm = $this->get('doctrine_mongodb')->getManager();
         $search = $request->get('search');
         $products = $dm->getRepository('App:Products')->findAll();
-        $keyword = $dm->getRepository('App:Keywords')->findOneBy(array('name' => $search));
+        $keywords = $dm->getRepository('App:Keywords')->byName($search);
         $result = array();
         foreach ($products as $product){
+            $keys = $dm->getRepository('App:Keywords')->findBy(array('product' => $product));
             if(count($product->getKeywords())>0){
-                $keywords = $dm->getRepository('App:Keywords')->findBy(array('product' => $product));
                 foreach ($keywords as $k){
-                    if($keyword->getName() == $k->getName()){
+                    if(in_array($k, $keys)){
                         $result[] = $product;
                     }
                 }

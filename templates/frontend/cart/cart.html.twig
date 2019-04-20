@@ -42,23 +42,37 @@
                                     <th class="text-right"></th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody class="table-list-products-in-cart">
                                 {% if(products|length > 0) %}
                                     {% for product in products %}
-                                        <tr class="product-in-cart{{ product.id }}" data-id="{{ product.id }}">
-                                            <td class="thumb"><img src="{{ asset('uploads/products/images/') }}{{ product.image }}" alt=""></td>
-                                            <td class="details">
-                                                <a href="{{ path('product_page', {id:product.id}) }}">{{ product.name }}</a>
-                                                {#<ul>
-                                                    <li><span>Size: XL</span></li>
-                                                    <li><span>Color: Camelot</span></li>
-                                                </ul>#}
-                                            </td>
-                                            <td class="price text-center"><strong>{{ product.price }} TND</strong><br>{#<del class="font-weak"><small>$40.00</small></del>#}</td>
-                                            <td class="qty text-center"><input class="input" type="number" value="1"></td>
-                                            <td class="total text-center"><strong class="primary-color">{{ product.price * panier[product.id] }} TND</strong></td>
-                                            <td class="text-right"><button class="main-btn icon-btn cancel-product" data-id="{{ product.id }}"><i class="fa fa-close"></i></button></td>
-                                        </tr>
+                                        <form action="{{ path('change_qte', { 'id' : product.id }) }}" method="get">
+                                            <tr class="product-in-cart{{ product.id }}" data-id="{{ product.id }}">
+                                                <td class="thumb"><img src="{{ asset('uploads/products/images/') }}{{ product.image }}" alt=""></td>
+                                                <td class="details">
+                                                    <a href="{{ path('product_page', {id:product.id}) }}">{{ product.name }}</a>
+                                                    {#<ul>
+                                                        <li><span>Size: XL</span></li>
+                                                        <li><span>Color: Camelot</span></li>
+                                                    </ul>#}
+                                                </td>
+                                                <td class="price text-center"><strong>{{ product.price }} TND</strong><br>{#<del class="font-weak"><small>$40.00</small></del>#}</td>
+                                                <td class="qty text-center">
+                                                    <select name="qte" class="form-control" onchange="this.form.submit()">
+                                                        <option selected value="{{ panier[product.id] }}">{{ panier[product.id] }}</option>
+                                                        {% for i in 1..10 %}
+                                                            <option value="{{i}}">{{i}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </td>
+                                                <td class="total text-center">
+                                                    <strong class="primary-color">
+                                                        <span class="total-product"></span> TND
+                                                    </strong>
+                                                    <input type="hidden" name="total" value="{{ product.price * panier[product.id] }}">
+                                                </td>
+                                                <td class="text-right"><button class="main-btn icon-btn cancel-product" data-id="{{ product.id }}"><i class="fa fa-close"></i></button></td>
+                                            </tr>
+                                        </form>
                                     {% endfor %}
                                 {% else %}
                                     <tr>
