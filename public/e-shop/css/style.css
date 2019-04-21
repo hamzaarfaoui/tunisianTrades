@@ -1327,28 +1327,7 @@ textarea.input {
   margin-bottom: 15px;
 }
 
-.size-option>li {
-  display: inline-block;
-  margin-right: 6px;
-  margin-bottom: 6px;
-  vertical-align: top;
-}
 
-.size-option>li:last-child {
-  margin-right: 0px;
-}
-
-.size-option>li>a {
-  display: block;
-  border: 1px solid #DADADA;
-  font-weight: 700;
-  padding: 2px 7px 0px 8px;
-}
-
-.size-option>li.active a {
-  color: #78909c;
-  border-color: #78909c;
-}
 
 .color-option>li {
   display: inline-block;
@@ -1377,6 +1356,7 @@ textarea.input {
   -webkit-box-shadow: 0px;
   box-shadow: 0px;
 }
+
 .color-option>li .containerr input[type="checkbox"]:checked ~ .couleur:after {
   display: block;
 }
@@ -1385,6 +1365,46 @@ textarea.input {
 .color-option>li .containerr input[type="checkbox"]:checked~ .couleur {
   -webkit-box-shadow: 0px 0px 0px 2px #FFF, 0px 0px 0px 3px #78909c;
   box-shadow: 0px 0px 0px 2px #FFF, 0px 0px 0px 3px #78909c;
+}
+
+.taille{
+  display: block;
+  border: 1px solid #DADADA;
+  font-weight: 700;
+  padding: 2px 7px 0px 8px;
+}
+
+.taille:after {
+  -webkit-box-shadow: 0px;
+  box-shadow: 0px;
+}
+
+
+
+.size-option>li .containerr input[type="checkbox"]:checked ~ .taille:after {
+  display: block;
+}
+
+
+.size-option>li .containerr input[type="checkbox"]:checked~ .taille {
+  color: #78909c;
+  border-color: #78909c;
+}
+
+.size-option>li {
+  display: inline-block;
+  margin-right: 6px;
+  margin-bottom: 6px;
+  vertical-align: top;
+}
+
+.size-option>li:last-child {
+  margin-right: 0px;
+}
+
+
+.size-option>li.active a {
+  
 }
 
 .product.product-details .qty-input {

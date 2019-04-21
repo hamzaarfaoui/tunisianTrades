@@ -36,6 +36,7 @@ class CartController extends Controller
         $list = '';
         $list_in_table = '';
         $total = 0;
+        $panier = $session->get('panier');
         if (!$session->has('panier')){
             $total = 0;
             $articles = 0;
@@ -46,7 +47,7 @@ class CartController extends Controller
             $products = $dm->getRepository('App:Products')->findArray(array_keys($array_product_ids));
             if(count($products) > 0){
                 foreach ($products as $product){
-                    $total+=$product->getPrice();
+                    $total+=$product->getPrice()*$panier[$product->getId()];
                     $list .= '<div class="product product-widget product-in-cart'.$product->getId().'">';
                     $list .= '<div class="product-thumb">'; 
                     $list .= '<img src="http://'.$_SERVER['HTTP_HOST'] . '/uploads/products/images/'. $product->getImage().'"/>';
@@ -125,14 +126,11 @@ class CartController extends Controller
     {
         $session = $request->getSession();
         if (!$session->has('panier')) {$session->set('panier',array());}
-        $dm = $this->get('doctrine_mongodb')->getManager();
         $panier = $session->get('panier');
-        $product = $dm->getRepository('App:Products')->find($id);
-        $total_price_product = $product->getPrice();
-        $total = 0;
+        
         if (array_key_exists($id, $panier)) {
             if ($request->query->get('qte') != null) {$panier[$id] = $request->query->get('qte');}
-            
+            $this->get('session')->getFlashBag()->add('success','Quantité modifié avec succès');
         } else {
             if ($request->query->get('qte') != null)
             {$panier[$id] = $request->query->get('qte');}
@@ -140,7 +138,7 @@ class CartController extends Controller
             { $panier[$id] = 1;}
         }
         $session->set('panier',$panier);
-        return new JsonResponse(array('status'=>'OK', 'message'=>'Quantité modifiée'));
+        return $this->redirectToRoute('cart_page');
     }
     
     /*
@@ -156,6 +154,6 @@ class CartController extends Controller
             unset($panier[$id]);
             $session->set('panier',$panier);
         }
-        return new JsonResponse(array('status'=>'OK', 'message'=>'Produit retirer du panier'));
+        return $this->redirectToRoute('fetch_total_cart');
     }
 }

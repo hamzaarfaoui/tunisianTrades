@@ -76,7 +76,7 @@
       tooltips: [true, true],
       format: {
         to: function(value) {
-          return value.toFixed(2) + '$';
+          return value.toFixed(2) + 'TND';
         },
         from: function(value) {
           return value
@@ -84,7 +84,7 @@
       },
       range: {
         'min': 1,
-        'max': 999
+        'max': 1000
       }
     });
   }

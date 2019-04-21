@@ -17,9 +17,15 @@
         </div>
     </div>
     <!-- /BREADCRUMB -->
+    {% set totalHT = 0 %}
+    {% set totalTTC = 0%}
+    {% set refTva = {} %}
+    {% set panier = app.session.get('panier') %}
+    {% for product in products %}
+        {% set totalHT = totalHT + (product.price * panier[product.id]) %}
+        {% set totalTTC = totalTTC + (product.price * panier[product.id]) %}
 
-
-
+        {% endfor %}
     <!-- section -->
     <div class="section">
         <!-- container -->
@@ -45,8 +51,8 @@
                             <tbody class="table-list-products-in-cart">
                                 {% if(products|length > 0) %}
                                     {% for product in products %}
-                                        <form id="changeQteForm" action="{{ path('change_qte', { 'id' : product.id }) }}" method="get">
-                                            <tr class="product-in-cart{{ product.id }}" data-id="{{ product.id }}">
+                                        <tr class="product-in-cart{{ product.id }}" data-id="{{ product.id }}">
+                                            <form action="{{ path('change_qte', { 'id' : product.id }) }}" method="get">
                                                 <td class="thumb"><img src="{{ asset('uploads/products/images/') }}{{ product.image }}" alt=""></td>
                                                 <td class="details">
                                                     <a href="{{ path('product_page', {id:product.id}) }}">{{ product.name }}</a>
@@ -57,18 +63,21 @@
                                                 </td>
                                                 <td class="price text-center"><strong>{{ product.price }} TND</strong><br>{#<del class="font-weak"><small>$40.00</small></del>#}</td>
                                                 <td class="qty text-center">
-                                                    <select name="qte" class="form-control" onchange="this.form.submit()">
+                                                    <select name="qte" data-id="{{ product.id }}" class="input quantite" onchange="this.form.submit()">
                                                         <option selected value="{{ panier[product.id] }}">{{ panier[product.id] }}</option>
                                                         {% for i in 1..10 %}
-                                                            <option value="{{i}}">{{i}}</option>
+                                                            {% if(i != [product.id]) %}
+                                                                <option value="{{i}}">{{i}}</option>
+                                                            {% endif %}
                                                         {% endfor %}
                                                     </select>
                                                 </td>
-                                                <td class="total text-center"><strong class="primary-color"><span class="total-product">{{ product.price * panier[product.id] }}</span> TND</strong></td>
-                                                <td class="text-right"><button class="main-btn icon-btn cancel-product" data-id="{{ product.id }}"><i class="fa fa-close"></i></button></td>
-                                            </tr>
-                                        </form>
-                                    {% endfor %}
+                                                <td class="total text-center"><strong class="primary-color"><span class="total-product" id="total-product{{ product.id }}">{{ product.price * panier[product.id] }}</span> TND</strong></td>
+                                                <td class="text-right"><button type="button" class="main-btn icon-btn cancel-product" data-id="{{ product.id }}"><i class="fa fa-close"></i></button></td>
+                                            </form>
+                                    
+                                        </tr>
+                            {% endfor %}
                                 {% else %}
                                     <tr>
                                         <td colspan="6" class="text-center"><strong>Votre panier est vide</strong></td>
@@ -89,7 +98,10 @@
                                 <tr>
                                     <th class="empty" colspan="3"></th>
                                     <th>Total à payer</th>
-                                    <th colspan="2" class="total"><span class="total-cart"></span> TND</th>
+                                    <th colspan="2" class="total">
+                                        <span class="total-cart">{{totalTTC}}</span> TND
+                                        <input type="hidden" name="totalCart" id="totalCart">
+                                    </th>
                                 </tr>
                             </tfoot>
                         </table>
@@ -108,12 +120,6 @@
     <!-- /section -->
 {% endblock %}
 {% block javascripts %}
-    {% set totalHT = 0 %}
-    {% set totalTTC = 0%}
-    {% set refTva = {} %}
-    {% set panier = app.session.get('panier') %}
-    {% for product in products %}
-        {% set totalHT = totalHT + (product.price * panier[product.id]) %}
-        {% set totalTTC = totalTTC + (product.price * panier[product.id]) %}
-    {% endfor %}
+    
+    
 {% endblock %}

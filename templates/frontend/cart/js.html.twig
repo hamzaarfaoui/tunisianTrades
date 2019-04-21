@@ -1,5 +1,4 @@
 <script>
-    fetchTotalCart();
     /*start add product to cart*/
     $('.add-to-cart').click(function(){
         var id = $(this).data('id');
@@ -49,6 +48,7 @@
     /*end add product to cart*/
     
     /* start get total cart*/
+    
     function fetchTotalCart() {
         var total;
         $.ajax({
@@ -72,23 +72,32 @@
     /* end get total cart*/
     
     /* start change quantite */
-    $('.input-qte').keypress(function(){
-        //fetchTotalCart($(this).data('id'));
+    {#$('.quantite').on('change', function(e){  
+        var id = $(this).data('id');
+        var qte = $(this).val();
+        changeQte(id, qte);
     });
-    function changeQte(id) {
+    function changeQte(id, qte) {
         var url = '{{ path('change_qte', {'id': 'valeurselectionnee'}) }}';
         url = url.replace("valeurselectionnee", id);
         $.ajax({
             url: url,
-            method: "POST",
+            data : {qte:qte},
+            method : "POST",
             error: function (data) {
                 console.log('Erreur de changer la quantité du produit dans panier');
             },
             success: function (data) {
-                console.log('la quantité du produit a été changée dans panier');
-                
+                var t = $("tr").find("#total-product"+id);
+                t.html(data['total_product']);
+                var totalCart = $('#totalCart').val();
+                $('.total-cart').html(Number(totalCart)+Number(data['total_product']));
+                $('#totalCart').val(Number(totalCart)+Number(data['total_product']))
+                console.log(totalCart);
+                console.log(data['total_product']);
+                console.log(Number(totalCart)+Number(data['total_product']));
             }
         });
-    }
+    }#}
     /* end change quantite */
 </script>
