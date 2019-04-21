@@ -45,7 +45,7 @@
                             <tbody class="table-list-products-in-cart">
                                 {% if(products|length > 0) %}
                                     {% for product in products %}
-                                        <form action="{{ path('change_qte', { 'id' : product.id }) }}" method="get">
+                                        <form id="changeQteForm" action="{{ path('change_qte', { 'id' : product.id }) }}" method="get">
                                             <tr class="product-in-cart{{ product.id }}" data-id="{{ product.id }}">
                                                 <td class="thumb"><img src="{{ asset('uploads/products/images/') }}{{ product.image }}" alt=""></td>
                                                 <td class="details">
@@ -64,12 +64,7 @@
                                                         {% endfor %}
                                                     </select>
                                                 </td>
-                                                <td class="total text-center">
-                                                    <strong class="primary-color">
-                                                        <span class="total-product"></span> TND
-                                                    </strong>
-                                                    <input type="hidden" name="total" value="{{ product.price * panier[product.id] }}">
-                                                </td>
+                                                <td class="total text-center"><strong class="primary-color"><span class="total-product">{{ product.price * panier[product.id] }}</span> TND</strong></td>
                                                 <td class="text-right"><button class="main-btn icon-btn cancel-product" data-id="{{ product.id }}"><i class="fa fa-close"></i></button></td>
                                             </tr>
                                         </form>
