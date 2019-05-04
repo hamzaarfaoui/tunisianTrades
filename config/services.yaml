@@ -29,7 +29,20 @@ services:
         arguments: ['@router']
     redirect.after.login.admin:
         class: App\Redirection\AfterLoginAdminRedirection
-        arguments: ['@router']    
+        arguments: ['@router']
+    app.form.registration:
+        class: App\Form\RegistrationFormType
+        tags:
+            - { name: form.type }    
+    app.form.profile:
+        class: App\Form\ProfileFormType
+        tags:
+            - { name: form.type }         
+    demo_user.registration_listener:
+        class: App\EventListener\RegistrationListener
+        arguments: ['@router']
+        tags:
+            - { name: kernel.event_subscriber }        
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
     App\:

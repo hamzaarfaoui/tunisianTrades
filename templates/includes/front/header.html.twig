@@ -253,22 +253,22 @@
             <ul class="header-btns">
                 <!-- Account -->
                 <li class="header-account dropdown default-dropdown user">
-                    <div class="dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="true">
-                        {% if(app.user) %}
-                            <div class="header-btns-icon">
-                                <i class="fa fa-user-o"></i>
-                            </div>
-                        {% endif %}
-                        <strong class="text-uppercase">Mon compte <i class="fa fa-caret-down"></i></strong>
-                    </div>
-                    <a href="{{ path('fos_user_security_login') }}" class="text-uppercase">Login</a> / <a href="{{ path('fos_user_registration_register') }}" class="text-uppercase">S'inscrire</a>
                     {% if(app.user) %}
+                        <div class="dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="true">
+                            <div class="header-btns" style="border: 1px solid #DADADA;text-align: center;height: 40px;line-height: 40px;">
+                                <i class="fa fa-user-o"></i> <strong class="text-uppercase">Mon compte <i class="fa fa-caret-down"></i></strong>
+                            </div>
+                        </div>
                         <ul class="custom-menu">
-                            <li><a href="#"><i class="fa fa-user-o"></i> Profile</a></li>
+                            <li><a href="{{ path('fos_user_profile_edit') }}"><i class="fa fa-user-o"></i> Profile</a></li>
                             <li><a href="#"><i class="fa fa-heart-o"></i> Commandes</a></li>
                             <li><a href="#"><i class="fa fa-exchange"></i> Mes favories</a></li>
-                            <li><a href="#"><i class="fa fa-check"></i> Déconnexion</a></li>
+                            <li><a href="{{ path('fos_user_security_logout') }}"><i class="fa fa-check"></i> Déconnexion</a></li>
                         </ul>
+                    {% else %}
+                        <div class="header-btns" style="text-align: center;height: 40px;line-height: 40px;">
+                        <i class="fa fa-user-o"></i> <a href="{{ path('fos_user_security_login') }}" class="text-uppercase">Login</a> / <a href="{{ path('fos_user_registration_register') }}" class="text-uppercase">S'inscrire</a>
+                        </div>
                     {% endif %}
                 </li>
                 <!-- /Account -->

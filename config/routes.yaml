@@ -2,6 +2,7 @@ fos_user:
     resource: "@FOSUserBundle/Resources/config/routing/all.xml"
 #Front routes
 
+
 front:
     resource: "Front/routes_front.yaml"
     prefix:   /

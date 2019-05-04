@@ -20,6 +20,8 @@ class Clients
      * @MongoDB\ReferenceOne(targetDocument="User") */
     protected $user;
     
+    
+    
     /**      * @return mixed      */
     public function getId()
     {

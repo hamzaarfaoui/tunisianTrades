@@ -10,19 +10,20 @@
             </div>
             <div class="col-md-6">
                 <h1>Login</h1>
-                {% if error %}
-                    <div class="alert alert-danger alert-dismissible">
-                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                        {{ error.messageKey|trans(error.messageData, 'security') }}
-                    </div>
-                {% endif %}
+                
 
                 <form action="{{ path("fos_user_security_check") }}" method="post">
                     <div class="text-center">
+                    {% if error %}
+                        <div class="alert alert-danger alert-dismissible" style="margin-right: 25%;margin-left: 25%;">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            {{ error.messageKey|trans(error.messageData, 'security') }}
+                        </div>
+                    {% endif %}
                     {% if csrf_token %}
                         <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
                     {% endif %}
-
+                    
                     <input class="input input-login" style="margin-bottom: 20px;" id="username" type="text" placeholder="Enter your keyword" name="_username" value="{{ last_username }}" required="required" autocomplete="username" placeholder="Email"  style="padding-left: 20px;">
                     
                     <input class="input input-login" style="" type="password" id="password" class="uk-input" name="_password" required="required" autocomplete="current-password" placeholder="Mot de passe"/>

@@ -44,7 +44,7 @@ class AfterLoginRedirection implements AuthenticationSuccessHandlerInterface
             $redirection = new RedirectResponse($this->router->generate('marchand_homepage'));
         // otherwise we redirect user to the member area
         }elseif (in_array('ROLE_CLIENT', $rolesTab, true)){
-            $redirection = new RedirectResponse($this->router->generate('client_homepage'));
+            $redirection = new RedirectResponse($this->router->generate('index_page'));
         }
         return $redirection;
     }
