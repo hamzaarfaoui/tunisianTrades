@@ -12,4 +12,8 @@ search_result:
     
 product_page:
     path: /product/{id}
-    controller: App\Controller\Front\FrontController::productPage    
+    controller: App\Controller\Front\FrontController::productPage  
+
+livraison_page:
+    path: /livraison
+    controller: App\Controller\Front\CartController::livraison        

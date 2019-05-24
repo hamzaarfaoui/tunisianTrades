@@ -42,6 +42,41 @@ class User extends BaseUser
      */
     protected $photo;
     
+    /**
+     * @MongoDB\Field(type="string")
+     */
+    protected $adress;
+    
+    /**
+     * @MongoDB\Field(type="string")
+     */
+    protected $city;
+    
+    /**
+     * @MongoDB\Field(type="string")
+     */
+    protected $country;
+    
+    /**
+     * @MongoDB\Field(type="string")
+     */
+    protected $adressLivraison;
+    
+    /**
+     * @MongoDB\Field(type="string")
+     */
+    protected $cityLivraison;
+    
+    /**
+     * @MongoDB\Field(type="string")
+     */
+    protected $countryLivraison;
+    
+    /**
+     * @MongoDB\Field(type="string")
+     */
+    protected $phone;
+    
     /**     
       * @MongoDB\Field(type="date")     
       */
@@ -102,6 +137,82 @@ class User extends BaseUser
         $this->photo = $photo;
     }
     
+    /**      * @return mixed      */
+    public function getAdress()
+    {
+        return $this->adress;
+    }
+    /**      * @param mixed $adress      */
+    public function setAdress($adress)
+    {
+        $this->adress = $adress;
+    }
+    
+    /**      * @return mixed      */
+    public function getAdressLivraison()
+    {
+        return $this->adressLivraison;
+    }
+    /**      * @param mixed $adressLivraison      */
+    public function setAdressLivraison($adressLivraison)
+    {
+        $this->adressLivraison = $adressLivraison;
+    }
+    
+    /**      * @return mixed      */
+    public function getCity()
+    {
+        return $this->city;
+    }
+    /**      * @param mixed $city      */
+    public function setCity($city)
+    {
+        $this->city = $city;
+    }
+    
+    /**      * @return mixed      */
+    public function getCityLivraison()
+    {
+        return $this->cityLivraison;
+    }
+    /**      * @param mixed $cityLivraison      */
+    public function setCityLivraison($cityLivraison)
+    {
+        $this->cityLivraison = $cityLivraison;
+    }
+    
+    /**      * @return mixed      */
+    public function getCountryLivraison()
+    {
+        return $this->countryLivraison;
+    }
+    /**      * @param mixed $countryLivraison      */
+    public function setCountryLivraison($countryLivraison)
+    {
+        $this->countryLivraison = $countryLivraison;
+    }
+    
+    /**      * @return mixed      */
+    public function getCountry()
+    {
+        return $this->country;
+    }
+    /**      * @param mixed $country      */
+    public function setCountry($country)
+    {
+        $this->country = $country;
+    }
+    
+    /**      * @return mixed      */
+    public function getPhone()
+    {
+        return $this->phone;
+    }
+    /**      * @param mixed $phone      */
+    public function setPhone($phone)
+    {
+        $this->phone = $phone;
+    }
     
     /**      * @return mixed      */
     public function getCreatedAt()

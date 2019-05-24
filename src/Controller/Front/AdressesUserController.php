@@ -32,6 +32,7 @@ class AdressesUserController extends Controller
         ));
     }
     
+    
     /**
      * Lists all AdressesUser entities.
      *
@@ -68,9 +69,10 @@ class AdressesUserController extends Controller
      * @Route("/edit/{id}", name="adresses_user_edit")
      * @Method({"GET", "POST"})
      */
-    public function editAdresseUser(Request $request, AdressesUser $adresseUser)
+    public function editAdresseUser(Request $request, $id)
     {
         $dm = $this->get('doctrine_mongodb')->getManager();
+        $adresseUser = $dm->getRepository('App:AdressesUser')->find($id);
         $form = $this->createForm('App\Form\AdresseUserType', $adresseUser);
         $form->handleRequest($request);
 
@@ -104,7 +106,8 @@ class AdressesUserController extends Controller
         $dm->remove($adresseUser);
         $dm->flush();
         return new JsonResponse(array(
-            'message' => 'Adresse supprimé'
+            'id' => $adresseUser->getId(),
+            'message' => 'Adresse supprimé'.$adresseUser->getRue()
         ));
     }
     

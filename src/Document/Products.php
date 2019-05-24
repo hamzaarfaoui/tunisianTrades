@@ -180,7 +180,7 @@ class Products
     /**      * @return mixed      */
     public function getIsDeleted()
     {
-        return $this->isNews;
+        return $this->isDeleted;
     }
     /**      * @param mixed $isDeleted      */
     public function setIsDeleted($isDeleted)

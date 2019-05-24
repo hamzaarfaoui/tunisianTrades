@@ -7,6 +7,7 @@ use FOS\UserBundle\Event\FormEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use App\Document\Clients;
 
 /**
  * Listener responsible for adding the default user role at registration
@@ -25,7 +26,8 @@ class RegistrationListener implements EventSubscriberInterface
         return array(
             FOSUserEvents::REGISTRATION_CONFIRM => 'onRegistrationConfirm',
             FOSUserEvents::REGISTRATION_SUCCESS => 'onRegistrationSuccess',
-            FOSUserEvents::CHANGE_PASSWORD_SUCCESS => 'onChangePassword'
+            FOSUserEvents::CHANGE_PASSWORD_SUCCESS => 'onChangePassword',
+            FOSUserEvents::PROFILE_EDIT_SUCCESS => 'onProfileEdit',
             
         );
     }
@@ -48,6 +50,13 @@ class RegistrationListener implements EventSubscriberInterface
     }
     
     public function onChangePassword(FormEvent $event)
+    {
+        $url = $this->router->generate('fos_user_profile_edit');
+
+        $event->setResponse(new RedirectResponse($url));
+    }
+    
+    public function onProfileEdit(FormEvent $event)
     {
         $url = $this->router->generate('fos_user_profile_edit');
 

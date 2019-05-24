@@ -45,7 +45,7 @@
                                         </div>
                                         <h2 class="product-name"><a href="#">{{ product.name }}</a></h2>
                                         <div class="product-btns">
-                                            <button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
+                                            <button class="main-btn icon-btn add-to-favoris" data-id="{{product.id}}"><i class="fa fa-heart"></i></button>
                                             <!--<button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button>-->
                                             {#<a href="{{ path('add_product_to_cart', {id:product.id}) }}" class="primary-btn add-to-cart"><i class="fa fa-plus"></i> <i class="fa fa-shopping-cart"></i> panier</a>#}
                                             <button class="primary-btn add-to-cart" data-id="{{product.id}}"><i class="fa fa-plus"></i> <i class="fa fa-shopping-cart"></i> panier</button>

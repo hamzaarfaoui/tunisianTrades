@@ -10,6 +10,10 @@ front:
 cart:
     resource: "Front/routes_cart.yaml"
     prefix:   /panier
+    
+favoris:
+    resource: "Front/routes_favoris.yaml"
+    prefix:   /favoris    
 
 commandes:
     resource: "Front/routes_commandes.yaml"

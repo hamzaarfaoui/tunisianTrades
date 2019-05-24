@@ -3,11 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/var/www/html/tunisianTrades/templates/user/adresses/singleAdresse.html.twig</file>
-            <file>file:/var/www/html/tunisianTrades/templates/user/adresses/index.html.twig</file>
-            <file>file:/var/www/html/tunisianTrades/src/Controller/Front/AdressesUserController.php</file>
-            <file>file:/var/www/html/tunisianTrades/templates/user/adresses/form.html.twig</file>
-            <file>file:/var/www/html/tunisianTrades/public/custom/js/adresse.js</file>
+            <file>file:/var/www/html/tunisianTrades/config/Front/routes_commandes.yaml</file>
+            <file>file:/var/www/html/tunisianTrades/src/Controller/Front/CommandesController.php</file>
+            <file>file:/var/www/html/tunisianTrades/templates/index.html.twig</file>
+            <file>file:/var/www/html/tunisianTrades/templates/includes/front/header.html.twig</file>
+            <file>file:/var/www/html/tunisianTrades/src/Document/Products.php</file>
+            <file>file:/var/www/html/tunisianTrades/templates/commandes/front/list.html.twig</file>
+            <file>file:/var/www/html/tunisianTrades/templates/commandes/front/show.html.twig</file>
         </group>
     </open-files>
 </project-private>

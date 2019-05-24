@@ -8,8 +8,8 @@ $('body').on('submit', '#submit-adresse-form', function (e) {
         success: function(data)
         {
             if(data['id']) {
-                $('#editAdresseModal'+data['id']).modal('hide');
-                $('body').find('#adresse'+data['id']).replaceWith($(data.html));
+                $('.edit-adress-modal').modal('hide');
+                $('body').find('div#adresse'+data['id']).replaceWith($(data.html));
             }else{
                 $('#addAdresseModal').modal('hide');
                 $('.block-list-adresse').append($(data.html)); // show response from the php script.
@@ -21,17 +21,14 @@ $('body').on('submit', '#submit-adresse-form', function (e) {
 
 
 });
-$(".delete-adress").click(function(){  
-    var url = $(this).data('url');
-    var id = $(this).data('id');
+$(".delete-adress").click(function(e){  
+    e.preventDefault();
+    var href = $(this).attr('href');
+
     $.ajax({
-        type: "POST",
-        url: url,
-        success: function(data)
-        {
-            console.log('adress deleted');
-            $("#adresse"+id).hide();
-        }
+        url: href
+    }).done(function (data) {
+        $("#adresse"+data['id']).hide();
     });
 
 

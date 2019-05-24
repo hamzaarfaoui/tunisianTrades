@@ -8,21 +8,21 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
-class ProfileFormType extends AbstractType
+class AdresseType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('nom')
-                ->add('prenom')
-                ->add('adress', TextType::class, array(
+        $builder->remove('nom')
+                ->remove('prenom')
+                ->remove('phone')
+                ->add('adressLivraison', TextType::class, array(
                     'label' => 'Adresse'
                 ))
-                ->add('city', TextType::class, array(
+                ->add('cityLivraison', TextType::class, array(
                     'label' => 'Gouvernaurat'
                 ))
-                ->add('phone', TextType::class, array(
-                    'label' => 'Télephone'
-                ))
+                ->remove('email')
+                ->remove('username')
                 ->remove('current_password');
     }
 

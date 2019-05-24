@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}{% endblock %}</title>
+        <title>SINDBAD | {% block title %}{% endblock %}</title>
         {% include 'includes/front/css.html.twig' %}
         {% block stylesheets %}{% endblock %}
     </head>
@@ -17,6 +17,7 @@
         {% include 'includes/front/footer.html.twig' %}
         <!-- /FOOTER -->
         {% include 'includes/front/js.html.twig' %}
+        {% include 'Products/front/favoris/js.html.twig' %}
         {% block javascripts %}{% endblock %}
     </body>
 </html>

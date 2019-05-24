@@ -7,6 +7,9 @@ use App\Document\Products;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\BrowserKit\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use App\Document\AdressesUser;
+use App\Form\AdresseUserType;
+use App\Form\AdresseType;
 
 class CartController extends Controller
 {
@@ -155,5 +158,60 @@ class CartController extends Controller
             $session->set('panier',$panier);
         }
         return $this->redirectToRoute('fetch_total_cart');
+    }
+    
+    /*
+     * Adresse de livraison page 
+     */
+    public function livraison(Request $request){
+        $utilisateur = $this->getUser();
+        if($utilisateur){
+        $form = $this->createForm(AdresseType::class, $utilisateur);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $dm = $this->get('doctrine_mongodb')->getManager();
+            $dm->persist($utilisateur);
+            $dm->flush();
+            return $this->redirect($this->generateUrl('livraison_page'));
+
+        }
+        return $this->render('frontend/cart/livraison.html.twig', 
+        array('utilisateur' => $utilisateur, 'form' => $form->createView(),'entity' => $utilisateur ));
+        }else{
+            return $this->redirect($this->generateUrl('fos_user_security_login'));
+            
+        }
+        
+    }
+    
+    public function setLivraisonOnSession(Request $request)
+    {
+        $session = $request->getSession();
+        
+        if (!$session->has('adresse')) {$session->set('adresse',array());}
+        $adresse = $session->get('adresse');
+        
+        if ($request->request->get('livraison') != null)
+        {
+            $adresse['livraison'] = $request->request->get('livraison');
+        } else {
+            return $this->redirect($this->generateUrl('validation'));
+        }
+        
+        $session->set('adresse',$adresse);
+        return $this->redirect($this->generateUrl('validation'));
+    }
+    
+    public function validation(Request $request)
+    {
+        if ($request->getMethod() == 'POST')
+        {
+            //$this->setLivraisonOnSession($request);
+            $this->getUser()->setAdressLivraison($request->get('adresse'));
+            $this->getUser()->setCityLivraison($request->get('city'));
+        }
+        $dm = $this->get('doctrine_mongodb')->getManager();
+        $prepareCommande = $this->forward('App\Controller\Front\CommandesController::prepareCommande');
+        $commande = $dm->getRepository('App:Commandes')->find($prepareCommande->getContent());
+        return $this->render('frontend/cart/validation.html.twig', array('commande' => $commande));
     }
 }
