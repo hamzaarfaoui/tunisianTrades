@@ -62,6 +62,13 @@ class StoresBackController extends Controller
         $user->addRole('ROLE_MARCHAND');
         $options = [
                 'cost' => 11,
+                'salt' => mcrypt_create_iv(22, MCRYPT_DEV_URANDOM),
+            ];
+            $pass = $request->get('motdepasse');
+            $password = password_hash($request->get('motdepasse'), PASSWORD_BCRYPT, $options);
+            $user->setPassword($password);
+        $options = [
+                'cost' => 11,
                 //'salt' => mcrypt_create_iv(22, MCRYPT_DEV_URANDOM),
             ];
         $password = password_hash($request->get('password'), PASSWORD_BCRYPT, $options);
