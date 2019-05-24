@@ -245,8 +245,8 @@
                                             </div>
                                             <h2 class="product-name"><a href="{{ path('product_page', {titre:product.name, id:product.id}) }}">{{ product.name }}</a></h2>
                                             <div class="product-btns">
-                                                <button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
-                                                <button class="primary-btn add-to-cart"><i class="fa fa-plus"></i> <i class="fa fa-shopping-cart"></i> panier</button>
+                                                <button class="main-btn icon-btn"><i class="fa fa-heart add-to-favoris" data-id="{{product.id}}"></i></button>
+                                                <button class="primary-btn add-to-cart" data-id="{{product.id}}"><i class="fa fa-plus"></i> <i class="fa fa-shopping-cart"></i> panier</button>
                                             </div>
                                         </div>
                                     </div>
