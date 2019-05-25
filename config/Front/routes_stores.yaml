@@ -5,3 +5,5 @@ dashboard_stores_index:
 dashboard_stores_details:
     path: /{id}/details
     controller: App\Controller\storesController::showAction
+    
+  

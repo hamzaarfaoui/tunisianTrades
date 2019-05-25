@@ -18,6 +18,11 @@ favoris:
 commandes:
     resource: "Front/routes_commandes.yaml"
     prefix:   /       
+#Marchand routes
+
+marchand:
+    resource: "Marchand/routes_marchand.yaml"
+    prefix:   /my-store 
 
 #Back routes
 dash:
@@ -74,4 +79,6 @@ marques:
     
 user_space:
     resource: "routes_user_space.yaml"
+    
+    
 

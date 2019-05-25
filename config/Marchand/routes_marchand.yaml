@@ -1,0 +1,3 @@
+marchand_stores_details:
+    path: /{id}/details
+    controller: App\Controller\Front\Marchand\MarchandController::infosStore  
