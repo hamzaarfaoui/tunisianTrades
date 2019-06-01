@@ -1,5 +1,5 @@
 {% extends "layoutMarchand.html.twig" %}
-{% block title %}|Infos Store{% endblock %}
+{% block title %}| Infos Store{% endblock %}
 {% block stylesheets %}
     <!-- BEGIN PAGE LEVEL PLUGIN STYLES -->
     <link href="{{ asset('template/assets/global/plugins/jqvmap/jqvmap/jqvmap.css') }}" rel="stylesheet" type="text/css">
@@ -41,6 +41,7 @@
                         </li>
                         <li class="active">
                             Infos génerales
+                            <input type="hidden" class="redirect-url" value="{{ path('marchand_stores_details',{id:store.id} ) }}">
                         </li>
                     </ul>
                     <!-- END PAGE BREADCRUMB -->

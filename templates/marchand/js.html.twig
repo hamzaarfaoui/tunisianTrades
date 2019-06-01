@@ -23,9 +23,7 @@
                 },
                 success: function (result)
                 {
-                    $('#addAdressModal').modal('hide');
-                    $('.adresses').append(result['adress']);
-                    console.log(result['message']);
+                    window.location = $('.redirect-url').val();
                 }
             });
         });
@@ -105,9 +103,7 @@
                 },
                 success: function (result)
                 {
-                    $('#addPhoneModal').modal('hide');
-                    $('.phones').append(result['phone']);
-                    console.log(result['message']);
+                    window.location = $('.redirect-url').val();
                 }
             });
         });

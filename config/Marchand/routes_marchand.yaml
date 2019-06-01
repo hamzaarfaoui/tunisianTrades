@@ -1,6 +1,14 @@
 marchand_stores_details:
     path: /{id}/details
     controller: App\Controller\Front\Marchand\MarchandController::infosStore
+    
+marchand_stores_visuels:
+    path: /{id}/visuels
+    controller: App\Controller\Front\Marchand\MarchandController::visuels   
+    
+marchand_stores_visuels_traitement:
+    path: /{id}/visuels_traitement
+    controller: App\Controller\Front\Marchand\MarchandController::visuelsTraitement       
    
 marchand_stores_add_adress:
     path: /add_adress

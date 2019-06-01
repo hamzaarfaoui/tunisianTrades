@@ -32,9 +32,8 @@ class MarchandController extends Controller
         $form = $this->createForm('App\Form\StoreType', $store);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($store);
-            $em->flush();
+            $dm->persist($store);
+            $dm->flush();
             $this->addFlash('success','Votre infos sont enregistrés');
             
             return $this->redirectToRoute('marchand_stores_details', array('id' => $store->getId()));
@@ -43,6 +42,50 @@ class MarchandController extends Controller
             'store' => $store,
             'form' => $form->createView(),
         ));
+    }
+    
+    /*
+     * store visuels page
+     */
+    public function visuels(Request $request, $id)
+    {
+        $dm = $this->get('doctrine_mongodb')->getManager();
+        $store = $dm->getRepository('App:Stores')->find($id);
+        
+        return $this->render('marchand/visuels.html.twig', array(
+            'store' => $store
+        ));
+    }
+    
+    /*
+     * store visuels traitement
+     */
+    public function visuelsTraitement(Request $request, $id)
+    {
+        $dm = $this->get('doctrine_mongodb')->getManager();
+        $store = $dm->getRepository('App:Stores')->find($id);
+        if (isset($_FILES["couvertureC"]) && !empty($_FILES["couvertureC"]['name'])) {
+            $file = $_FILES["couvertureC"]["name"];
+            $File_Ext = substr($file, strrpos($file, '.'));
+            $fileName = md5(uniqid()) . $File_Ext;
+            move_uploaded_file(
+                    $_FILES["couvertureC"]["tmp_name"], $this->getParameter('images_shop_couvertures') . "/" . $fileName
+            );
+            $store->setImageCouverture($fileName);
+        }
+        if (isset($_FILES["iconeC"]) && !empty($_FILES["iconeC"]['name'])) {
+            $file = $_FILES["iconeC"]["name"];
+            $File_Ext = substr($file, strrpos($file, '.'));
+            $fileName = md5(uniqid()) . $File_Ext;
+            move_uploaded_file(
+                    $_FILES["iconeC"]["tmp_name"], $this->getParameter('images_shop_logo') . "/" . $fileName
+            );
+            $store->setLogo($fileName);
+        }
+        $dm->persist($store);
+        $dm->flush();
+        $this->addFlash('success','Vos visuels sont enregistrés');
+        return $this->redirectToRoute('marchand_stores_visuels', array('id' => $store->getId()));
     }
     
     /*
