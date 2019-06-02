@@ -4,6 +4,7 @@
             Infos génerales </a>
     </li>
 {% endfor %}
+{% for store in stores %}
 <li class="menu-dropdown mega-menu-dropdown ">
     <a data-hover="megamenu-dropdown" data-close-others="true" data-toggle="dropdown" href="javascript:;" class="dropdown-toggle">
         Produits <i class="fa fa-angle-down"></i>
@@ -11,17 +12,18 @@
 
     <ul class="dropdown-menu pull-left">
         <li class=" dropdown-submenu">
-            <a href="#">
+            <a href="{{path('marchand_product_back_new', {id:store.id})}}">
                 <i class="icon-briefcase"></i>
                 Ajouter </a>
         </li>
         <li class=" dropdown-submenu">
-            <a href="#">
+            <a href="{{path('marchand_product_index', {id:store.id})}}">
                 <i class="icon-briefcase"></i>
                 Tous </a>
         </li>
     </ul>
 </li>
+{% endfor %}
 <li class="menu-dropdown">
     <a href="angularjs" target="_blank" class="tooltips" data-container="body" data-placement="bottom" data-html="true" data-original-title="AngularJS version demo">
         Commandes </a>
