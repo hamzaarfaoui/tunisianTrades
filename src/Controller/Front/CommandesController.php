@@ -54,6 +54,12 @@ class CommandesController extends Controller
             'pays' => $this->getUser()->getCountry()
             );
         
+        $commande['client'] = array(
+            'nom_prenom' => $this->getUser()->getNom().' '.$this->getUser()->getPrenom(),
+            'email' => $this->getUser()->getEmail(),
+            'phone' => $this->getUser()->getPhone()
+            );
+        
         $commande['prix'] = round($total,3);
         //$commande['prixTTC'] = round($totalTTC,2);
         return $commande;

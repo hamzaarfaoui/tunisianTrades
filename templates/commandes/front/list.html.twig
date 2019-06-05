@@ -46,7 +46,7 @@
                                             <td class="text-center">{{ commande.status == 1?'Validé':'En attente' }}</td>
                                             <td class="text-center">Le {{commande.createdAt|date('d/m/Y')}} à {{commande.createdAt|date('H:i')}}</td>
                                             <td class="text-center">
-                                                {{ commande.facture[2] }} TND
+                                                {{ commande.facture[3] }} TND
                                             </td>
                                             <td>
                                                 <a href="{{ path('details_page', {id:commande.id}) }}" class="btn btn-primary"><i class="fa fa-search"></i></a>

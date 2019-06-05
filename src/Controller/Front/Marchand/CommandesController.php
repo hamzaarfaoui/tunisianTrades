@@ -26,8 +26,21 @@ class CommandesController extends Controller
                 }
             }
         }
-        die();
-        return $this->render('marchand/storesList.html.twig', array('stores' => $stores));
+        $list = array();
+        
+        foreach ($commandes_liste as $c){
+            $montant = 0;
+            foreach ($c->getFacture()[0] as $f){
+                $montant += $f['price']*$f['quantite'];
+            }
+            $list [] = array(
+                'id'=>$c->getId(),
+                'client'=>$c->getFacture()[2]['nom_prenom'],
+                'montant' => $montant
+                    );
+            
+        }
+        return $this->render('commandes/marchand/index.html.twig', array('commandes' => $list));
     }
     
     /*

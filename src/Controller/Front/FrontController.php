@@ -29,6 +29,8 @@ class FrontController extends Controller
     {
         $dm = $this->get('doctrine_mongodb')->getManager();
         $product = $dm->getRepository('App:Products')->find($id);
+        $product->getStore()?dump($product->getStore()->getId()):dump('Aucune ID');
+        die();
         return $this->render('Products/front/details.html.twig', array(
             'product' => $product
         ));
