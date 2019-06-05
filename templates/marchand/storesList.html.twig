@@ -24,10 +24,12 @@
     </ul>
 </li>
 {% endfor %}
+{% for store in stores %}
 <li class="menu-dropdown">
-    <a href="angularjs" target="_blank" class="tooltips" data-container="body" data-placement="bottom" data-html="true" data-original-title="AngularJS version demo">
+    <a href="{{path('marchand_commandes_index', {id:store.id})}}" class="tooltips" data-container="body" data-placement="bottom" data-html="true" data-original-title="AngularJS version demo">
         Commandes </a>
 </li>
+{% endfor %}
 {% for store in stores %}
 <li class="menu-dropdown">
     <a href="{{ path('marchand_stores_visuels', {id:store.id}) }}" class="tooltips" data-container="body" data-placement="bottom" data-html="true" data-original-title="AngularJS version demo">

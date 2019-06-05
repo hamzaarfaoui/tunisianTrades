@@ -80,7 +80,8 @@
                                 <br>
                             <div class="row">
                                 <div class="col-md-3">
-                                    <h1>{{ marque.name }}</h1>
+                                    <h1>{{ marque.name }}</h1><br>
+                                    {% if(marque.sousCategorie) %}<span class="badge badge-primary"><b>{{ marque.sousCategorie.name }}</b></span>{% endif %}
                                 </div>
                                 <div class="col-md-9">
                                     {{ marque.content }}

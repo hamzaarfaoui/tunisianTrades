@@ -114,6 +114,9 @@ class ProductBackController extends Controller
         $store->addProduct($product);
         $product->setStore($store);
         $dm->persist($store);
+        $marque_id = $request->get('categorie');
+        $marque = $dm->getRepository('App:Marques')->find($marque_id);
+        $product->setMarque($marque);
         if($request->get('sc')){
             $sc = $dm->getRepository('App:SousCategories')->find($request->get('sc'));
             $product->setSousCategorie($sc);
@@ -203,6 +206,9 @@ class ProductBackController extends Controller
         $product->setPrice($request->get('price'));
         $product->setQte($request->get('qte'));
         $product->setContent($request->get('descriptionC'));
+        $marque_id = $request->get('categorie');
+        $marque = $dm->getRepository('App:Marques')->find($marque_id);
+        $product->setMarque($marque);
         if($request->get('store')){
             $store = $dm->getRepository('App:Stores')->find($request->get('store'));
             $store->addProduct($product);
@@ -291,6 +297,7 @@ class ProductBackController extends Controller
         $sousCategories1 = $dm->getRepository('App:Categories')->findAll();
         $caracteristiques = $dm->getRepository('App:Caracteristiques')->findAll();
         $sousCategories2 = $dm->getRepository('App:SousCategories')->findAll();
+        $marques = $dm->getRepository('App:Marques')->findAll();
         $stores = $dm->getRepository('App:Stores')->findAll();
         return $this->render('Products/back/edit.html.twig', array(
             'product' => $product,
@@ -299,7 +306,8 @@ class ProductBackController extends Controller
             'promotion' => $promotion,
             'stores' => $stores,
             'sousCategories1' => $sousCategories1,
-            'sousCategories2' => $sousCategories2
+            'sousCategories2' => $sousCategories2,
+            'marques' => $marques
                 ));
     }
     
@@ -314,6 +322,9 @@ class ProductBackController extends Controller
         $product->setPrice($request->get('price'));
         $product->setQte($request->get('qte'));
         $product->setContent($request->get('descriptionC'));
+        $marque_id = $request->get('marque');
+        $marque = $dm->getRepository('App:Marques')->find($marque_id);
+        $product->setMarque($marque);
         if($request->get('store')){
             $store = $dm->getRepository('App:Stores')->find($request->get('store'));
             $store->addProduct($product);

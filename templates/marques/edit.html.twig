@@ -67,6 +67,11 @@
                                                 <label>Nom</label>
                                                 <input type="text" class="form-control" value="{{marque.name}}" placeholder="Nom" name="nom">
                                             </div>
+                                            <select name="categorie" class="form-control">
+                                                {% for categorie in categories %}
+                                                    <option value="{{ categorie.id }}" {% if(marque.sousCategorie) %}{% if(categorie.id == marque.sousCategorie.id) %}selected{% endif %}{% endif %}>{{ categorie.name }}</option>
+                                                {% endfor %}
+                                            </select>
                                             <div class="form-group">
                                                 <label>Déscription</label>
                                                 <textarea class="form-control" rows="3" name="description">

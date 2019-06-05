@@ -29,7 +29,7 @@
             <div class="container">
                 <!-- BEGIN PAGE TITLE -->
                 <div class="page-title">
-                    <h1>Nouveau priduit</h1>
+                    <h1>{{product.name}}</h1>
                 </div>
                 <!-- END PAGE TITLE -->
             </div>
@@ -63,7 +63,7 @@
                                     <span class="caption-helper">Paramétres</span>
                                 </div>
                                 <div class="actions btn-set">
-                                    <a class="btn green-haze btn-circle" href="{{ path('dashboard_stores_back_index') }}">
+                                    <a class="btn green-haze btn-circle" href="{{ path('marchand_product_index', {id:product.store.id}) }}">
                                         <i class="fa fa-list"></i> Tous </a>
                                 </div>
                             </div>
@@ -161,7 +161,15 @@
                                                                 {% endif %}
                                                             </select>
                                                         </div>
-                                                    </div>   
+                                                    </div> 
+                                                            <div class="form-group" style="margin-left: 10px">
+                                                            <label>Marque</label>
+                                                            <select id="marque" class="form-control" name="marque">
+                                                                {% for marque in marques %}
+                                                                    <option value="{{marque.id}}" {% if(product.marque!=null) %}{% if(product.marque.id == marque.id) %}selected="true"{% endif %}{% endif %}>{{marque.name}}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
                                                         <div class="col-md-12">
                                                             <div class="form-group">
                                                                 <label>Déscription</label>
@@ -175,51 +183,13 @@
                                                 <h3>Images</h3>
                                                 <div class="col-md-12">
                                                     <label>Image d'ouveture</label> <br>
-                                                    <div class="fileinput fileinput-new" data-provides="fileinput">
-                                                        <div class="input-group input-large">
-                                                            <div class="form-control uneditable-input span3" data-trigger="fileinput">
-                                                                <i class="fa fa-file fileinput-exists"></i>&nbsp; <span class="fileinput-filename">
-                                                                </span>
-                                                            </div>
-                                                            <span class="input-group-addon btn default btn-file">
-                                                                <span class="fileinput-new">
-                                                                    Sélectionner une image </span>
-                                                                <span class="fileinput-exists">
-                                                                    Changer </span>
-                                                                <input type="file" name="iconeC">
-                                                            </span>
-                                                            <a href="javascript:;" class="input-group-addon btn red fileinput-exists" data-dismiss="fileinput">
-                                                                Supprimer </a>
-                                                        </div>
+                                                    <div class="file-loading">
+                                                        <input id="kv-explorer" class="document" name="iconeC" type="file" style="height:100px">
                                                     </div>
                                                     <br>
                                                     Autres Images <br>
-                                                    <div class="row fileupload-buttonbar">
-                                                        <div class="col-lg-7">
-                                                            <!-- The fileinput-button span is used to style the file input field as button -->
-                                                            <span class="btn green fileinput-button">
-                                                                <i class="fa fa-plus"></i>
-                                                                <span>
-                                                                    Add files... </span>
-                                                                <input type="file" name="images[]" multiple="">
-                                                            </span>
-                                                            <input type="checkbox" class="toggle">
-                                                            <!-- The global file processing state -->
-                                                            <span class="fileupload-process">
-                                                            </span>
-                                                        </div>
-                                                        <!-- The global progress information -->
-                                                        <div class="col-lg-5 fileupload-progress fade">
-                                                            <!-- The global progress bar -->
-                                                            <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
-                                                                <div class="progress-bar progress-bar-success" style="width:0%;">
-                                                                </div>
-                                                            </div>
-                                                            <!-- The extended global progress information -->
-                                                            <div class="progress-extended">
-                                                                &nbsp;
-                                                            </div>
-                                                        </div>
+                                                    <div class="file-loading">
+                                                        <input id="file-fr" class="document" name="images[]" type="file" style="height:100px" multiple>
                                                     </div>
                                                     <!-- The table listing the files available for upload/download -->
                                                     <table role="presentation" class="table table-striped clearfix">
@@ -400,7 +370,21 @@
             theme: 'fa',
             language: 'fr',
             uploadUrl: '#',
-            allowedFileExtensions: ['jpg', 'png', 'gif', 'pdf', 'txt', 'csv', 'ods', 'xls', 'docx', 'jpeg']
+            allowedFileExtensions: ['jpg', 'png', 'gif', 'pdf', 'txt', 'csv', 'ods', 'xls', 'docx', 'jpeg'],
+            overwriteInitial: false,
+            initialPreviewAsData: true,
+            {% if(medias|length>0) %}
+            initialPreview: [
+            {% for media in medias %}
+                "{{asset('uploads/products/gallery/')}}{{ media.name }}",
+            {% endfor %}
+            ],
+            initialPreviewConfig: [
+                {% for media in medias %}
+                {caption: "{{ media.name }}", size: 632762, width: "100%", url: "{{path('marchand_product_delete_image_gallery', {'id':media.id})}}", key: {{loop.index}}},
+                {% endfor %}
+            ]
+            {% endif %}
         });
         $("#kv-explorer").fileinput({
             'theme': 'explorer-fa',
@@ -409,14 +393,14 @@
             allowedFileExtensions: ['jpg', 'png', 'gif', 'pdf', 'txt', 'csv', 'ods', 'xls', 'docx', 'jpeg'],
             overwriteInitial: false,
             initialPreviewAsData: true,
-            /*initialPreview: [
-             "http://lorempixel.com/1920/1080/nature/1",
-             "http://lorempixel.com/1920/1080/nature/2",
-             "http://lorempixel.com/1920/1080/nature/3"
-             ],
-             initialPreviewConfig: [
-             {caption: "nature-1.jpg", size: 329892, width: "120px", url: "{$url}", key: 1}
-             ]*/
+            {% if(product.image) %}
+            initialPreview: [
+                "{{asset('uploads/products/images/')}}{{ product.image }}",
+            ],
+            initialPreviewConfig: [
+                {caption: "{{ product.image }}", size: 632762, width: "100%", url: "{{path('marchand_product_delete_image', {'id':product.id})}}", key: 3}
+            ]
+            {% endif %}
         });
         jQuery(document).ready(function () {
 

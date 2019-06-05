@@ -159,6 +159,12 @@
                                                                 </div>
                                                             </div>        
                                                         </div>
+                                                                    <div class="form-group" style="margin-left: 10px">
+                                                            <label>Marque</label>
+                                                            <select id="marque" class="form-control" disabled="true" name="marque">
+                                                                <option value="rien">Sélectionner une marque</option>
+                                                            </select>
+                                                        </div>
                                                         <div class="row">
                                                             <div class="col-md-12">
                                                                 <div class="form-group">
@@ -379,6 +385,34 @@
              {caption: "nature-1.jpg", size: 329892, width: "120px", url: "{$url}", key: 1}
              ]*/
         });
+        
+        $('#sc2').change(function(){
+                var id = $(this).val();
+                if(id=='rien'){
+                    $('#marque').prop('disabled', true);
+                }else{
+                    var url = '{{path('marques_by_categorie', {'id': 'valeurselectionnee'})}}';
+                    url = url.replace("valeurselectionnee", id);
+                    $.ajax({
+
+                        url: url,
+                        method: "GET",
+                        error: function ()
+                        {
+                            alert('une erreur');
+                        },
+                        beforeSend: function ()
+                        {
+                            
+                        },
+                        success: function (result)
+                        {
+                            $('#marque').prop('disabled', false);
+                            $('#marque').html(result['options']);
+                        }
+                    });
+                }
+            });
         jQuery(document).ready(function () {
 
             Metronic.init(); // init metronic core componets

@@ -54,6 +54,10 @@ class Marques
     /** @MongoDB\ReferenceMany(targetDocument="Products", mappedBy="marque") */
     protected $products;
     
+    /** 
+     * @MongoDB\ReferenceOne(targetDocument="SousCategories") */
+    protected $sousCategorie;
+    
     /**      * @return mixed      */
     public function getId()
     {
@@ -162,6 +166,26 @@ class Marques
     public function getProducts()
     {
         return $this->products;
+    }
+    
+    /**
+     * @param SousCategories $sousCategorie
+     *
+     * @return self
+     */
+    public function setSousCategorie(SousCategories $sousCategorie)
+    {
+        $this->sousCategorie = $sousCategorie;
+        return $this;
+    }
+    
+    /**
+     * Get sousCategorie
+     *
+     */
+    public function getSousCategorie()
+    {
+        return $this->sousCategorie;
     }
 
 }

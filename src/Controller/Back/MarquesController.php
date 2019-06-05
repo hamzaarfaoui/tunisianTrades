@@ -5,6 +5,7 @@ namespace App\Controller\Back;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use App\Document\Marques;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class MarquesController extends Controller
 {
@@ -33,7 +34,24 @@ class MarquesController extends Controller
      */
     public function newAction()
     {
-        return $this->render('marques/new.html.twig');
+        $dm = $this->get('doctrine_mongodb')->getManager();
+        $categories = $dm->getRepository('App:SousCategories')->findAll();
+        return $this->render('marques/new.html.twig', array('categories' => $categories));
+    }
+    
+    /*
+     * Marques by categorie
+     */
+    public function marquesByCategorieAction($id)
+    {
+        $dm = $this->get('doctrine_mongodb')->getManager();
+        $categorie = $dm->getRepository('App:SousCategories')->find($id);
+        $marques = $dm->getRepository('App:Marques')->findBy(array('sousCategorie' => $categorie));
+        $options = '<option value="">Sélectionner une marque</option>';
+        foreach ($marques as $marque){
+            $options .= '<option value="'.$marque->getId().'">'.$marque->getName().'</option>';
+        }
+        return new JsonResponse(['status'=>'ok', 'options'=>$options]);
     }
     
     /*
@@ -47,6 +65,9 @@ class MarquesController extends Controller
         $marque->setContent($request->get('descriptionC'));
         $marque->setCreatedAt(new \DateTime('now'));
         $marque->setVideo($request->get('video'));
+        $categorie_id = $request->get('categorie');
+        $categorie = $dm->getRepository('App:SousCategories')->find($categorie_id);
+        $marque->setSousCategorie($categorie);
         if (isset($_FILES["image"]) && !empty($_FILES["image"])) {
             $file = $_FILES["image"]["name"];
             $File_Ext = substr($file, strrpos($file, '.'));
@@ -69,7 +90,8 @@ class MarquesController extends Controller
     {
         $dm = $this->get('doctrine_mongodb')->getManager();
         $marque = $dm->getRepository('App:Marques')->find($id);
-        return $this->render('marques/edit.html.twig', array('marque' => $marque));
+        $categories = $dm->getRepository('App:SousCategories')->findAll();
+        return $this->render('marques/edit.html.twig', array('marque' => $marque, 'categories' => $categories));
     }
     
     /*
@@ -83,6 +105,9 @@ class MarquesController extends Controller
         $marque->setContent($request->get('description'));
         $marque->setVideo($request->get('video'));
         $marque->setUpdatedAt(new \DateTime('now'));
+        $categorie_id = $request->get('categorie');
+        $categorie = $dm->getRepository('App:SousCategories')->find($categorie_id);
+        $marque->setSousCategorie($categorie);
         if (isset($_FILES["image"]["name"]) && !empty($_FILES["image"]["name"])) {
             $file = $_FILES["image"]["name"];
             $File_Ext = substr($file, strrpos($file, '.'));

@@ -41,7 +41,8 @@ class CommandesController extends Controller
                 'name' => $product->getName(),
                 'quantite' => $panier[$product->getId()],
                 'price' => round($product->getPrice(),3),
-                'vendeur' => $product->getStore()?$product->getStore()->getName():'SINDBAD'
+                'vendeur' => $product->getStore()?$product->getStore()->getName():'SINDBAD',
+                'id_vendeur' => $product->getStore()?$product->getStore()->getId():''
                 //'prixTTC' => round($produit->getPrixunitaireht() / $produit->getTva()->getMultiplicate(),2)
                 );
         $product->setQte($product->getQte()-$panier[$product->getId()]);

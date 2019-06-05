@@ -1,0 +1,12 @@
+marchand_commandes_index:
+    path: /list/{id}
+    controller: App\Controller\Front\Marchand\CommandesController::listCommandes
+    
+marchand_commandes_details:
+    path: /{id}/details
+    controller: App\Controller\Front\Marchand\CommandesControllerr::showAction
+    
+marchand_commandes_new:
+    path: /{id}/valider
+    controller: App\Controller\Front\Marchand\CommandesControllerr::valider   
+    

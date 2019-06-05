@@ -15,6 +15,7 @@ use App\Document\Promotions;
 use App\Document\Keywords;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class ProductsController extends Controller
 {   
@@ -60,6 +61,7 @@ class ProductsController extends Controller
         $sousCategories1 = $dm->getRepository('App:Categories')->findAll();
         $caracteristiques = $dm->getRepository('App:Caracteristiques')->findAll();
         $sousCategories2 = $dm->getRepository('App:SousCategories')->findAll();
+        $marques = $dm->getRepository('App:Marques')->findAll();
         $stores = $dm->getRepository('App:Stores')->findAll();
         $products = $dm->getRepository('App:Products')->findBy(array('store'=>$store));
         return $this->render('Products/marchand/new.html.twig', array(
@@ -68,7 +70,8 @@ class ProductsController extends Controller
             'caracteristiques' => $caracteristiques,
             'stores' => $stores,
             'sousCategories1' => $sousCategories1,
-            'sousCategories2' => $sousCategories2
+            'sousCategories2' => $sousCategories2,
+            'marques' => $marques
         ));
     }
     
@@ -86,6 +89,9 @@ class ProductsController extends Controller
         $store = $dm->getRepository('App:Stores')->find($id);
         $store->addProduct($product);
         $product->setStore($store);
+        $marque_id = $request->get('categorie');
+        $marque = $dm->getRepository('App:Marques')->find($marque_id);
+        $product->setMarque($marque);
         $dm->persist($store);
         if($request->get('sc')){
             $sc = $dm->getRepository('App:SousCategories')->find($request->get('sc'));
@@ -174,10 +180,12 @@ class ProductsController extends Controller
         $dm = $this->get('doctrine_mongodb')->getManager();
         $product = $dm->getRepository('App:Products')->find($id);
         $promotion = $dm->getRepository('App:Promotions')->findOneBy(array('product' => $product));
+        $medias = $dm->getRepository('App:MediasImages')->findBy(array('product' => $product));
         $categoriesMere = $dm->getRepository('App:CategoriesMere')->findAll();
         $sousCategories1 = $dm->getRepository('App:Categories')->findAll();
         $caracteristiques = $dm->getRepository('App:Caracteristiques')->findAll();
         $sousCategories2 = $dm->getRepository('App:SousCategories')->findAll();
+        $marques = $dm->getRepository('App:Marques')->findAll();
         $stores = $dm->getRepository('App:Stores')->findAll();
         return $this->render('Products/marchand/edit.html.twig', array(
             'product' => $product,
@@ -185,8 +193,10 @@ class ProductsController extends Controller
             'caracteristiques' => $caracteristiques,
             'promotion' => $promotion,
             'stores' => $stores,
+            'medias'=>$medias,
             'sousCategories1' => $sousCategories1,
-            'sousCategories2' => $sousCategories2
+            'sousCategories2' => $sousCategories2,
+            'marques' => $marques
                 ));
     }
     
@@ -201,22 +211,15 @@ class ProductsController extends Controller
         $product->setPrice($request->get('price'));
         $product->setQte($request->get('qte'));
         $product->setContent($request->get('descriptionC'));
-        if($request->get('store')){
-            $store = $dm->getRepository('App:Stores')->find($request->get('store'));
-            $store->addProduct($product);
-            $product->setStore($store);
-            $dm->persist($store);
-        }
-        
+        $marque_id = $request->get('marque');
+        $marque = $dm->getRepository('App:Marques')->find($marque_id);
+        $product->setMarque($marque);
         if($request->get('sc')){
             $sc = $dm->getRepository('App:SousCategories')->find($request->get('sc'));
             $product->setSousCategorie($sc);
         }
         /*start medias Images document*/
-        if (isset($_FILES["images"]['name']) && empty($_FILES["images"]['name'])) {
-            foreach ($product->getMediasImages() as $img){
-                $dm->remove($img);
-            }
+        if (isset($_FILES["images"]['name']) && !empty($_FILES["images"]['name'])) {
             for ($count = 0; $count < count($_FILES["images"]["name"]); $count++) {
                 
                 $mediaImage = new MediasImages();
@@ -304,6 +307,35 @@ class ProductsController extends Controller
         $dm->remove($product);
         $dm->flush();
         $request->getSession()->getFlashBag()->add('success', "Le produit ".$product->getName()." est supprimé");
-        return $this->redirectToRoute('marchand_product_index', array('id' => $product->getId()));
+        return $this->redirectToRoute('marchand_product_index', array('id' => $product->getStore()->getId()));
+    }
+    
+    /*
+     * Delete product image
+     */
+    public function deleteProductImage(Request $request, $id)
+    {
+        $dm = $this->get('doctrine_mongodb')->getManager();
+        $fileSystem = new Filesystem();
+        $product = $dm->getRepository('App:Products')->find($id);
+        $fileSystem->remove(array('symlink', $this->getParameter('images_products_img')."/".$product->getImage(), ''.$product->getImage().''));
+        $product->setImage(null);
+        $dm->persist($product);
+        $dm->flush();
+        return new JsonResponse(array('message' => 'image supprimer'));
+    }
+    
+    /*
+     * Delete product image gallery
+     */
+    public function deleteProductImageGallery(Request $request, $id)
+    {
+        $dm = $this->get('doctrine_mongodb')->getManager();
+        $fileSystem = new Filesystem();
+        $image = $dm->getRepository('App:MediasImages')->find($id);
+        $fileSystem->remove(array('symlink', $this->getParameter('images_products_img_gallery')."/".$image->getName(), ''.$image->getName().''));
+        $dm->remove($image);
+        $dm->flush();
+        return new JsonResponse(array('message' => 'image supprimer'));
     }
 }
