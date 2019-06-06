@@ -89,7 +89,7 @@ class ProductsController extends Controller
         $store = $dm->getRepository('App:Stores')->find($id);
         $store->addProduct($product);
         $product->setStore($store);
-        $marque_id = $request->get('categorie');
+        $marque_id = $request->get('marque');
         $marque = $dm->getRepository('App:Marques')->find($marque_id);
         $product->setMarque($marque);
         $dm->persist($store);

@@ -77,37 +77,46 @@
                                     {% endif %}
                                 </div>
                             </div>
-                            <table class="table table-striped table-hover" id="sample_5">
+                                <div class="text-right">
+                                    <h2>Prix : <b>{{montant}} TND</b></h2>
+                                    <h2>Date : <b>Le {{commande.createdAt|date('d/m/Y')}} à {{commande.createdAt|date('H:i')}}</b></h2>
+                                </div>
+                                <div class="text-left">
+                                    <h2>Client : <b>{{client}}</b></h2>
+                                </div>
+                                <h2>Produits : </h2>
+                                <table class="table table-striped table-hover" id="sample_5">
                                 <thead>
                                     <tr>
                                         <th>
-                                            Client
+                                            Nom
                                         </th>
                                         <th>
-                                            Montant
+                                            Prix unitaire
                                         </th>
                                         <th>
-                                            Date
+                                            Quantité
                                         </th>
                                         <th>
-                                            Actions
+                                            Total
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for commande in commandes %}
+                                    {% for product in products %}
                                         <tr>
-                                            <td>{{commande.client}}</td>
-                                            <td>{{commande.montant}} TND</td>
-                                            <td>Le {{commande.date|date('d/m/Y')}} à {{commande.date|date('H:i')}}</td>
+                                            <td>{{product.name}}</td>
+                                            <td>{{product.price}} TND</td>
+                                            <td>{{product.quantite}}</td>
                                             <td>
-                                                <a href="{{ path('marchand_commandes_details', {id:commande.id, store:store}) }}" class="btn btn-sm btn-primary">Détails</a>
+                                                {{product.price * product.quantite}} TND
                                             </td>
                                         </tr>
                                     {% endfor %}
                                 </tbody>
                             </table>
                         </div>
+                                
                     </div>
                     <!-- END EXAMPLE TABLE PORTLET-->
                 </div>

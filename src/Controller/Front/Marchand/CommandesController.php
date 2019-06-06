@@ -22,7 +22,10 @@ class CommandesController extends Controller
         foreach ($commandes as $commande){
             foreach ($commande->getFacture()[0] as $facture){
                 if($facture['id_vendeur'] == $id){
-                    $commandes_liste [] = $commande;
+                    if(!in_array($commande, $commandes_liste)){
+                        $commandes_liste [] = $commande;
+                    }
+                    
                 }
             }
         }
@@ -31,27 +34,52 @@ class CommandesController extends Controller
         foreach ($commandes_liste as $c){
             $montant = 0;
             foreach ($c->getFacture()[0] as $f){
-                $montant += $f['price']*$f['quantite'];
+                if($f['id_vendeur'] == $id){
+                    $montant += $f['price']*$f['quantite'];
+                }
             }
             $list [] = array(
-                'id'=>$c->getId(),
-                'client'=>$c->getFacture()[2]['nom_prenom'],
-                'montant' => $montant
+                        'id'=>$c->getId(),
+                        'client'=>$c->getFacture()[2]['nom_prenom'],
+                        'montant' => $montant,
+                        'date' => $c->getCreatedAt(),
+                        'status' => $c->getStatus()
                     );
             
+            
         }
-        return $this->render('commandes/marchand/index.html.twig', array('commandes' => $list));
+        return $this->render('commandes/marchand/index.html.twig', array('commandes' => $list, 'store' => $id));
     }
     
     /*
-     * store Commandes details
+     * store Commande details
      */
-    public function showAction($id)
+    public function showAction($id, $store)
     {
         $dm = $this->get('doctrine_mongodb')->getManager();
-        $marchand = $dm->getRepository('App:Marchands')->find($id);
-        $stores = $dm->getRepository('App:Stores')->findBy(array('marchand' => $marchand));
-        return $this->render('marchand/storesList.html.twig', array('stores' => $stores));
+        $commande = $dm->getRepository('App:Commandes')->find($id);
+        $products = array();
+        foreach ($commande->getFacture()[0] as $facture){
+            if($facture['id_vendeur'] == $store){
+                if(!in_array($commande, $products)){
+                    $products [] = $facture;
+                }
+
+            }
+        }
+        $montant = 0;
+        foreach ($commande->getFacture()[0] as $f){
+            if($f['id_vendeur'] == $store){
+                $montant += $f['price']*$f['quantite'];
+            }
+        }
+        return $this->render('commandes/marchand/show.html.twig', array(
+            'commande' => $commande,
+            'products' => $products,
+            'montant' => $montant,
+            'date' => $commande->getCreatedAt(),
+            'client'=>$commande->getFacture()[2]['nom_prenom']
+            ));
     }
     
     /*

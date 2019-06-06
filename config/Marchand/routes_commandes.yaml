@@ -3,10 +3,10 @@ marchand_commandes_index:
     controller: App\Controller\Front\Marchand\CommandesController::listCommandes
     
 marchand_commandes_details:
-    path: /{id}/details
-    controller: App\Controller\Front\Marchand\CommandesControllerr::showAction
+    path: /{id}/details/{store}
+    controller: App\Controller\Front\Marchand\CommandesController::showAction
     
 marchand_commandes_new:
     path: /{id}/valider
-    controller: App\Controller\Front\Marchand\CommandesControllerr::valider   
+    controller: App\Controller\Front\Marchand\CommandesController::valider   
     
