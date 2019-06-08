@@ -123,22 +123,20 @@ class ProductsController extends Controller
             $product->setImage($fileName);
         }
         /*start promotion document*/
-        if(!empty($_POST['datedeb'])&&!empty($_POST['datefin'])&&!empty($_POST['fixe'])){
-            $promotion = null;
-            if($request->get('promo')){
-                $promotion = $dm->getRepository('App:Promotion')->find($request->get('promo'));
-            }else{
-                $promotion = new Promotions(); 
-            }
-            
-            $promotion->setDebut($_POST['datedeb']);
-            $promotion->setFin($_POST['datefin']);
-            $promotion->setFixe($_POST['datedeb']);
-            $promotion->setCreatedAt(new \DateTime('now'));
+        $promotion = null;
+        if($request->get('promotion')){
+            $promotion = $dm->getRepository('App:Promotions')->find($request->get('promotion'));
+        }else{
+            $promotion = new Promotions(); 
             $promotion->setProduct($product);
-            $product->setPrice($_POST['price']-$_POST['fixe']);
-            $dm->persist($promotion);
         }
+
+        $promotion->setDebut(new \DateTime(''.$request->get('datedebut').''));
+        $promotion->setFin(new \DateTime(''.$request->get('datefin').''));
+        $promotion->setFixe($request->get('fixe'));
+        $promotion->setCreatedAt(new \DateTime('now'));
+        $product->setPricePromotion($request->get('fixe'));
+        $dm->persist($promotion);
         /*end promotion document*/
         /*start Caractéristique valeur document*/
         $valeurs = $dm->getRepository('App:Valeurs')->findAll();
@@ -243,17 +241,20 @@ class ProductsController extends Controller
             );
             $product->setImage($fileName);
         }
-        /*start promotion document*/
-        if(!empty($_POST['datedeb'])&&!empty($_POST['datefin'])&&!empty($_POST['fixe'])){
-           $promotion = new Promotions();
-            $promotion->setDebut($_POST['datedeb']);
-            $promotion->setFin($_POST['datefin']);
-            $promotion->setFixe($_POST['datedeb']);
-            $promotion->setCreatedAt(new \DateTime('now'));
+        $promotion = null;
+        if($request->get('promotion')){
+            $promotion = $dm->getRepository('App:Promotions')->find($request->get('promotion'));
+        }else{
+            $promotion = new Promotions(); 
             $promotion->setProduct($product);
-            $product->setPrice($_POST['price']-$_POST['fixe']);
-            $dm->persist($promotion);
         }
+
+        $promotion->setDebut(new \DateTime(''.$request->get('datedebut').''));
+        $promotion->setFin(new \DateTime(''.$request->get('datefin').''));
+        $promotion->setFixe($request->get('fixe'));
+        $promotion->setCreatedAt(new \DateTime('now'));
+        $product->setPricePromotion($request->get('fixe'));
+        $dm->persist($promotion);
         /*end promotion document*/
         /*start Caractéristique valeur document*/
         $valeurs = $dm->getRepository('App:Valeurs')->findAll();

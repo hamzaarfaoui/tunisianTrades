@@ -188,4 +188,8 @@ class Categories
     {
         return $this->categorieMere;
     }
+    
+    public function __toString() {
+        return $this->getName();
+    }
 }

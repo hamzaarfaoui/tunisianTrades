@@ -25,6 +25,7 @@ class SousCategories1Controller extends Controller
      */
     public function Souscategories1bycm($cm)
     {
+        dump('refergerg');die();
         $dm = $this->get('doctrine_mongodb')->getManager();
         $categorieMere = $dm->getRepository('App:CategoriesMere')->find($cm);
         $categories = $dm->getRepository('App:Categories')->findBy(array('categorieMere' => $categorieMere));

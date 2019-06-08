@@ -35,6 +35,10 @@ marchand_banners:
 marchand_commandes:
     resource: "Marchand/routes_commandes.yaml"
     prefix:   /my-commandes    
+    
+marchand_promotions:
+    resource: "Marchand/routes_promotions.yaml"
+    prefix:   /my-promotions        
 
 #Back routes
 dash:

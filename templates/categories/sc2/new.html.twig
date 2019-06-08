@@ -67,14 +67,7 @@
                                 <div class="form-body">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label>Catégorie</label>
-                                                <select name="cm" class="form-control">
-                                                    {% for categorie in categories %}
-                                                        <option value="{{categorie.id}}">{{categorie.name}}</option>
-                                                    {% endfor %}
-                                                </select>
-                                            </div>
+                                            <input type="hidden" name="cm" value="{{ categorie.id }}">
                                             <div class="form-group">
                                                 <label>Nom</label>
                                                 <input type="text" class="form-control" placeholder="Nom" name="nom">

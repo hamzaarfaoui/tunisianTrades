@@ -36,10 +36,12 @@
         Visuels </a>
 </li>
 {% endfor %}
+{% for store in stores %}
 <li class="menu-dropdown">
-    <a href="angularjs" target="_blank" class="tooltips" data-container="body" data-placement="bottom" data-html="true" data-original-title="AngularJS version demo">
+    <a href="{{path('marchand_promotions_index', {id:store.id})}}" class="tooltips" data-container="body" data-placement="bottom" data-html="true" data-original-title="AngularJS version demo">
         Promotions </a>
 </li>
+{% endfor %}
 <li class="menu-dropdown">
     <a href="{{ path('fos_user_security_logout') }}" class="tooltips" data-container="body" data-placement="bottom" data-html="true" data-original-title="AngularJS version demo">
         Déconnexion </a>

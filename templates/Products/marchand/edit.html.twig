@@ -226,12 +226,13 @@
                                                 <div class="blocPhone">
                                                 <div class="row">
                                                     <div class="col-md-4">
+                                                        <input type="hidden" name="promotion" value="{{promotion?promotion.id:''}}">
                                                         Début <br>
-                                                        <input type="date" id="from" class="form-control" name="datedeb" placeholder="Date de début" value="{{promotion?promotion.debut:''}}">
+                                                        <input type="date" id="from" class="form-control" name="datedeb" placeholder="Date de début" value="{{promotion?promotion.debut|date('Y-m-d'):''}}">
                                                     </div>
                                                     <div class="col-md-4">
-                                                        Fin<br>
-                                                        <input type="date" id="to" class="form-control" name="datefin" placeholder="Date de fin" value="{{promotion?promotion.fin:''}}">
+                                                        Fin <br>
+                                                        <input type="date" id="to" class="form-control" name="datefin" placeholder="Date de fin" value="{{promotion?promotion.fin|date('Y-m-d'):''}}">
                                                     </div>
                                                     <div class="col-md-4">
                                                         Montant<br>

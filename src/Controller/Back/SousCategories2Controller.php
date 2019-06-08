@@ -110,8 +110,7 @@ class SousCategories2Controller extends Controller
     {
         $dm = $this->get('doctrine_mongodb')->getManager();
         $categorie = $dm->getRepository('App:Categories')->find($id);
-        $categories = $dm->getRepository('App:Categories')->findBy(array('categorieMere' => $categorie->getsousCategorie2()));
-        return $this->render('categories/sc2/new.html.twig', array('categorie' => $categorie, 'categories' => $categories));
+       return $this->render('categories/sc2/new.html.twig', array('categorie' => $categorie));
     }
     
     /*

@@ -303,4 +303,8 @@ class SousCategories
     {
         return $this->keywords;
     }
+    
+    public function __toString() {
+        return $this->getName();
+    }
 }
