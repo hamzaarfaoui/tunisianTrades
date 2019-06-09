@@ -15,7 +15,7 @@ class ProductsRepository extends DocumentRepository
     public function findArray($array)
     {
         $qb = $this->createQueryBuilder('Products')
-                ->Select('id', 'name', 'price', 'image', 'store')
+                ->Select('id', 'name', 'price', 'image', 'store', 'pricePromotion')
                 ->field('_id')->in($array);
 
         return $qb->getQuery()->execute();

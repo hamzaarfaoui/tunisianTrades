@@ -106,6 +106,30 @@
                                             <td>{{promotion.debut|date('d/m/Y')}}</td>
                                             <td>{{promotion.fin|date('d/m/Y')}}</td>
                                             <td>
+                                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModalEdit{{promotion.id}}"><i class="fa fa-pencil"></i> Modifier</button>
+                                                <!-- Modal -->
+                                                <div id="myModalEdit{{promotion.id}}" class="modal fade" role="dialog">
+                                                    <div class="modal-dialog">
+                                                        <form action="{{ path('marchand_promotions_edit', {id : promotion.id}) }}" method="post">
+                                                        <!-- Modal content-->
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                                <h4 class="modal-title">Modification</h4>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <input type="date" id="from" class="form-control" name="datedeb" placeholder="Date de début" value="{{promotion?promotion.debut|date('Y-m-d'):''}}"><br>
+                                                                <input type="date" id="to" class="form-control" name="datefin" placeholder="Date de fin" value="{{promotion?promotion.fin|date('Y-m-d'):''}}"><br>
+                                                                <input type="number" class="form-control" name="fixe" placeholder="Montant" value="{{promotion?promotion.fixe:''}}">
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="submit" class="btn btn-primary">Enregistrer</button>
+                                                                <button type="button" class="btn btn-default" data-dismiss="modal">Non</button>
+                                                            </div>
+                                                        </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
                                                 <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModal{{promotion.id}}"><i class="fa fa-trash"></i> Supprimer</button>
 
                                                 <!-- Modal -->

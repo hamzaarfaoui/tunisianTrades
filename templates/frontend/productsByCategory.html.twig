@@ -207,35 +207,51 @@
                         <!-- row -->
                         <div class="row">
                             {% for product in products %}
+                                {% if(product.qte>0) %}
                                 <!-- Product Single -->
                                 <div class="col-md-3 col-sm-6 col-xs-6">
                                     <div class="product product-single">
-                                        <div class="product-thumb">
-                                            <div class="product-label">
-                                                <span>New</span>
-                                                <span class="sale">-20%</span>
-                                            </div>
-                                            <a href="{{ path('product_page', {titre:product.name, id:product.id}) }}" class="main-btn quick-view"> Détails</a>
-                                            <img src="{{ asset('uploads/products/images/') }}{{ product.image }}" alt="">
+                                    <div class="product-thumb">
+                                        <div class="product-label">
+                                            {% set today = "now"|date("d/m/Y") %}
+                                            {% set difference = date(today).diff(date(product.createdAt|date('d/m/Y'))) %}
+                                            {{difference.days < 7?'<span>New </span>':''}}
+                                            {% if(product.pricePromotion != null) %}
+                                                <span class="sale">
+                                                    {% set difference = product.price - product.pricePromotion %}
+                                                    {% set pourcentage = (difference/product.price)*100 %}
+                                                    -{{pourcentage|round}}%
+                                                </span>
+                                            {% endif %}
                                         </div>
-                                        <div class="product-body">
-                                            <h3 class="product-price">$32.50 <del class="product-old-price">$45.00</del></h3>
-                                            <div class="product-rating">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star-o empty"></i>
-                                            </div>
-                                            <h2 class="product-name"><a href="{{ path('product_page', {titre:product.name, id:product.id}) }}">{{ product.name }}</a></h2>
-                                            <div class="product-btns">
-                                                <button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
-                                                <button class="primary-btn add-to-cart"><i class="fa fa-plus"></i> <i class="fa fa-shopping-cart"></i> panier</button>
-                                            </div>
+                                        <a href="{{ path('product_page', {id:product.id}) }}" class="main-btn quick-view"> Détails</a>
+                                        <img src="{{ asset('uploads/products/images/') }}{{ product.image }}" alt="">
+                                    </div>
+                                    <div class="product-body">
+                                        {% if(product.pricePromotion != null) %}
+                                            <h3 class="product-price">{{product.pricePromotion}} TND<del class="product-old-price">  {{product.price}} TND</del></h3>
+                                        {% else %}
+                                            <h3 class="product-price">{{product.price}} TND</h3>
+                                        {% endif %}
+                                        <div class="product-rating">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-o empty"></i>
+                                        </div>
+                                        <h2 class="product-name"><a href="#">{{ product.name }}</a></h2>
+                                        <div class="product-btns">
+                                            <button class="main-btn icon-btn add-to-favoris" data-id="{{product.id}}"><i class="fa fa-heart"></i></button>
+                                            <!--<button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button>-->
+                                            {#<a href="{{ path('add_product_to_cart', {id:product.id}) }}" class="primary-btn add-to-cart"><i class="fa fa-plus"></i> <i class="fa fa-shopping-cart"></i> panier</a>#}
+                                            <button class="primary-btn add-to-cart" data-id="{{product.id}}"><i class="fa fa-plus"></i> <i class="fa fa-shopping-cart"></i> panier</button>
                                         </div>
                                     </div>
                                 </div>
+                                </div>
                                 <!-- /Product Single -->
+                                {% endif %}
                             {% endfor %}
                         </div>
                         <!-- /row -->

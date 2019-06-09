@@ -25,9 +25,9 @@ class CommandesController extends Controller
         
         foreach($products as $product)
         {
-            $prix = ($product->getPrice() * $panier[$product->getId()]);
+            $prix = $product->getPricePromotion()?$product->getPricePromotion():$product->getPrice() ;
             //$prixTTC = ($product->getPrixunitaireht() * $panier[$product->getId()] / $product->getTva()->getMultiplicate());
-            $total += $prix;
+            $total += $prix * $panier[$product->getId()];
             //$totalTTC += $prixTTC;
             
 //            if (!isset($commande['tva']['%'.$produit->getTva()->getValeur()]))
@@ -40,7 +40,7 @@ class CommandesController extends Controller
                 'image' => $product->getImage(),
                 'name' => $product->getName(),
                 'quantite' => $panier[$product->getId()],
-                'price' => round($product->getPrice(),3),
+                'price' => round($product->getPricePromotion()?$product->getPricePromotion():$product->getPrice(),3),
                 'vendeur' => $product->getStore()?$product->getStore()->getName():'SINDBAD',
                 'id_vendeur' => $product->getStore()?$product->getStore()->getId():''
                 //'prixTTC' => round($produit->getPrixunitaireht() / $produit->getTva()->getMultiplicate(),2)

@@ -24,18 +24,31 @@
                     <div class="row">
                         <div id="product-slick-{{categorie.id}}" class="product-slick">
                             {% for product in categorie.products %}
+                                {% if(product.qte>0) %}
                                 <!-- Product Single -->
                                 <div class="product product-single">
                                     <div class="product-thumb">
                                         <div class="product-label">
-                                            <span>New</span>
-                                            <span class="sale">-20%</span>
+                                            {% set today = "now"|date("d/m/Y") %}
+                                            {% set difference = date(today).diff(date(product.createdAt|date('d/m/Y'))) %}
+                                            {{difference.days < 7?'<span>New </span>':''}}
+                                            {% if(product.pricePromotion != null) %}
+                                                <span class="sale">
+                                                    {% set difference = product.price - product.pricePromotion %}
+                                                    {% set pourcentage = (difference/product.price)*100 %}
+                                                    -{{pourcentage|round}}%
+                                                </span>
+                                            {% endif %}
                                         </div>
                                         <a href="{{ path('product_page', {id:product.id}) }}" class="main-btn quick-view"> Détails</a>
                                         <img src="{{ asset('uploads/products/images/') }}{{ product.image }}" alt="">
                                     </div>
                                     <div class="product-body">
-                                        <h3 class="product-price">$32.50</h3>
+                                        {% if(product.pricePromotion != null) %}
+                                            <h3 class="product-price">{{product.pricePromotion}} TND<del class="product-old-price">  {{product.price}} TND</del></h3>
+                                        {% else %}
+                                            <h3 class="product-price">{{product.price}} TND</h3>
+                                        {% endif %}
                                         <div class="product-rating">
                                             <i class="fa fa-star"></i>
                                             <i class="fa fa-star"></i>
@@ -53,6 +66,7 @@
                                     </div>
                                 </div>
                                 <!-- /Product Single -->
+                                {% endif %}
                             {% endfor %}
                         </div>
                     </div>

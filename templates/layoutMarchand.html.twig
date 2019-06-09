@@ -20,7 +20,7 @@
             <div class="container">
                 <!-- BEGIN LOGO -->
                 <div class="page-logo">
-                    <a href="index.html"><img src="{{ asset('template/assets/admin/layout3/img/logo-default.png') }}" alt="logo" class="logo-default"></a>
+                    <a href="{{ path('index_page') }}"><img src="{{ asset('template/assets/admin/layout3/img/logo-default.png') }}" alt="logo" class="logo-default"></a>
                 </div>
                 <!-- END LOGO -->
                 <!-- BEGIN RESPONSIVE MENU TOGGLER -->
@@ -48,7 +48,7 @@
                 <div class="hor-menu ">
                     <ul class="nav navbar-nav">
                         <li class="active">
-                            <a href="index.html">Tableau de bord</a>
+                            <a href="{{ path('marchand_homepage') }}">Tableau de bord</a>
                         </li>
                         {{ render(controller(
                             'App\\Controller\\Front\\Marchand\\MarchandController::listStore'

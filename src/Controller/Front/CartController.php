@@ -50,13 +50,15 @@ class CartController extends Controller
             $products = $dm->getRepository('App:Products')->findArray(array_keys($array_product_ids));
             if(count($products) > 0){
                 foreach ($products as $product){
-                    $total+=$product->getPrice()*$panier[$product->getId()];
+                    $price = $product->getPricePromotion()?$product->getPricePromotion():$product->getPrice();
+                    $total+=$price*$panier[$product->getId()];
                     $list .= '<div class="product product-widget product-in-cart'.$product->getId().'">';
                     $list .= '<div class="product-thumb">'; 
                     $list .= '<img src="http://'.$_SERVER['HTTP_HOST'] . '/uploads/products/images/'. $product->getImage().'"/>';
                     $list .= '</div>';
                     $list .= '<div class="product-body">'; 
-                    $list .= '<h3 class="product-price">'.$product->getPrice().' TND <span class="qty">1</span></h3>';
+                    
+                    $list .= '<h3 class="product-price">'.$price.' TND <span class="qty">1</span></h3>';
                     $list .= '<h2 class="product-name">'.$product->getName().'</h2>';
                     $list .= '</div>';
                     $list .= '<button class="cancel-btn" data-id="'.$product->getId().'"><i class="fa fa-trash"></i></button>';

@@ -89,9 +89,11 @@ class ProductsController extends Controller
         $store = $dm->getRepository('App:Stores')->find($id);
         $store->addProduct($product);
         $product->setStore($store);
+        if($request->get('marque')){
         $marque_id = $request->get('marque');
         $marque = $dm->getRepository('App:Marques')->find($marque_id);
         $product->setMarque($marque);
+        }
         $dm->persist($store);
         if($request->get('sc')){
             $sc = $dm->getRepository('App:SousCategories')->find($request->get('sc'));
@@ -123,20 +125,22 @@ class ProductsController extends Controller
             $product->setImage($fileName);
         }
         /*start promotion document*/
-        $promotion = null;
-        if($request->get('promotion')){
-            $promotion = $dm->getRepository('App:Promotions')->find($request->get('promotion'));
-        }else{
-            $promotion = new Promotions(); 
-            $promotion->setProduct($product);
-        }
+        if($request->get('datedebut') && $request->get('datefin') && $request->get('fixe')){
+            $promotion = null;
+            if($request->get('promotion')){
+                $promotion = $dm->getRepository('App:Promotions')->find($request->get('promotion'));
+            }else{
+                $promotion = new Promotions(); 
+                $promotion->setProduct($product);
+            }
 
-        $promotion->setDebut(new \DateTime(''.$request->get('datedebut').''));
-        $promotion->setFin(new \DateTime(''.$request->get('datefin').''));
-        $promotion->setFixe($request->get('fixe'));
-        $promotion->setCreatedAt(new \DateTime('now'));
-        $product->setPricePromotion($request->get('fixe'));
-        $dm->persist($promotion);
+            $promotion->setDebut(new \DateTime(''.$request->get('datedebut').''));
+            $promotion->setFin(new \DateTime(''.$request->get('datefin').''));
+            $promotion->setFixe($request->get('fixe'));
+            $promotion->setCreatedAt(new \DateTime('now'));
+            $product->setPricePromotion($request->get('fixe'));
+            $dm->persist($promotion);
+        }
         /*end promotion document*/
         /*start Caractéristique valeur document*/
         $valeurs = $dm->getRepository('App:Valeurs')->findAll();
@@ -209,9 +213,12 @@ class ProductsController extends Controller
         $product->setPrice($request->get('price'));
         $product->setQte($request->get('qte'));
         $product->setContent($request->get('descriptionC'));
-        $marque_id = $request->get('marque');
-        $marque = $dm->getRepository('App:Marques')->find($marque_id);
-        $product->setMarque($marque);
+        if($request->get('marque')){
+            $marque_id = $request->get('marque');
+            $marque = $dm->getRepository('App:Marques')->find($marque_id);
+            $product->setMarque($marque);
+        }
+        
         if($request->get('sc')){
             $sc = $dm->getRepository('App:SousCategories')->find($request->get('sc'));
             $product->setSousCategorie($sc);
@@ -241,20 +248,22 @@ class ProductsController extends Controller
             );
             $product->setImage($fileName);
         }
-        $promotion = null;
-        if($request->get('promotion')){
-            $promotion = $dm->getRepository('App:Promotions')->find($request->get('promotion'));
-        }else{
-            $promotion = new Promotions(); 
-            $promotion->setProduct($product);
-        }
+        if($request->get('datedebut') && $request->get('datefin') && $request->get('fixe')){
+            $promotion = null;
+            if($request->get('promotion')){
+                $promotion = $dm->getRepository('App:Promotions')->find($request->get('promotion'));
+            }else{
+                $promotion = new Promotions(); 
+                $promotion->setProduct($product);
+            }
 
-        $promotion->setDebut(new \DateTime(''.$request->get('datedebut').''));
-        $promotion->setFin(new \DateTime(''.$request->get('datefin').''));
-        $promotion->setFixe($request->get('fixe'));
-        $promotion->setCreatedAt(new \DateTime('now'));
-        $product->setPricePromotion($request->get('fixe'));
-        $dm->persist($promotion);
+            $promotion->setDebut(new \DateTime(''.$request->get('datedebut').''));
+            $promotion->setFin(new \DateTime(''.$request->get('datefin').''));
+            $promotion->setFixe($request->get('fixe'));
+            $promotion->setCreatedAt(new \DateTime('now'));
+            $product->setPricePromotion($request->get('fixe'));
+            $dm->persist($promotion);
+        }
         /*end promotion document*/
         /*start Caractéristique valeur document*/
         $valeurs = $dm->getRepository('App:Valeurs')->findAll();

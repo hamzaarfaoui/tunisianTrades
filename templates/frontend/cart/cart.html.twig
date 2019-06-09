@@ -22,8 +22,14 @@
     {% set refTva = {} %}
     {% set panier = app.session.get('panier') %}
     {% for product in products %}
-        {% set totalHT = totalHT + (product.price * panier[product.id]) %}
-        {% set totalTTC = totalTTC + (product.price * panier[product.id]) %}
+        {% set price = 0 %}
+        {% if(product.pricePromotion!=null) %}
+            {% set price = product.pricePromotion  %}
+        {% else %}
+            {% set price = product.price  %}
+        {% endif %}
+        {% set totalHT = totalHT + (price * panier[product.id]) %}
+        {% set totalTTC = totalTTC + (price * panier[product.id]) %}
 
         {% endfor %}
     <!-- section -->
@@ -61,7 +67,7 @@
                                                         <li><span>Color: Camelot</span></li>
                                                     </ul>#}
                                                 </td>
-                                                <td class="price text-center"><strong>{{ product.price }} TND</strong><br>{#<del class="font-weak"><small>$40.00</small></del>#}</td>
+                                                <td class="price text-center"><strong>{{ product.pricePromotion!=null?product.pricePromotion:product.price }} TND</strong><br>{#<del class="font-weak"><small>$40.00</small></del>#}</td>
                                                 <td class="qty text-center">
                                                     <select name="qte" data-id="{{ product.id }}" class="input quantite" onchange="this.form.submit()">
                                                         <option selected value="{{ panier[product.id] }}">{{ panier[product.id] }}</option>
@@ -72,7 +78,14 @@
                                                         {% endfor %}
                                                     </select>
                                                 </td>
-                                                <td class="total text-center"><strong class="primary-color"><span class="total-product" id="total-product{{ product.id }}">{{ product.price * panier[product.id] }}</span> TND</strong></td>
+                                                <td class="total text-center"><strong class="primary-color"><span class="total-product" id="total-product{{ product.id }}">
+                                                            {% set price = 0 %}
+                                                            {% if(product.pricePromotion!=null) %}
+                                                                {% set price = product.pricePromotion  %}
+                                                            {% else %}
+                                                                {% set price = product.price  %}
+                                                            {% endif %}
+                                                            {{ price * panier[product.id] }}</span> TND</strong></td>
                                                 <td class="text-right"><button type="button" class="main-btn icon-btn cancel-product" data-id="{{ product.id }}"><i class="fa fa-close"></i></button></td>
                                             </form>
                                     
