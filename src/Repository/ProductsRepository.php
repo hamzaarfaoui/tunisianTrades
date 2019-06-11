@@ -20,4 +20,34 @@ class ProductsRepository extends DocumentRepository
 
         return $qb->getQuery()->execute();
     }
+    
+    public function byNbrViews($store)
+    {
+        $qb = $this->createQueryBuilder('Products')
+                ->field('store')->equals($store)
+                ->sort('nbrView', 'desc')
+                ->field('nbrView')->gt(0)
+                ->limit(5);
+        return $qb->getQuery()->execute();
+    }
+    
+    public function byNbrAddToCart($store)
+    {
+        $qb = $this->createQueryBuilder('Products')
+                ->field('store')->equals($store)
+                ->sort('nbrAddToCart', 'desc')
+                ->field('nbrAddToCart')->gt(0)
+                ->limit(5);
+        return $qb->getQuery()->execute();
+    }
+    
+    public function byNbrAddToFavorite($store)
+    {
+        $qb = $this->createQueryBuilder('Products')
+                ->field('store')->equals($store)
+                ->sort('nbrAddToFavorite', 'desc')
+                ->field('nbrAddToFavorite')->gt(0)
+                ->limit(5);
+        return $qb->getQuery()->execute();
+    }
 }

@@ -111,7 +111,7 @@ class CartController extends Controller
         if (!$session->has('panier')) {$session->set('panier',array());}
         $panier = $session->get('panier');
         $product = $dm->getRepository('App:Products')->find($id);
-        $product->setNbrAddToFavorite($product->getNbrAddToFavorite()+1);
+        $product->setNbrAddToCart($product->getNbrAddToFavorite()+1);
         $dm->persist($product);
         $dm->flush();
         if (array_key_exists($id, $panier)) {

@@ -33,6 +33,24 @@ class ProductsController extends Controller
     }
     
     /*
+     * Products list in dashbord
+     */
+    public function listeInDash($id)
+    {
+        $dm = $this->get('doctrine_mongodb')->getManager();
+        $store = $dm->getRepository('App:Stores')->find($id);
+        $productsByNbrViews = $dm->getRepository('App:Products')->byNbrViews($store);
+        $productsByNbrAddToCart = $dm->getRepository('App:Products')->byNbrAddToCart($store);
+        $productsByNbrAddToFavorite = $dm->getRepository('App:Products')->byNbrAddToFavorite($store);
+        return $this->render('Products/marchand/dash.html.twig', array(
+            'productsByNbrViews'=>$productsByNbrViews,
+            'productsByNbrAddToCart' => $productsByNbrAddToCart,
+            'productsByNbrAddToFavorite' => $productsByNbrAddToFavorite,
+            'store' => $store
+                ));
+    }
+    
+    /*
      * Product details
      */
     public function details($id)
@@ -89,6 +107,9 @@ class ProductsController extends Controller
         $store = $dm->getRepository('App:Stores')->find($id);
         $store->addProduct($product);
         $product->setStore($store);
+        $product->setNbrAddToCart(0);
+        $product->setNbrView(0);
+        $product->setNbrAddToFavorite(0);
         if($request->get('marque')){
         $marque_id = $request->get('marque');
         $marque = $dm->getRepository('App:Marques')->find($marque_id);

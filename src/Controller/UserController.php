@@ -22,7 +22,9 @@ class UserController extends Controller
     public function marchand()
     {
         $dm = $this->get('doctrine_mongodb')->getManager();
-        return $this->render('user/espaces/marchand.html.twig');
+        $marchand = $dm->getRepository('App:Marchands')->findOneBy(array('user' => $this->getUser()));
+        $store = $dm->getRepository('App:Stores')->findOneBy(array('marchand' => $marchand));
+        return $this->render('user/espaces/marchand.html.twig',array('store' => $store));
     }
     
     /*

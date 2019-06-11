@@ -18,4 +18,12 @@ class CommandesRepository extends DocumentRepository
                 ->sort('createdAt', 'desc');
         return $qb->getQuery()->execute();
     }
+    
+    public function listeInDash()
+    {
+        $qb = $this->createQueryBuilder('Commandes')
+                ->sort('createdAt', 'desc')
+                ->limit(6);
+        return $qb->getQuery()->execute();
+    }
 }

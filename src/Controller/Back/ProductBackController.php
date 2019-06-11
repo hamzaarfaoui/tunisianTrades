@@ -113,6 +113,10 @@ class ProductBackController extends Controller
         $store = $dm->getRepository('App:Stores')->find($id);
         $store->addProduct($product);
         $product->setStore($store);
+        
+        $product->setNbrAddToCart(0);
+        $product->setNbrView(0);
+        $product->setNbrAddToFavorite(0);
         $dm->persist($store);
         $marque_id = $request->get('categorie');
         $marque = $dm->getRepository('App:Marques')->find($marque_id);
@@ -209,6 +213,10 @@ class ProductBackController extends Controller
         $marque_id = $request->get('categorie');
         $marque = $dm->getRepository('App:Marques')->find($marque_id);
         $product->setMarque($marque);
+        
+        $product->setNbrAddToCart(0);
+        $product->setNbrView(0);
+        $product->setNbrAddToFavorite(0);
         if($request->get('store')){
             $store = $dm->getRepository('App:Stores')->find($request->get('store'));
             $store->addProduct($product);

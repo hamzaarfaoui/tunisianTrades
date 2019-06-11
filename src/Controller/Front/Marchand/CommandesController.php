@@ -52,6 +52,44 @@ class CommandesController extends Controller
     }
     
     /*
+     * store Commandes list in dashbord
+     */
+    public function listCommandesInDash($id)
+    {
+        $dm = $this->get('doctrine_mongodb')->getManager();
+        $commandes = $dm->getRepository('App:Commandes')->listeInDash();
+        $commandes_liste = array();
+        foreach ($commandes as $commande){
+            foreach ($commande->getFacture()[0] as $facture){
+                if($facture['id_vendeur'] == $id){
+                    if(!in_array($commande, $commandes_liste)){
+                        $commandes_liste [] = $commande;
+                    }
+                    
+                }
+            }
+        }
+        $list = array();
+        
+        foreach ($commandes_liste as $c){
+            $montant = 0;
+            foreach ($c->getFacture()[0] as $f){
+                if($f['id_vendeur'] == $id){
+                    $montant += $f['price']*$f['quantite'];
+                }
+            }
+            $list [] = array(
+                'id'=>$c->getId(),
+                'client'=>$c->getFacture()[2]['nom_prenom'],
+                'montant' => $montant,
+                'date' => $c->getCreatedAt(),
+                'status' => $c->getStatus()
+            );
+        }
+        return $this->render('commandes/marchand/dash.html.twig', array('commandes' => $list, 'store' => $id));
+    }
+    
+    /*
      * store Commande details
      */
     public function showAction($id, $store)
