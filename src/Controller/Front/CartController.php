@@ -106,10 +106,14 @@ class CartController extends Controller
      */
     public function addProductToCart(Request $request, $id)
     {
+        $dm = $this->get('doctrine_mongodb')->getManager();
         $session = $request->getSession();
         if (!$session->has('panier')) {$session->set('panier',array());}
         $panier = $session->get('panier');
-        
+        $product = $dm->getRepository('App:Products')->find($id);
+        $product->setNbrAddToFavorite($product->getNbrAddToFavorite()+1);
+        $dm->persist($product);
+        $dm->flush();
         if (array_key_exists($id, $panier)) {
             if ($request->query->get('qte') != null) {$panier[$id] = $request->query->get('qte');}
             $this->get('session')->getFlashBag()->add('success','Quantité modifié avec succès');

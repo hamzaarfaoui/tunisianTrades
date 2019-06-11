@@ -53,6 +53,11 @@ class Stores
      */
     protected $logo;
     
+    /**      
+     * @MongoDB\Field(type="integer") 
+     */
+    protected $nbrView;
+    
     /** @MongoDB\ReferenceMany(targetDocument="Products", mappedBy="store") */
     protected $products;
     
@@ -146,6 +151,18 @@ class Stores
     public function setIsStatus($status)
     {
         $this->status = $status;
+    }
+    
+    /**      * @param mixed $nbrView      */
+    public function setNbrView($nbrView)
+    {
+        $this->nbrView = $nbrView;
+    }
+    
+    /**      * @return mixed      */
+    public function getNbrView()
+    {
+        return $this->nbrView;
     }
 
     /**

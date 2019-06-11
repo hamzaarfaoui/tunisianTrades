@@ -97,6 +97,9 @@ class User extends BaseUser
     /** @MongoDB\ReferenceMany(targetDocument="TelephonesUser", mappedBy="user") */
     protected $telephoneUser;
     
+    /** @MongoDB\ReferenceOne(targetDocument="TelephonesUser") */
+    protected $owner;
+    
     /**      * @return mixed      */
     public function getId()
     {
@@ -301,5 +304,25 @@ class User extends BaseUser
     public function getTelephonesUser()
     {
         return $this->telephonesUser;
+    }
+    
+    /**
+     * @param User $owner
+     *
+     * @return self
+     */
+    public function setOwner(User $owner)
+    {
+        $this->owner = $owner;
+        return $this;
+    }
+    
+    /**
+     * Get owner
+     *
+     */
+    public function getOwner()
+    {
+        return $this->owner;
     }
 }

@@ -31,6 +31,7 @@ class FavorisController extends Controller
         $dm = $this->get('doctrine_mongodb')->getManager();
         
         $product = $dm->getRepository('App:Products')->find($id);
+        
         $favoris = $dm->getRepository('App:Favoris')->findBy(array('user' => $this->getUser()));
         $message ='';
         $products = array();
@@ -44,6 +45,8 @@ class FavorisController extends Controller
             $favori->setProduct($product);
             $favori->setUser($this->getUser());
             $dm->persist($favori);
+            $product->setNbrView($product->getNbrView()+1);
+            $dm->persist($product);
             $dm->flush();
             $message = 'Produit ajouté à vos favoris';
         }else{

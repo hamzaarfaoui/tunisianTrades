@@ -44,6 +44,21 @@ class Products
     /**      
      * @MongoDB\Field(type="integer") 
      */
+    protected $nbrView;
+    
+    /**      
+     * @MongoDB\Field(type="integer") 
+     */
+    protected $nbrAddToCart;
+    
+    /**      
+     * @MongoDB\Field(type="integer") 
+     */
+    protected $nbrAddToFavorite;
+    
+    /**      
+     * @MongoDB\Field(type="integer") 
+     */
     protected $status;
     
     /**      
@@ -177,16 +192,54 @@ class Products
         $this->createdAt = $createdAt;
     }
     
-    /**      * @return mixed      */
-    public function getIsDeleted()
-    {
-        return $this->isDeleted;
-    }
     /**      * @param mixed $isDeleted      */
     public function setIsDeleted($isDeleted)
     {
         $this->isDeleted = $isDeleted;
     }
+    
+    /**      * @return mixed      */
+    public function getIsDeleted()
+    {
+        return $this->isDeleted;
+    }
+    /**      * @param mixed $nbrView      */
+    public function setNbrView($nbrView)
+    {
+        $this->nbrView = $nbrView;
+    }
+    
+    /**      * @return mixed      */
+    public function getNbrView()
+    {
+        return $this->nbrView;
+    }
+    
+    /**      * @param mixed $nbrAddToCart      */
+    public function setNbrAddToCart($nbrAddToCart)
+    {
+        $this->nbrAddToCart = $nbrAddToCart;
+    }
+    
+    /**      * @return mixed      */
+    public function getNbrAddToCart()
+    {
+        return $this->nbrAddToCart;
+    }
+    
+    /**      * @param mixed $nbrAddToFavorite      */
+    public function setNbrAddToFavorite($nbrAddToFavorite)
+    {
+        $this->nbrAddToFavorite = $nbrAddToFavorite;
+    }
+    
+    /**      * @return mixed      */
+    public function getNbrAddToFavorite()
+    {
+        return $this->nbrAddToFavorite;
+    }
+    
+    
     
     /**      * @return mixed      */
     public function getStatus()
