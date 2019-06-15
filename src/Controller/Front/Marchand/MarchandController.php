@@ -18,6 +18,10 @@ class MarchandController extends Controller
     {
         $dm = $this->get('doctrine_mongodb')->getManager();
         $marchand = $dm->getRepository('App:Marchands')->findOneBy(array('user' => $this->getUser()));
+        if(!$marchand){
+          $marchand = $dm->getRepository('App:Marchands')->findOneBy(array('user' => $this->getUser()->getOwner()));  
+        }
+        
         $stores = $dm->getRepository('App:Stores')->findBy(array('marchand' => $marchand));
         return $this->render('marchand/storesList.html.twig', array('stores' => $stores));
     }
@@ -27,11 +31,12 @@ class MarchandController extends Controller
      */
     public function infosStore(Request $request, $id)
     {
+        
         $dm = $this->get('doctrine_mongodb')->getManager();
         $store = $dm->getRepository('App:Stores')->find($id);
         $form = $this->createForm('App\Form\StoreType', $store);
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted()) {
             $dm->persist($store);
             $dm->flush();
             $this->addFlash('success','Votre infos sont enregistrés');

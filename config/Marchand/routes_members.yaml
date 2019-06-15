@@ -15,6 +15,10 @@ marchand_members_edit:
     path: /{id}/edit
     controller: App\Controller\Front\Marchand\MembersController::editMember
     
+marchand_members_status:
+    path: /{id}/status
+    controller: App\Controller\Front\Marchand\MembersController::memberStatus    
+    
 marchand_members_delete:
     path: /{id}/delete
     controller: App\Controller\Front\Marchand\MembersController:deleteMember  

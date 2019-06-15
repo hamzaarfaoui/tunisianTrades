@@ -17,9 +17,11 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('nom', TextType::class, array(
-                    'label' => 'Nom'
+                    'label' => 'Nom',
+                    'required' => false,
                 ))
                 ->add('prenom', TextType::class, array(
+                    'required' => false,
                     'label' => 'Prenom'
                 ))
                 ->add('username', TextType::class, array(
@@ -35,14 +37,17 @@ class UserType extends AbstractType
                     'label' => 'Mot de passe'
                 ))
                 ->add('phone', NumberType::class, array(
+                    'required' => false,
                     'label' => 'Télephone'
                 ))
                 
                 ->add('adress', TextType::class, array(
+                    'required' => false,
                     'label' => 'Adresse'
                 ))
                 
                 ->add('city', TextType::class, array(
+                    'required' => false,
                     'label' => 'Gouvernaurat'
                 ));
     }

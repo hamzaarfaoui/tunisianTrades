@@ -269,8 +269,7 @@ class ProductsController extends Controller
             );
             $product->setImage($fileName);
         }
-        if($request->get('datedebut') && $request->get('datefin') && $request->get('fixe')){
-            $promotion = null;
+        if($request->get('datedeb') && $request->get('datefin') && $request->get('fixe')){
             if($request->get('promotion')){
                 $promotion = $dm->getRepository('App:Promotions')->find($request->get('promotion'));
             }else{

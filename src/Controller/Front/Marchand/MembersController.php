@@ -60,6 +60,7 @@ class MembersController extends Controller
             $users_email [] = $user->getEmail();
         }
         if ($form->isSubmitted() && $form->isValid()) {
+            $member->setEnabled(1);
             if(in_array($form['username']->getData(), $users_username, true)){
                 $request->getSession()->getFlashBag()->add('danger', "Le username ".$form['username']->getData()." est déja utilisé");
                 return $this->redirectToRoute('marchand_members_new');
@@ -114,7 +115,20 @@ class MembersController extends Controller
     }
     
     /*
-     * Product delete
+     * Member status
+     */
+    public function memberStatus(Request $request, $id)
+    {
+        $dm = $this->get('doctrine_mongodb')->getManager();
+        $member = $dm->getRepository('App:User')->find($id);
+        $member->isEnabled() == 1?$member->setEnabled(0):$member->setEnabled(1);
+        $dm->persist($member);
+        $dm->flush();
+        return new JsonResponse(array('Status'=>'OK', 'message' => $member->isEnabled() == 1?'Membre Activé':'Membre Désactivé'));
+    }
+    
+    /*
+     * Member delete
      */
     public function deleteMember(Request $request, $id)
     {

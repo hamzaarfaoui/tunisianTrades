@@ -54,8 +54,8 @@ security:
         - { path: ^/dash/login_check$, role: IS_AUTHENTICATED_ANONYMOUSLY } 
         - { path: ^/dash/, role: ROLE_ADMIN }
         - { path: ^/dash, role: ROLE_ADMIN }
-        - { path: ^/marchand/, role: ROLE_MARCHAND }
-        - { path: ^/marchand, role: ROLE_MARCHAND }
+        - { path: ^/marchand/, roles: [ROLE_MARCHAND, ROLE_MEMBER_STORE] }
+        - { path: ^/marchand, roles: [ROLE_MARCHAND, ROLE_MEMBER_STORE] }
         - { path: ^/client/, role: ROLE_CLIENT }
         - { path: ^/client, role: ROLE_CLIENT }
         

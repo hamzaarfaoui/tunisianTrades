@@ -70,6 +70,7 @@ class PromotionsController extends Controller
         $dm = $this->get('doctrine_mongodb')->getManager();
         $promotion = $dm->getRepository('App:Promotions')->find($id);
         $product = $promotion->getProduct();
+        $product->setPricePromotion(null);
         $dm->remove($promotion);
         $dm->flush();
         $request->getSession()->getFlashBag()->add('success', "La promotion du produit ".$product->getName()." est supprimé");

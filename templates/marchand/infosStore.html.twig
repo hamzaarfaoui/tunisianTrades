@@ -46,20 +46,42 @@
                     </ul>
                     <!-- END PAGE BREADCRUMB -->
                     <!-- BEGIN PAGE CONTENT INNER -->
-                    {{ form_start(form) }}
+                    <div class="row">
+                        <div class="col-md-12">
+                            {% for label, messages in app.flashes %}
+                                {% for message in messages %}
+                                    <div class="alert alert-dismissible alert-{{ label }}">
+                                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                        {{ message }}
+                                    </div>
+                                    <br><br>
+                                {% endfor %}
+                            {% endfor %}
+                        </div>
+                    </div>
                     <div class="row margin-top-10">
-                        <div class="col-md-6 col-sm-12">
-                            <!-- BEGIN PORTLET-->
-                            <div class="form-group">
-                                <span class="text-uppercase">{{form_label(form.name)}}</span>
-                                {{ form_widget(form.name, { 'attr': {'class': 'form-control' , 'placeholder':'Prenom', 'required':true} }) }}<br>
-                            </div>
-                            <div class="form-group">
-                                <span class="text-uppercase">{{form_label(form.description)}}</span>
-                                {{ form_widget(form.description, { 'attr': {'class': 'form-control' , 'placeholder':'Prenom', 'required':true} }) }}<br>
-                            </div>
+                        <div class="col-md-12 col-sm-12">
+                            {{ form_start(form) }}
+                                <!-- BEGIN PORTLET-->
+                                <div class="form-group">
+                                    <span class="text-uppercase">{{form_label(form.name)}}</span>
+                                    {{ form_widget(form.name, { 'attr': {'class': 'form-control' , 'placeholder':'Prenom', 'required':true} }) }}<br>
+                                </div>
+                                <div class="form-group">
+                                    <span class="text-uppercase">{{form_label(form.description)}}</span>
+                                    {{ form_widget(form.description, { 'attr': {'class': 'form-control' , 'placeholder':'Prenom', 'required':true, 'rows': '7'} }) }}<br>
+                                </div>
+                                <br>
+                                <div class="text-right">
+                                    <button type="submit" class="btn btn-primary btn-sm">Enregistrer</button>
+                                </div>
+                            {{ form_end(form) }}
                             <!-- END PORTLET-->
                         </div>
+                    </div>
+                            <hr>
+                    <div class="row">
+                        
                         <div class="col-md-6 col-sm-12">
                             <!-- BEGIN PORTLET-->
                             <b>Adresses :</b>
@@ -124,6 +146,10 @@
                                     </div>
                                 {% endfor %}
                             </div>
+                            <!-- END PORTLET-->
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <!-- BEGIN PORTLET-->
                             <b>Télephones :</b>
                             <div class="text-right">
                             <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#addPhoneModal"><i class="fa fa-plus"></i></button>
@@ -185,7 +211,6 @@
                             <!-- END PORTLET-->
                         </div>
                     </div>
-                    {{ form_end(form) }}
                     <!-- END PAGE CONTENT INNER -->
                 </div>
             </div>

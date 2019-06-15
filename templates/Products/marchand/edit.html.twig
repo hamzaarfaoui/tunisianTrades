@@ -45,7 +45,7 @@
                             <a href="{{ path('marchand_homepage') }}">Tableau de bord</a><i class="fa fa-circle"></i>
                         </li>
                         <li class="active">
-                            Nouveau produit
+                            {{product.name}}
                             <input type="hidden" class="redirect-url" value="{{ path('marchand_stores_details',{id:product.store.id} ) }}">
                         </li>
                     </ul>

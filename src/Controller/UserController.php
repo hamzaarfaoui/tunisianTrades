@@ -22,7 +22,11 @@ class UserController extends Controller
     public function marchand()
     {
         $dm = $this->get('doctrine_mongodb')->getManager();
-        $marchand = $dm->getRepository('App:Marchands')->findOneBy(array('user' => $this->getUser()));
+        if(in_array('ROLE_MARCHAND', $this->getUser()->getRoles(), true)){
+            $marchand = $dm->getRepository('App:Marchands')->findOneBy(array('user' => $this->getUser()));
+        }else{
+            $marchand = $dm->getRepository('App:Marchands')->findOneBy(array('user' => $this->getUser()->getOwner()));
+        }
         $store = $dm->getRepository('App:Stores')->findOneBy(array('marchand' => $marchand));
         return $this->render('user/espaces/marchand.html.twig',array('store' => $store));
     }
