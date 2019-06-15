@@ -281,7 +281,7 @@ class ProductsController extends Controller
             $promotion->setDebut(new \DateTime(''.$request->get('datedebut').''));
             $promotion->setFin(new \DateTime(''.$request->get('datefin').''));
             $promotion->setFixe($request->get('fixe'));
-            $promotion->setCreatedAt(new \DateTime('now'));
+            $promotion->setUpdatedAt(new \DateTime('now'));
             $product->setPricePromotion($request->get('fixe'));
             $dm->persist($promotion);
         }

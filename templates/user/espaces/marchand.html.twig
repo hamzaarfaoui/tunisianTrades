@@ -45,6 +45,13 @@
                         'App\\Controller\\Front\\Marchand\\ProductsController::listeInDash',
                          {'id':store.id}
                     )) }}
+                    <div class="portlet light ">
+                        <div class="portlet-body">
+                            <div class="text-center">
+                                <a href="{{ path('marchand_product_index', {id:store.id}) }}" class="btn btn-lg btn-primary" style="width: 30%">Produits</a>
+                            </div>
+                        </div>
+                    </div>
                     <!-- END PORTLET-->
                 </div>
             </div>

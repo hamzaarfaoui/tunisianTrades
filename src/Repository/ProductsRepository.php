@@ -27,7 +27,7 @@ class ProductsRepository extends DocumentRepository
                 ->field('store')->equals($store)
                 ->sort('nbrView', 'desc')
                 ->field('nbrView')->gt(0)
-                ->limit(5);
+                ->limit(6);
         return $qb->getQuery()->execute();
     }
     
@@ -37,7 +37,7 @@ class ProductsRepository extends DocumentRepository
                 ->field('store')->equals($store)
                 ->sort('nbrAddToCart', 'desc')
                 ->field('nbrAddToCart')->gt(0)
-                ->limit(5);
+                ->limit(6);
         return $qb->getQuery()->execute();
     }
     
@@ -47,7 +47,7 @@ class ProductsRepository extends DocumentRepository
                 ->field('store')->equals($store)
                 ->sort('nbrAddToFavorite', 'desc')
                 ->field('nbrAddToFavorite')->gt(0)
-                ->limit(5);
+                ->limit(6);
         return $qb->getQuery()->execute();
     }
 }
