@@ -4,7 +4,11 @@ index_page:
     
 product_by_category:
     path: /{id}/categorie/{title}
-    controller: App\Controller\Front\FrontController::productByCategory   
+    controller: App\Controller\Front\FrontController::productByCategory 
+    
+tri_product:
+    path: /tri_product
+    controller: App\Controller\Front\ProductController::triAction    
     
 search_result:
     path: /result

@@ -260,7 +260,7 @@ class ProductsController extends Controller
             }
         }
         /*end medias Images document*/
-        if (isset($_FILES["iconeC"]) && empty($_FILES["iconeC"])) {
+        if (isset($_FILES["iconeC"]) && !empty($_FILES["iconeC"])) {
             $file = $_FILES["iconeC"]["name"];
             $File_Ext = substr($file, strrpos($file, '.'));
             $fileName = md5(uniqid()) . $File_Ext;

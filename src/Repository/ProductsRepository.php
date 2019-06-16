@@ -50,4 +50,46 @@ class ProductsRepository extends DocumentRepository
                 ->limit(6);
         return $qb->getQuery()->execute();
     }
+    
+    public function byCategorie($params)
+    {
+        $qb = $this->createQueryBuilder('Products');
+                
+        $qb = $this->addFilters($qb, $params);
+        return $qb->getQuery()->execute();
+    }
+    
+    private function addFilters($qb, array $params = [])
+    {
+        if(!empty($params['tri'])){
+            if ($params['tri'] == 0){
+            $qb->sort('price', 'desc');
+            }elseif ($params['tri'] == 1){
+            $qb->sort('price', 'asc');
+            }else{
+            $qb->sort('nbrView', 'desc');
+            }
+        }
+//        if (!empty($params['valeurs'])){
+//            $qb->field('valeurs.id')->in($params['valeurs']);
+//                    
+//        }
+        
+       return $qb;
+    }
+
+    
+//    public function byPriceAsc()
+//    {
+//        $qb = $this->createQueryBuilder('Products')
+//                ->sort('price', 'asc');
+//        return $qb->getQuery()->execute();
+//    }
+//    
+//    public function byPulaires()
+//    {
+//        $qb = $this->createQueryBuilder('Products')
+//                ->sort('nbrView', 'desc');
+//        return $qb->getQuery()->execute();
+//    }
 }

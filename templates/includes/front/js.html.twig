@@ -1,8 +1,8 @@
 <script>
-window.onscroll = function() {myFunction()};
+{#window.onscroll = function() {myFunction()};
 
 var header = document.getElementById("header");
-var logo = document.querySelector(".header-logo");
+var logo = document.querySelector(".img-logo");
 var search = document.querySelector(".search-input");
 var sticky = header.offsetTop;
 var categories = document.querySelector(".categories");
@@ -10,7 +10,12 @@ var categories = document.querySelector(".categories");
 function myFunction() {
   if (window.pageYOffset > sticky) {
     header.classList.add("sticky");
-    header.style.padding = "0px 1px 1px 0px";
+    search.style.heigth = "10px";
+    logo.style.height = "37px";
+    logo.style.width = "50%";
+    search.style.height= "36px";
+    document.querySelector(".categories").height ="34px";
+            header.style.padding = "0px 1px 1px 0px";
     //logo.style.display = "none";
     //categories.style.display = "inline-block";
     /*logo.classList.add("hide-logo");
@@ -23,7 +28,8 @@ function myFunction() {
     categories.style.display = "block";*/
   } else {
       header.classList.remove("sticky");
-      header.style.padding = "0px 15px 15px 0px";
+      
+      
       logo.style.display = "inline-block";
       //categories.style.display = "none";
      /* imgLogo.classList.remove("hide-img-logo");
@@ -35,7 +41,7 @@ function myFunction() {
     search.classList.add("le-search");
     categories.style.display = "none";*/
   }
-}
+}#}
 </script>
 <!-- jQuery Plugins -->
 <script src="{{ asset('e-shop/js/jquery.min.js') }}"></script>

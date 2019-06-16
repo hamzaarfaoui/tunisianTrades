@@ -229,9 +229,9 @@
                                     <div class="product product-single">
                                     <div class="product-thumb">
                                         <div class="product-label">
-                                            {% set today = "now"|date("d/m/Y") %}
+                                            {#{% set today = "now"|date("d/m/Y") %}
                                             {% set difference = date(today).diff(date(product.createdAt|date('d/m/Y'))) %}
-                                            {{difference.days < 7?'<span>New </span>':''}}
+                                            {{difference.days < 7?'<span>New </span>':''}}#}
                                             {% if(product.pricePromotion != null) %}
                                                 <span class="sale">
                                                     {% set difference = product.price - product.pricePromotion %}
