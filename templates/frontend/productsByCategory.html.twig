@@ -170,7 +170,38 @@
 {% endblock %}
 {% block javascripts %}
     <script>
-        $('.valeur').change(function(){
+            var categorie =$('#categorieId').val();
+            var caracteristiques = [];
+            $('.valeur').change(function(){
+                var myVal = $(this).val();
+                if($(this).prop("checked")){
+                    caracteristiques.push($(this).val());
+                }else{
+                   caracteristiques = caracteristiques.filter(function(elem){
+                        return elem != myVal; 
+                     });
+                }
+                $.ajax({
+                    url: '{{ path('tri_product') }}',
+                    data: {caracteristiques:caracteristiques, categorie:categorie},
+                    method: "POST",
+                    error: function (data) {
+                        console.log('Erreur de trier les produit');
+                    },
+                    success: function (data) {
+                        console.log(data['nbr']);
+                        {#console.log('caracteristique');
+                        console.log($(this).data('valeur'));
+                        #}
+                        console.log(data['ca']);
+                        $('#store').html(data['products']);
+                        //setTimeout(function(){ $('#msg-alert').html('<div class="alert alert-success">'+data['message']+'</div><br><br>'); }, 3000);
+                    }
+                });
+                console.log(caracteristiques);
+            });
+        //////
+        $('.vadszdqleur').change(function(){
             var valeur = $('.filter-product').val();
                 var categorie =$('#categorieId').val();
                 var caracteristiques = [];

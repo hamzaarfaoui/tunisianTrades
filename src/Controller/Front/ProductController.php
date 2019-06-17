@@ -58,6 +58,7 @@ class ProductController extends Controller
             }
             
         }
+        if(count($products_list)==0){$products_list=$products;}
 //        if($request->get('valeur')==0){
 //            $products = $dm->getRepository('App:Products')->byPriceDesc($query);
 //        }elseif($request->get('valeur')==1){
