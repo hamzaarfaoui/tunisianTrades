@@ -60,9 +60,9 @@
                                 <span class="text-uppercase">Trier par :</span>
                                 <select class="input filter-product" style="width: 236px;">
                                     <option>Sélectionner</option>
-                                    <option value="0">De plus cher au moins cher</option>
-                                    <option value="1">De moins cher au plus cher</option>
-                                    <option value="2">Plus populaires</option>
+                                    <option value="1">De plus cher au moins cher</option>
+                                    <option value="2">De moins cher au plus cher</option>
+                                    <option value="3">Plus populaires</option>
                                 </select>
                             </div>
                         </div>
@@ -141,9 +141,9 @@
                                 <span class="text-uppercase">Trier par :</span>
                                 <select class="input filter-product" style="width: 236px;">
                                     <option>Sélectionner</option>
-                                    <option value="0">De plus cher au moins cher</option>
-                                    <option value="1">De moins cher au plus cher</option>
-                                    <option value="2">Plus populaires</option>
+                                    <option value="1">De plus cher au moins cher</option>
+                                    <option value="2">De moins cher au plus cher</option>
+                                    <option value="3">Plus populaires</option>
                                 </select>
                             </div>
                         </div>
@@ -169,89 +169,51 @@
     <!-- /section -->
 {% endblock %}
 {% block javascripts %}
+    <script src="https://unpkg.com/nouislider@10.0.0/distribute/nouislider.min.js"></script>
+<script src="https://unpkg.com/wnumb@1.1.0"></script>
+<link rel="stylesheet" href="https://unpkg.com/nouislider@10.0.0/distribute/nouislider.min.css">
     <script>
+        ///filter by range price
+    // PRICE SLIDER
+    var dollarPrefixFormat = wNumb({prefix: 'TND', decimals: 0})
+  var slider = document.getElementById('price-slider');
+  if (slider) {
+    noUiSlider.create(slider, {
+      start: [{{min-2}}, {{max+2}}],
+      connect: true,
+      tooltips: [dollarPrefixFormat, dollarPrefixFormat],
+      pips: {
+            mode: 'steps',
+            density: 5,
+            format: dollarPrefixFormat
+        },
+      range: {
+        'min': {{min - 2}},
+        'max': {{max+ 2}}
+      }
+    });
+  }
+    slider.noUiSlider.on('set', function( values, handle ) {
+            var min = values[0];
+            var max = values[1];
             var categorie =$('#categorieId').val();
-            var caracteristiques = [];
-            $('.valeur').change(function(){
-                var myVal = $(this).val();
-                if($(this).prop("checked")){
-                    caracteristiques.push($(this).val());
-                }else{
-                   caracteristiques = caracteristiques.filter(function(elem){
-                        return elem != myVal; 
-                     });
-                }
-                $.ajax({
-                    url: '{{ path('tri_product') }}',
-                    data: {caracteristiques:caracteristiques, categorie:categorie},
-                    method: "POST",
-                    error: function (data) {
-                        console.log('Erreur de trier les produit');
-                    },
-                    success: function (data) {
-                        console.log(data['nbr']);
-                        {#console.log('caracteristique');
-                        console.log($(this).data('valeur'));
-                        #}
-                        console.log(data['ca']);
-                        $('#store').html(data['products']);
-                        //setTimeout(function(){ $('#msg-alert').html('<div class="alert alert-success">'+data['message']+'</div><br><br>'); }, 3000);
-                    }
-                });
-                console.log(caracteristiques);
-            });
-        //////
-        $('.vadszdqleur').change(function(){
-            var valeur = $('.filter-product').val();
-                var categorie =$('#categorieId').val();
-                var caracteristiques = [];
-                if($(this).prop("checked")){
-                    caracteristiques.push($(this).val());
-                }else{
-                    caracteristiques.pop($(this).val());
-                }
-                
-                $.ajax({
-                    url: '{{ path('tri_product') }}',
-                    data: {valeur:valeur,caracteristiques:caracteristiques, categorie:categorie},
-                    method: "POST",
-                    error: function (data) {
-                        console.log('Erreur de trier les produit');
-                    },
-                    success: function (data) {
-                        console.log(data['nbr']);
-                        {#console.log('caracteristique');
-                        console.log($(this).data('valeur'));
-                        console.log('tri');
-                        console.log(valeur);#}
-                        console.log(data['ca']);
-                        $('#store').html(data['products']);
-                        //setTimeout(function(){ $('#msg-alert').html('<div class="alert alert-success">'+data['message']+'</div><br><br>'); }, 3000);
-                    }
-                });
-            });
-        $('.filter-product').change(function(){
-            var caracteristiques = [];
-            var valeur = $(this).val();
-            var categorie =$('#categorieId').val();
-            $('input[type="checkbox"]').each(function() {
-                if($(this).prop("checked")){
-                    caracteristiques.push($(this).val());
-                }
-            });
-            $.ajax({
-                url: '{{ path('tri_product') }}',
-                data: {valeur:valeur, categorie:categorie, caracteristiques:caracteristiques},
-                method: "POST",
-                error: function (data) {
-                    console.log('Erreur de trier les produit');
-                },
-                success: function (data) {
-                    console.log(data['ca']);
-                    $('#store').html(data['products']);
-                    //setTimeout(function(){ $('#msg-alert').html('<div class="alert alert-success">'+data['message']+'</div><br><br>'); }, 3000);
-                }
-            });
+        $.ajax({
+            url: '{{ path('tri_product') }}',
+            data: {min:min, max:max, categorie:categorie},
+            method: "POST",
+            error: function (data) {
+                console.log('Erreur de trier les produit');
+            },
+            beforeSend:function(){
+                $('#store').html('<div class=text-center><div class="loader"></div></div>');
+            }
+            ,
+            success: function (data) {
+                console.log(data['range']);
+                $('#store').html(data['products']);
+                //setTimeout(function(){ $('#msg-alert').html('<div class="alert alert-success">'+data['message']+'</div><br><br>'); }, 3000);
+            }
         });
+    });
     </script>
 {% endblock %}

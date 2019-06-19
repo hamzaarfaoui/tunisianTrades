@@ -55,25 +55,34 @@ class ProductsRepository extends DocumentRepository
     {
         $qb = $this->createQueryBuilder('Products');
                 
-        $qb = $this->addFilters($qb, $params);
+        if ((isset($params['minimum']) && !empty($params['minimum'])) && (isset($params['minimum'])&&!empty($params['minimum']))){
+            $qb->field('price')->range($params['minimum'],$params['maximum']);
+        }
+        if(isset($params['tri'])&&!empty($params['tri'])){
+            if ($params['tri'] == 1){
+                $qb->sort('price', 'DESC');
+            }elseif ($params['tri'] == 2){
+                $qb->sort('price', 'ASC');
+            }elseif ($params['tri'] == 3){
+                $qb->sort('nbrView', 'DESC');
+            }
+        }
         return $qb->getQuery()->execute();
     }
     
-    private function addFilters($qb, array $params = [])
+    private function addFilters($qb, $params)
     {
+        
         if(!empty($params['tri'])){
-            if ($params['tri'] == 0){
-            $qb->sort('price', 'desc');
-            }elseif ($params['tri'] == 1){
-            $qb->sort('price', 'asc');
-            }else{
-            $qb->sort('nbrView', 'desc');
+            if ($params['tri'] == 1){
+                $qb->sort('price', 'DESC');
+            }elseif ($params['tri'] == 2){
+                $qb->sort('price', 'ASC');
+            }elseif ($params['tri'] == 3){
+                $qb->sort('nbrView', 'DESC');
             }
         }
-//        if (!empty($params['valeurs'])){
-//            $qb->field('valeurs.id')->in($params['valeurs']);
-//                    
-//        }
+        
         
        return $qb;
     }

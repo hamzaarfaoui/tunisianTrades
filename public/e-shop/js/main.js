@@ -67,26 +67,6 @@
   // PRODUCT ZOOM
   $('#product-main-view .product-view').zoom();
 
-  // PRICE SLIDER
-  var slider = document.getElementById('price-slider');
-  if (slider) {
-    noUiSlider.create(slider, {
-      start: [1, 999],
-      connect: true,
-      tooltips: [true, true],
-      format: {
-        to: function(value) {
-          return value.toFixed(2) + 'TND';
-        },
-        from: function(value) {
-          return value
-        }
-      },
-      range: {
-        'min': 1,
-        'max': 1000
-      }
-    });
-  }
+  
 
 })(jQuery);

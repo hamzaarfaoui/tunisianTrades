@@ -5,6 +5,8 @@
         <group>
             <file>file:/var/www/html/tunisianTrades/src/Repository/ProductsRepository.php</file>
             <file>file:/var/www/html/tunisianTrades/templates/frontend/productsByCategory.html.twig</file>
+            <file>file:/var/www/html/tunisianTrades/src/Document/Products.php</file>
+            <file>file:/var/www/html/tunisianTrades/src/Controller/Front/FrontController.php</file>
             <file>file:/var/www/html/tunisianTrades/src/Controller/Front/ProductController.php</file>
         </group>
     </open-files>

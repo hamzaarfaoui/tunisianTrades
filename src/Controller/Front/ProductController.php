@@ -33,17 +33,16 @@ class ProductController extends Controller
                 $caracteristiques[] = $valeur->getId();
             }
         }
-        
-        
-
         $categorie = $dm->getRepository('App:SousCategories')->find($request->get('categorie'));
-        
         $query['categorie'] = $categorie;
+        $query['minimum'] = intval($request->get('min'));
+        $query['maximum'] = intval($request->get('max'));
         $query['tri'] = $request->get('valeur');
         if (count($caracteristiques) >= 1) {$query['valeurs'] = $caracteristiques;}
         $products = $dm->getRepository('App:Products')->byCategorie($query);
         $products_list = array();
         foreach ($products as $product){
+            
             $valeurs_id = array();
             foreach ($product->getValeurs() as $v){
                 $valeurs_id[] = $v->getId();
@@ -54,23 +53,15 @@ class ProductController extends Controller
                         $products_list[] = $product;
                     }
                 }
-                
             }
-            
         }
+        
         if(count($products_list)==0){$products_list=$products;}
-//        if($request->get('valeur')==0){
-//            $products = $dm->getRepository('App:Products')->byPriceDesc($query);
-//        }elseif($request->get('valeur')==1){
-//            $products = $dm->getRepository('App:Products')->byPriceAsc($query);
-//        }else{
-//            $products = $dm->getRepository('App:Products')->byPulaires($query);
-//        }
         
         return new JsonResponse(array(
             'status' => 'OK',
-            'c' => $query,
-            'ca' => $valeurs_id,
+            'range' => '('.intval($query['minimum']).') --- ('.intval($query['maximum']).') : '. count($products_list).' produits',
+            'c' => $query['tri'],
             'nbr' => count($products_list),
             'message' => 'Tout est bon',
             'products' => $this->renderView('frontend/partials/triProduct.html.twig', array('products' => $products_list))
