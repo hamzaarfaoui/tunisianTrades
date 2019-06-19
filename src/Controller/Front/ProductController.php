@@ -27,10 +27,17 @@ class ProductController extends Controller
         $dm = $this->get('doctrine_mongodb')->getManager();
         $query = array();
         $caracteristiques = [];
+        $marques = [];
         if(!empty($request->get('caracteristiques'))){
             foreach ($request->get('caracteristiques') as $item){
                 $valeur = $dm->getRepository('App:Valeurs')->find($item);
                 $caracteristiques[] = $valeur->getId();
+            }
+        }
+        if(!empty($request->get('marques'))){
+            foreach ($request->get('marques') as $item){
+                $marque = $dm->getRepository('App:Marques')->find($item);
+                $marques[] = $marque;
             }
         }
         $categorie = $dm->getRepository('App:SousCategories')->find($request->get('categorie'));
@@ -50,6 +57,17 @@ class ProductController extends Controller
             if($product->getSousCategorie()->getId() == $categorie->getId()){
                 foreach ($caracteristiques as $caracteristique){
                     if(in_array($caracteristique, $valeurs_id)){
+                        $products_list[] = $product;
+                    }
+                }
+            }
+        }
+        foreach ($products as $product){
+            
+            
+            if($product->getSousCategorie()->getId() == $categorie->getId()){
+                if(in_array($product->getMarque(), $marques)){
+                    if(!in_array($product, $products_list)){
                         $products_list[] = $product;
                     }
                 }

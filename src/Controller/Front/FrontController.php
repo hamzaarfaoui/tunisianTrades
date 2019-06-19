@@ -45,6 +45,7 @@ class FrontController extends Controller
         $dm = $this->get('doctrine_mongodb')->getManager();
         $categorie = $dm->getRepository('App:SousCategories')->find($id);
         $products = $dm->getRepository('App:Products')->findBy(array('sousCategorie' => $categorie));
+        $marques = $dm->getRepository('App:Marques')->findBy(array('sousCategorie' => $categorie));
         $products_price = array();
         foreach ($products as $product) {
             $products_price[] = $product->getPrice();
@@ -54,6 +55,7 @@ class FrontController extends Controller
         return $this->render('frontend/productsByCategory.html.twig', array(
             'products' => $products,
             'categorie' => $categorie,
+            'marques' => $marques,
             'min' => $min,
             'max'=>$max
         ));

@@ -36,15 +36,26 @@
                     {% for caracteristique in categorie.caracteristiques %}
                     <!-- aside widget -->
                     <div class="aside">
+                        <h5>Marques</h5>
+                        <ul>
+                            {% for marque in marques %}
+                                <li>
+                                    <input id="marque{{marque.id}}" name="marque" class="marque" type="checkbox" value="{{marque.id}}" data-valeur="{{marque.name}}">
+                                    <label for="marque{{marque.id}}"> {{marque.name}}</label>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                        <hr>
                         <h5>{{ caracteristique.name }}</h5>
                         <ul>
                             {% for valeur in caracteristique.valeurs %}
                                 <li>
-                                    <input id="valeur{{valeur.id}}" class="valeur" type="checkbox" value="{{valeur.id}}" data-valeur="{{valeur.name}}">
+                                    <input id="valeur{{valeur.id}}" name="valeur" class="valeur" type="checkbox" value="{{valeur.id}}" data-valeur="{{valeur.name}}">
                                     <label for="valeur{{valeur.id}}"> {{valeur.name}}</label>
                                 </li>
                             {% endfor %}
                         </ul>
+                        
                     </div>
                     <!-- /aside widget -->
                     {% endfor %}
