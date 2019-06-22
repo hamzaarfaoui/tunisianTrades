@@ -1,6 +1,54 @@
 {% extends "base.html.twig" %}
 {% block title %}{{ product.name }}{% endblock %}
-{% block stylesheets %}{% endblock %}
+{% block stylesheets %}
+    <style>
+        .img-left-bottom {
+            position: absolute;
+            bottom: -20px;
+            left: 34px;
+          }
+        .price-skew {
+            padding-left: 30px;
+            padding-right: 30px;
+    height: 61px;
+    font-size: 28px;
+    font-weight: bold;
+  line-height: 60px;
+  color: #fff;
+  color: #424242;
+  font-family: arial;
+  background: #fdd835;
+  text-align: center;
+  position: relative;
+}
+
+.span-price {
+  display: inline-block;
+  width: 50px;
+  height: 100%;
+  transform: skew(20deg);
+  -webkit-transform: skew(20deg);
+  background: #fdd835;
+  position: absolute;
+  left: -25px;
+  top: 0;
+}
+.span-price::before,
+.span-price::after {
+  content: "";
+  width: 4px;
+  height: 100%;
+  background: #fdd835;
+  position: absolute;
+  top: 0;
+  left: -8px;
+}
+.span-price::after {
+  left: -16px
+}
+          
+    </style>
+{% endblock %}
 {% block body %}
     <!-- NAVIGATION -->
     <div id="navigation">
@@ -20,10 +68,8 @@
     <div id="breadcrumb">
         <div class="container">
             <ul class="breadcrumb">
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Products</a></li>
-                <li><a href="#">Category</a></li>
-                <li class="active">Product Name Goes Here</li>
+                <li><a href="#">Acceuil</a></li>
+                <li class="active">{{product.name}}</li>
             </ul>
         </div>
     </div>
@@ -37,7 +83,7 @@
             <div class="row">
                 <!--  Product Details -->
                 <div class="product product-details clearfix">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div id="product-main-view">
                             <div class="product-view">
                                 <img style="height: 400px;" src="{{ asset('uploads/products/images/') }}{{ product.image }}" alt="">
@@ -59,8 +105,15 @@
                             {% endfor %}
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-8">
                         <div class="product-body">
+                            <div class="pull-right">
+                            {% if(product.pricePromotion != null) %}
+                                <div class="product-price price-skew">{{product.pricePromotion}} TND<span class="span-price"></span><del class="product-old-price">  {{product.price}} TND</del></div>
+                            {% else %}
+                                <div class="product-price price-skew"><span>{{product.price}} TND</span><span class="span-price"></span></div>
+                            {% endif %}
+                            </div><br>
                             <div class="product-label">
                                 {#{% set today = "now"|date("d/m/Y") %}
                                 {% set difference = date(today).diff(date(product.createdAt|date('d/m/Y'))) %}
@@ -73,12 +126,18 @@
                                     </span>
                                 {% endif %}
                             </div>
-                            <h2 class="product-name">{{ product.name }}</h2>
-                            {% if(product.pricePromotion != null) %}
-                                <h3 class="product-price">{{product.pricePromotion}} TND<del class="product-old-price">  {{product.price}} TND</del></h3>
-                            {% else %}
-                                <h3 class="product-price">{{product.price}} TND</h3>
-                            {% endif %}{#
+                            <h1 class="product-name">{{ product.name }}</h1>
+                            <div class="product-btns">
+                                
+                                <div class="pull-right">
+                                    <button class="primary-btn add-to-cart" data-id="{{product.id}}"><i class="fa fa-shopping-cart"></i> Ajouter au panier</button>
+                                    {% if is_granted('AUTHENTIFICATED_FULLY') %}
+                                        <button class="main-btn icon-btn add-to-favoris" data-id="{{product.id}}" title="Ajouter à mes favoris"><i class="fa fa-heart"></i></button>
+                                    {% endif %}
+                                </div>
+                            </div>
+                                    <br><br>
+                            {#
                             <div>
                                 <div class="product-rating">
                                     <i class="fa fa-star"></i>
@@ -91,33 +150,38 @@
                             </div>#}
                             <p><strong>Disponibilité :</strong> 
                             {% if(product.qte>0) %}
-                                <span class="badge badge-error" style="background-color: #69f0ae;">En stock ({{product.qte}})</span>
+                                <span class="badge badge-error" style="background-color: #00c853;font-size: 16px;">En stock ({{product.qte}})</span>
                             {% else %}
                                 <span class="badge badge-error" style="background-color: #f44336;">Faible</span>
                             {% endif %}
                             </p>
-                            <p><strong>Boutique : </strong> {{ product.store.name }}</p>
-                            <p>{{ product.content }}</p>
                             <div class="product-options">
-                                {% for option in product.valeurs %}
-                                    <ul class="size-option">
-                                        <li><span class="text-uppercase">{{ option.caracteristique.name }}:</span></li>
-                                        <li class="active"><a href="#">{{ option.name }}</a></li>
-                                    </ul>
-                                {% endfor %}
-                            </div>
-
-                            <div class="product-btns">
-                                <button class="primary-btn add-to-cart" data-id="{{product.id}}"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
-                                <div class="pull-right">
-                                    <button class="main-btn icon-btn add-to-favoris" data-id="{{product.id}}"><i class="fa fa-heart"></i></button>
-                                    <button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button>
-                                    <button class="main-btn icon-btn"><i class="fa fa-share-alt"></i></button>
-                                </div>
+                            {% if product.valeurs|length>0 %}    
+                                <strong>Caractéristiques :</strong>
+                                    {% for option in product.valeurs %}
+                                        <ul class="size-option">
+                                            <li><span class="text-uppercase"> - {{ option.caracteristique.name }}:</span></li>
+                                            <li class="active"><a href="#">{{ option.name }}</a></li>
+                                        </ul>
+                                    {% endfor %}
+                                </div><br>
+                            {% endif %}
+                            {% if product.content %}
+                                <strong>Autres détails :</strong>
+                                <p>{{ product.content }}</p>
+                            {% endif %}
+                            <hr>
+                            
+                            <strong>Vendeur :</strong>
+                            <div class="text-center">
+                                <a href="{{ path('product_by_store', {id:product.store.id}) }}">
+                                    <img src="{{ asset('/uploads/shops/logos/') }}{{ product.store.logo }}" style="height: 120px;width: 120px;border-radius: 50%;border: 6px solid #fff;">
+                                    <h1>{{product.store.name}}</h1>
+                                </a>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-12">
+                    {#<div class="col-md-12">
                         <div class="product-tab">
                             <ul class="tab-nav">
                                 <li class="active"><a data-toggle="tab" href="#tab1">Description</a></li>
@@ -125,11 +189,11 @@
                             </ul>
                             <div class="tab-content">
                                 <div id="tab1" class="tab-pane fade in active">
-                                    <p>{{ product.content }}.</p>
+                                    
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div>#}
 
                 </div>
                 <!-- /Product Details -->

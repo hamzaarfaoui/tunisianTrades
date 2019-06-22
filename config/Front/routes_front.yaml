@@ -6,6 +6,9 @@ product_by_category:
     path: /{id}/categorie/{title}
     controller: App\Controller\Front\FrontController::productByCategory 
     
+product_by_store:
+    path: /boutique/{id}
+    controller: App\Controller\Front\FrontController::store      
 tri_product:
     path: /tri_product
     controller: App\Controller\Front\ProductController::triAction    

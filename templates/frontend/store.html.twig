@@ -1,0 +1,241 @@
+{% extends "base.html.twig" %}
+{% block title %}{{ store.name }}{% endblock %}
+{% block stylesheets %}{% endblock %}
+{% block body %}
+    <!-- NAVIGATION -->
+    {% include 'includes/front/nav.html.twig' %}
+
+    <!-- /NAVIGATION -->
+    <!-- BREADCRUMB -->
+    <div id="breadcrumb">
+        <div class="container">
+            <ul class="breadcrumb">
+                <li><a href="{{ path('index_page') }}">Sindbad</a></li>
+                <li class="active">{{ store.name }}</li>
+            </ul>
+        </div>
+    </div>
+    <!-- /BREADCRUMB -->
+    <input type="hidden" id="storeId" value="{{ store.id }}">
+
+    <!-- section -->
+    <div class="section">
+        <!-- container -->
+        <div class="container">
+            <!-- row -->
+            <div class="row">
+                <!-- ASIDE -->
+                <div id="aside" class="col-md-2">
+                    
+
+                    <!-- aside widget -->
+                    <div class="aside">
+                        <h3 class="aside-title">Prix :</h3>
+                        <div id="price-slider"></div>
+                    </div>
+                    
+                    <!-- aside widget -->
+                    <div class="aside">
+                        <h5>Catégories</h5>
+                        <ul>
+                            {% for categorie in categories %}
+                                <li>
+                                    <input id="cat{{categorie.id}}" name="cat" class="cat" type="checkbox" value="{{categorie.id}}" data-valeur="{{categorie.name}}">
+                                    <label for="cat{{categorie.id}}"> {{categorie.name}}</label>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                        <hr>
+                        <h5>Marques</h5>
+                        <ul>
+                            {% for marque in marques %}
+                                {% if marque %}
+                                    <li>
+                                        <input id="marque{{marque.id}}" name="marque" class="marque" type="checkbox" value="{{marque.id}}" data-valeur="{{marque.name}}">
+                                        <label for="marque{{marque.id}}"> {{marque.name}}</label>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                        <hr>
+                        {% for caracteristique in caracteriqtiques %}
+                            <h5>{{ caracteristique.name }}</h5>
+                            <ul>
+                                {% for valeur in caracteristique.valeurs %}
+                                    <li>
+                                        <input id="valeur{{valeur.id}}" name="valeur" class="valeur" type="checkbox" value="{{valeur.id}}" data-valeur="{{valeur.name}}">
+                                        <label for="valeur{{valeur.id}}"> {{valeur.name}}</label>
+                                    </li>
+                                {% endfor %}
+                            </ul><br>
+                        {% endfor %}
+                        
+                    </div>
+                    <!-- /aside widget -->
+                    
+                </div>
+                <!-- /ASIDE -->
+
+                <!-- MAIN -->
+                <div id="main" class="col-md-10">
+                    <!-- store top filter -->
+                    <div class="store-filter clearfix">
+                        <div class="pull-left">
+                            <div class="sort-filter">
+                                <span class="text-uppercase">Trier par :</span>
+                                <select class="input filter-product" style="width: 236px;">
+                                    <option>Sélectionner</option>
+                                    <option value="1">De plus cher au moins cher</option>
+                                    <option value="2">De moins cher au plus cher</option>
+                                    <option value="3">Plus populaires</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="pull-right">
+                            {{ knp_pagination_render(products) }}
+                        </div>
+                    </div>
+                    <!-- /store top filter -->
+
+                    <!-- STORE -->
+                    <div id="store">
+                        <!-- row -->
+                        <div class="text-center">
+                            <img src="{{ asset('/uploads/shops/logos/') }}{{ store.logo }}" style="height: 120px;width: 120px;border-radius: 50%;border: 6px solid #fff;"><br>
+                            <h1>{{store.name}}</h1>
+                            <hr>
+                        </div>
+                        <div id="list-produits">
+                            <div class="row">
+                            {% for product in products %}
+                                {% if(product.qte>0) %}
+                                <!-- Product Single -->
+                                <div class="col-md-2 col-sm-6 col-xs-6">
+                                    <div class="product product-single">
+                                    <div class="product-thumb">
+                                        <div class="product-label">
+                                            {#{% set today = "now"|date("d/m/Y") %}
+                                            {% set difference = date(today).diff(date(product.createdAt|date('d/m/Y'))) %}
+                                            {{difference.days < 7?'<span>New </span>':''}}#}
+                                            {% if(product.pricePromotion != null) %}
+                                                <span class="sale">
+                                                    {% set difference = product.price - product.pricePromotion %}
+                                                    {% set pourcentage = (difference/product.price)*100 %}
+                                                    -{{pourcentage|round}}%
+                                                </span>
+                                            {% endif %}
+                                        </div>
+                                        <a href="{{ path('product_page', {id:product.id}) }}" class="main-btn quick-view"> Détails</a>
+                                        <img src="{{ asset('uploads/products/images/') }}{{ product.image }}" alt="" style="height:150px;">
+                                    </div>
+                                    <div class="product-body">
+                                        {% if(product.pricePromotion != null) %}
+                                            <h3 class="product-price">{{product.pricePromotion}} TND<del class="product-old-price">  {{product.price}} TND</del></h3>
+                                        {% else %}
+                                            <h3 class="product-price">{{product.price}} TND</h3>
+                                        {% endif %}
+                                        {#<div class="product-rating">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-o empty"></i>
+                                        </div>#}
+                                        <h2 class="product-name"><a href="#">{{ product.name }}</a></h2>
+                                        <div class="product-btns text-center">
+                                            {% if is_granted('AUTHENTIFICATED_FULLY') %}
+                                                <button class="main-btn icon-btn add-to-favoris" data-id="{{product.id}}" title="Ajouter à mes favoris"><i class="fa fa-heart"></i></button>
+                                            {% endif %}
+                                            <!--<button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button>-->
+                                            {#<a href="{{ path('add_product_to_cart', {id:product.id}) }}" class="primary-btn add-to-cart"><i class="fa fa-plus"></i> <i class="fa fa-shopping-cart"></i> panier</a>#}
+                                            <button title="Ajouter au panier" class="primary-btn add-to-cart" data-id="{{product.id}}"><i class="fa fa-plus"></i> <i class="fa fa-shopping-cart"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                                <!-- /Product Single -->
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        </div>
+                        <!-- /row -->
+                    </div>
+                    <!-- /STORE -->
+
+                    <!-- store bottom filter -->
+                    <div class="store-filter clearfix">
+                        <div class="pull-left">
+                            <div class="sort-filter">
+                                <span class="text-uppercase">Trier par :</span>
+                                <select class="input filter-product" style="width: 236px;">
+                                    <option>Sélectionner</option>
+                                    <option value="1">De plus cher au moins cher</option>
+                                    <option value="2">De moins cher au plus cher</option>
+                                    <option value="3">Plus populaires</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="pull-right">
+                            {{ knp_pagination_render(products) }}
+                        </div>
+                    </div>
+                    <!-- /store bottom filter -->
+                </div>
+                <!-- /MAIN -->
+            </div>
+            <!-- /row -->
+        </div>
+        <!-- /container -->
+    </div>
+    <!-- /section -->
+{% endblock %}
+{% block javascripts %}
+    <script src="https://unpkg.com/nouislider@10.0.0/distribute/nouislider.min.js"></script>
+<script src="https://unpkg.com/wnumb@1.1.0"></script>
+<link rel="stylesheet" href="https://unpkg.com/nouislider@10.0.0/distribute/nouislider.min.css">
+    <script>
+        ///filter by range price
+    // PRICE SLIDER
+    var dollarPrefixFormat = wNumb({prefix: 'TND', decimals: 0})
+  var slider = document.getElementById('price-slider');
+  if (slider) {
+    noUiSlider.create(slider, {
+      start: [{{min-2}}, {{max+2}}],
+      connect: true,
+      tooltips: [dollarPrefixFormat, dollarPrefixFormat],
+      pips: {
+            mode: 'steps',
+            density: 5,
+            format: dollarPrefixFormat
+        },
+      range: {
+        'min': {{min - 2}},
+        'max': {{max+ 2}}
+      }
+    });
+  }
+    slider.noUiSlider.on('set', function( values, handle ) {
+            var min = values[0];
+            var max = values[1];
+            var categorie =$('#categorieId').val();
+            var store = $('#storeId').val();
+        $.ajax({
+            url: '{{ path('tri_product') }}',
+            data: {min:min, max:max, categorie:categorie, store:store},
+            method: "POST",
+            error: function (data) {
+                console.log('Erreur de trier les produit');
+            },
+            beforeSend:function(){
+                $('#list-produits').html('<div class=text-center><div class="loader"></div></div>');
+            }
+            ,
+            success: function (data) {
+                console.log(data['range']);
+                $('#list-produits').html(data['products']);
+                //setTimeout(function(){ $('#msg-alert').html('<div class="alert alert-success">'+data['message']+'</div><br><br>'); }, 3000);
+            }
+        });
+    });
+    </script>
+{% endblock %}

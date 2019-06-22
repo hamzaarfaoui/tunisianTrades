@@ -3,6 +3,8 @@
         var categorie =$('#categorieId').val();
         var caracteristiques = [];
         var marques = [];
+        var categories = [];
+        var store = $('#storeId').val();
         $('input[name="valeur"]').change(function(){
             var myVal = $(this).val();
             if($(this).prop("checked")){
@@ -20,7 +22,7 @@
                     console.log('Erreur de trier les produit');
                 },
                 beforeSend:function(){
-                    $('#store').html('<div class=text-center><div class="loader"></div></div>');
+                    $('#list-produits').html('<div class=text-center><div class="loader"></div></div>');
                 }
                 ,
                 success: function (data) {
@@ -28,7 +30,39 @@
                     {#console.log('caracteristique');
                     console.log($(this).data('valeur'));
                     #}
-                    $('#store').html(data['products']);
+                    $('#list-produits').html(data['products']);
+                    //setTimeout(function(){ $('#msg-alert').html('<div class="alert alert-success">'+data['message']+'</div><br><br>'); }, 3000);
+                }
+            });
+            console.log(caracteristiques);
+        });
+        
+        $('input[name="cat"]').change(function(){
+            var myVal = $(this).val();
+            if($(this).prop("checked")){
+                categories.push($(this).val());
+            }else{
+               categories = categories.filter(function(elem){
+                    return elem != myVal; 
+                 });
+            }
+            $.ajax({
+                url: '{{ path('tri_product') }}',
+                data: {caracteristiques:caracteristiques, categories:categories, store:store},
+                method: "POST",
+                error: function (data) {
+                    console.log('Erreur de trier les produit');
+                },
+                beforeSend:function(){
+                    $('#list-produits').html('<div class=text-center><div class="loader"></div></div>');
+                }
+                ,
+                success: function (data) {
+                    console.log(data['nbr']);
+                    {#console.log('caracteristique');
+                    console.log($(this).data('valeur'));
+                    #}
+                    $('#list-produits').html(data['products']);
                     //setTimeout(function(){ $('#msg-alert').html('<div class="alert alert-success">'+data['message']+'</div><br><br>'); }, 3000);
                 }
             });
@@ -39,6 +73,7 @@
         ///Filter By marque
         
         $('input[name="marque"]').change(function(){
+        
             var myVal = $(this).val();
             if($(this).prop("checked")){
                 marques.push($(this).val());
@@ -57,13 +92,13 @@
             }
             $.ajax({
                 url: '{{ path('tri_product') }}',
-                data: {caracteristiques:caracteristiques, categorie:categorie, marques:marques},
+                data: {caracteristiques:caracteristiques, categorie:categorie, marques:marques, store:store},
                 method: "POST",
                 error: function (data) {
                     console.log('Erreur de trier les produit');
                 },
                 beforeSend:function(){
-                    $('#store').html('<div class=text-center><div class="loader"></div></div>');
+                    $('#list-produits').html('<div class=text-center><div class="loader"></div></div>');
                 }
                 ,
                 success: function (data) {
@@ -71,7 +106,7 @@
                     {#console.log('caracteristique');
                     console.log($(this).data('valeur'));
                     #}
-                    $('#store').html(data['products']);
+                    $('#list-produits').html(data['products']);
                     //setTimeout(function(){ $('#msg-alert').html('<div class="alert alert-success">'+data['message']+'</div><br><br>'); }, 3000);
                 }
             });
@@ -83,6 +118,7 @@
         
     ////// Tri profuct by facteur
     $('.filter-product').change(function(){
+    
         var caracteristiques = [];
         var valeur = $(this).val();
         var categorie =$('#categorieId').val();
@@ -108,18 +144,18 @@
         });
         $.ajax({
             url: '{{ path('tri_product') }}',
-            data: {valeur:valeur, categorie:categorie, caracteristiques:caracteristiques, marques:marques},
+            data: {valeur:valeur, categorie:categorie, caracteristiques:caracteristiques, marques:marques, store:store},
             method: "POST",
             error: function (data) {
                 console.log('Erreur de trier les produit');
             },
             beforeSend:function(){
-                $('#store').html('<div class=text-center><div class="loader"></div></div>');
+                $('#list-produits').html('<div class=text-center><div class="loader"></div></div>');
             }
             ,
             success: function (data) {
                 console.log(data['c']);
-                $('#store').html(data['products']);
+                $('#list-produits').html(data['products']);
                 //setTimeout(function(){ $('#msg-alert').html('<div class="alert alert-success">'+data['message']+'</div><br><br>'); }, 3000);
             }
         });

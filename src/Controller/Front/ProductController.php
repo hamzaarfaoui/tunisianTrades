@@ -40,11 +40,19 @@ class ProductController extends Controller
                 $marques[] = $marque;
             }
         }
-        $categorie = $dm->getRepository('App:SousCategories')->find($request->get('categorie'));
-        $query['categorie'] = $categorie;
+        if(!empty($request->get('categorie'))){
+            $categorie = $dm->getRepository('App:SousCategories')->find($request->get('categorie'));
+            $query['categorie'] = $categorie->getId();
+        }elseif(!empty($request->get('categories'))){
+            $query['categories'] = $request->get('categories');
+        }
+        
         $query['minimum'] = intval($request->get('min'));
         $query['maximum'] = intval($request->get('max'));
         $query['tri'] = $request->get('valeur');
+        if(!empty($request->get('store'))){
+            $query['store'] = $request->get('store');
+        }
         if (count($caracteristiques) >= 1) {$query['valeurs'] = $caracteristiques;}
         $products = $dm->getRepository('App:Products')->byCategorie($query);
         $products_list = array();
@@ -54,7 +62,15 @@ class ProductController extends Controller
             foreach ($product->getValeurs() as $v){
                 $valeurs_id[] = $v->getId();
             }
-            if($product->getSousCategorie()->getId() == $categorie->getId()){
+            if(!empty($request->get('categorie'))){
+                if($product->getSousCategorie()->getId() == $categorie->getId()){
+                    foreach ($caracteristiques as $caracteristique){
+                        if(in_array($caracteristique, $valeurs_id)){
+                            $products_list[] = $product;
+                        }
+                    }
+                }
+            }elseif(!empty($request->get('categories'))){
                 foreach ($caracteristiques as $caracteristique){
                     if(in_array($caracteristique, $valeurs_id)){
                         $products_list[] = $product;
@@ -64,10 +80,17 @@ class ProductController extends Controller
         }
         foreach ($products as $product){
             
-            
-            if($product->getSousCategorie()->getId() == $categorie->getId()){
-                if(in_array($product->getMarque(), $marques)){
-                    if(!in_array($product, $products_list)){
+            if(!empty($request->get('categorie'))){
+                if($product->getSousCategorie()->getId() == $categorie->getId()){
+                    if(in_array($product->getMarque(), $marques)){
+                        if(!in_array($product, $products_list)){
+                            $products_list[] = $product;
+                        }
+                    }
+                }
+            }elseif(!empty($request->get('categories'))){
+                foreach ($caracteristiques as $caracteristique){
+                    if(in_array($caracteristique, $valeurs_id)){
                         $products_list[] = $product;
                     }
                 }

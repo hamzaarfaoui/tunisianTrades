@@ -123,20 +123,21 @@ class ProductsController extends Controller
         /*start medias Images document*/
         if (isset($_FILES["images"]['name']) && !empty($_FILES["images"]['name'])) {
             for ($count = 0; $count < count($_FILES["images"]["name"]); $count++) {
-                
-                $mediaImage = new MediasImages();
-                $file = $_FILES['images']['name'][$count];
-                $File_Ext = substr($file, strrpos($file, '.'));
-                $fileName = md5(uniqid()) . $File_Ext;
-                $path = $this->getParameter('images_products_img_gallery') . '/' . $fileName;
-                move_uploaded_file($_FILES['images']['tmp_name'][$count], $path);
-                $mediaImage->setName($fileName);
-                $mediaImage->setProduct($product);
-                $dm->persist($mediaImage);
+                if(isset($_FILES["images"]['name']) && !empty($_FILES['images']['name'][$count])){
+                    $mediaImage = new MediasImages();
+                    $file = $_FILES['images']['name'][$count];
+                    $File_Ext = substr($file, strrpos($file, '.'));
+                    $fileName = md5(uniqid()) . $File_Ext;
+                    $path = $this->getParameter('images_products_img_gallery') . '/' . $fileName;
+                    move_uploaded_file($_FILES['images']['tmp_name'][$count], $path);
+                    $mediaImage->setName($fileName);
+                    $mediaImage->setProduct($product);
+                    $dm->persist($mediaImage);
+                }
             }
         }
         /*end medias Images document*/
-        if (isset($_FILES["iconeC"]) && !empty($_FILES["iconeC"])) {
+        if (isset($_FILES["iconeC"]['name']) && !empty($_FILES["iconeC"]['name'])) {
             $file = $_FILES["iconeC"]["name"];
             $File_Ext = substr($file, strrpos($file, '.'));
             $fileName = md5(uniqid()) . $File_Ext;
@@ -247,20 +248,22 @@ class ProductsController extends Controller
         /*start medias Images document*/
         if (isset($_FILES["images"]['name']) && !empty($_FILES["images"]['name'])) {
             for ($count = 0; $count < count($_FILES["images"]["name"]); $count++) {
+                if(isset($_FILES["images"]['name']) && !empty($_FILES['images']['name'][$count])){
                 
-                $mediaImage = new MediasImages();
-                $file = $_FILES['images']['name'][$count];
-                $File_Ext = substr($file, strrpos($file, '.'));
-                $fileName = md5(uniqid()) . $File_Ext;
-                $path = $this->getParameter('images_products_img_gallery') . '/' . $fileName;
-                move_uploaded_file($_FILES['images']['tmp_name'][$count], $path);
-                $mediaImage->setName($fileName);
-                $mediaImage->setProduct($product);
-                $dm->persist($mediaImage);
+                    $mediaImage = new MediasImages();
+                    $file = $_FILES['images']['name'][$count];
+                    $File_Ext = substr($file, strrpos($file, '.'));
+                    $fileName = md5(uniqid()) . $File_Ext;
+                    $path = $this->getParameter('images_products_img_gallery') . '/' . $fileName;
+                    move_uploaded_file($_FILES['images']['tmp_name'][$count], $path);
+                    $mediaImage->setName($fileName);
+                    $mediaImage->setProduct($product);
+                    $dm->persist($mediaImage);
+                }
             }
         }
         /*end medias Images document*/
-        if (isset($_FILES["iconeC"]) && !empty($_FILES["iconeC"])) {
+        if (isset($_FILES["iconeC"]['name']) && !empty($_FILES["iconeC"]['name'])) {
             $file = $_FILES["iconeC"]["name"];
             $File_Ext = substr($file, strrpos($file, '.'));
             $fileName = md5(uniqid()) . $File_Ext;

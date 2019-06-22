@@ -51,6 +51,14 @@ class ProductsRepository extends DocumentRepository
         return $qb->getQuery()->execute();
     }
     
+    public function byStore($store)
+    {
+        $qb = $this->createQueryBuilder('Products')
+                ->field('store.id')->equals($store)
+                ->sort('createdAt', 'desc');
+        return $qb->getQuery()->execute();
+    }
+    
     public function byCategorie($params)
     {
         $qb = $this->createQueryBuilder('Products');
@@ -66,6 +74,15 @@ class ProductsRepository extends DocumentRepository
             }elseif ($params['tri'] == 3){
                 $qb->sort('nbrView', 'DESC');
             }
+        }
+        if(isset($params['categorie'])&&!empty($params['categorie'])){
+            $qb->field('sousCategorie.id')->equals($params['categorie']);
+        }
+        if(isset($params['store'])&&!empty($params['store'])){
+            $qb->field('store.id')->equals($params['store']);
+        }
+        if(isset($params['categories'])&&!empty($params['categories'])){
+            $qb->field('sousCategorie.id')->in($params['categories']);
         }
         return $qb->getQuery()->execute();
     }
@@ -85,6 +102,14 @@ class ProductsRepository extends DocumentRepository
         
         
        return $qb;
+    }
+    
+    public function byKeyword($keyword)
+    {
+        $qb = $this->createQueryBuilder('Products')
+                ->field('keywords.id')->in($keyword)
+                ->sort('createdAt', 'desc');
+        return $qb->getQuery()->execute();
     }
 
     

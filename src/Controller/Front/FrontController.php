@@ -40,14 +40,20 @@ class FrontController extends Controller
     /*
      * Product by category
      */
-    public function productByCategory($id)
+    public function productByCategory(Request $request, $id)
     {
         $dm = $this->get('doctrine_mongodb')->getManager();
         $categorie = $dm->getRepository('App:SousCategories')->find($id);
-        $products = $dm->getRepository('App:Products')->findBy(array('sousCategorie' => $categorie));
+        $find_products = $dm->getRepository('App:Products')->findBy(array('sousCategorie' => $categorie));
+        $paginator  = $this->get('knp_paginator');
+        $products = $paginator->paginate(
+            $find_products, /* query NOT result */
+            $request->query->get('page', 1), /*page number*/
+            20 /*limit per page*/
+        );
         $marques = $dm->getRepository('App:Marques')->findBy(array('sousCategorie' => $categorie));
         $products_price = array();
-        foreach ($products as $product) {
+        foreach ($find_products as $product) {
             $products_price[] = $product->getPrice();
         }
         $min = min($products_price);
@@ -57,7 +63,58 @@ class FrontController extends Controller
             'categorie' => $categorie,
             'marques' => $marques,
             'min' => $min,
-            'max'=>$max
+            'max'=>$max,
+        ));
+    }
+    
+    /*
+     * Store market
+     */
+    public function store(Request $request, $id)
+    {
+        $dm = $this->get('doctrine_mongodb')->getManager();
+        $store = $dm->getRepository('App:Stores')->find($id);
+        $products = $dm->getRepository('App:Products')->byStore($id);
+        $categories = array();
+        $marques = array();
+        $caracteriqtiques = array();
+        $products_price = array();
+        $result = array();
+        foreach ($products as $product){
+            if(!in_array($product->getSousCategorie(), $categories)){
+                $categories []= $product->getSousCategorie();
+            }
+            if(!in_array($product->getMarque(), $marques)){
+                $marques []= $product->getMarque();
+            }
+            $result[] = $product;
+            $products_price[] = $product->getPrice();
+            
+        }
+        foreach ($categories as $categorie){
+            foreach ($categorie->getCaracteristiques() as $c){
+                if(!in_array($c, $caracteriqtiques)){
+                    $caracteriqtiques []= $c;
+                }
+            }
+        }
+        $min = min($products_price);
+        $max = max($products_price);
+        $paginator  = $this->get('knp_paginator');
+        
+        $products_list = $paginator->paginate(
+            $result, /* query NOT result */
+            $request->query->get('page', 1), /*page number*/
+            20 /*limit per page*/
+        );
+        return $this->render('frontend/store.html.twig', array(
+            'products' => $products_list,
+            'categories' => $categories,
+            'marques' => $marques,
+            'caracteriqtiques' => $caracteriqtiques,
+            'min' => $min,
+            'max'=>$max,
+            'store' => $store
         ));
     }
     
@@ -76,13 +133,22 @@ class FrontController extends Controller
             if(count($product->getKeywords())>0){
                 foreach ($keywords as $k){
                     if(in_array($k, $keys)){
-                        $result[] = $product;
+                        if(!in_array($product, $result)){
+                            $result[] = $product;
+                        }
                     }
                 }
             }
         }
+        $paginator  = $this->get('knp_paginator');
+        $products_list = $paginator->paginate(
+            $result, /* query NOT result */
+            $request->query->get('page', 1), /*page number*/
+            20 /*limit per page*/
+        );
         return $this->render('frontend/searchResult.html.twig', array(
-            'products' => $result
+            'products' => $products_list,
+            'search' => $search
         ));
     }
     
