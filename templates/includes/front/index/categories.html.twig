@@ -1,4 +1,4 @@
-{% for categorie in sc2 %}
+{% for categorie in sc2|sortbyfield('orderInIndex') %}
     <!-- section -->
     <div class="section">
         <!-- container -->
@@ -23,7 +23,7 @@
                 <div class="col-md-12 col-sm-6 col-xs-6">
                     <div class="row">
                         <div id="product-slick-{{categorie.id}}" class="product-slick">
-                            {% for product in categorie.products %}
+                            {% for product in categorie.products|sortbyfield('position') %}
                                 {% if(product.qte>0) %}
                                 <!-- Product Single -->
                                 <div class="product product-single">
@@ -80,6 +80,40 @@
         <!-- /container -->
     </div>
     <!-- /section -->
-    
+{% if(categorie.hasBanner == 1) %}
+    <div class="section">
+        <!-- container -->
+        <div class="container">
+            <!-- row -->
+            <div class="row">
+                <!-- banner -->
+                <div class="col-md-6 col-sm-6">
+                    <a class="banner banner-1" href="#">
+                        <img src="{{asset('e-shop/img/banner10.jpg')}}" alt="" style="height: 250px;">
+                        <div class="banner-caption text-center">
+                            <h4 class="white-color">NEW COLLECTION</h4>
+                        </div>
+                    </a>
+                </div>
+                <!-- /banner -->
+
+                <!-- banner -->
+                <div class="col-md-6 col-sm-6">
+                    <a class="banner banner-1" href="#">
+                        <img src="{{asset('e-shop/img/banner11.jpg')}}" alt="" style="height: 250px;">
+                        <div class="banner-caption text-center">
+                            <h4 class="white-color">NEW COLLECTION</h4>
+                        </div>
+                    </a>
+                </div>
+                <!-- /banner -->
+
+
+            </div>
+            <!-- /row -->
+        </div>
+        <!-- /container -->
+    </div>
+{% endif %}
 {% endfor %}
 

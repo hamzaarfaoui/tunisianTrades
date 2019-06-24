@@ -37,3 +37,7 @@ dashboard_product_back_edit_traitement:
 dashboard_product_delete:
     path: /{id}/delete
     controller: App\Controller\Back\ProductBackController:deleteAction    
+    
+dashboard_product_order_in_categorie:
+    path: /product_order_in_categorie
+    controller: App\Controller\Back\ProductBackController::productOrderInCategorie    

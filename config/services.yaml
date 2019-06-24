@@ -27,6 +27,10 @@ services:
     redirect.after.login:
         class: App\Redirection\AfterLoginRedirection
         arguments: ['@router']
+    twig.extension.sortbyfield:
+        class: Snilius\Twig\SortByFieldExtension
+        tags:
+            - { name: twig.extension }    
     redirect.after.login.admin:
         class: App\Redirection\AfterLoginAdminRedirection
         arguments: ['@router']

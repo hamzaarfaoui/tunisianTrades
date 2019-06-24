@@ -66,6 +66,11 @@ class Products
      */
     protected $qte;
     
+    /**      
+     * @MongoDB\Field(type="integer") 
+     */
+    protected $position;
+    
     /**     
       * @MongoDB\Field(type="date")     
       */
@@ -263,7 +268,17 @@ class Products
         $this->qte = $qte;
     }
     
+    /**      * @param mixed $position      */
+    public function setPosition($position)
+    {
+        $this->position = $position;
+    }
     
+    /**      * @return mixed      */
+    public function getPosition()
+    {
+        return $this->position;
+    }
 
     /**
      * Add mediaImage

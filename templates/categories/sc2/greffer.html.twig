@@ -65,7 +65,12 @@
                                     <ul class="connected-sortable droppable-area1 isNotOnIndex" data-type="isNotOnIndex" style="{{categories|length>0?'height: 100%':'height: 300px;'}}">
                                         {% for categorie in categories %}
                                             {% if((categorie.showInIndex == null) or ((categorie.showInIndex == 0))) %}
-                                                <li class="draggable-item" data-id="{{ categorie.id }}">{{ categorie.name }}</li>
+                                                <li class="draggable-item" data-id="{{ categorie.id }}">
+                                                    <div class="row">
+                                                    <div class="col-md-10">{{ categorie.name }}</div>
+                                                    <div class="col-md-2"><a href="{{ path('dashboard_sc2_details', {id:categorie.id}) }}"><i class="fa fa-search"></i></a></div>
+                                                    </div>
+                                                </li>
                                             {% endif %}
                                         {% endfor %}
                                     </ul>
@@ -75,8 +80,13 @@
                                     <h4 style="text-align: center;">Page d'acceuil</h4>
                                     <ul class="connected-sortable droppable-area2 isOnIndex" data-type="isNotOnIndex" style="{{categoriesInIndex|length>0?'height: 100%':'height: 300px;'}}">
                                         {% if(categoriesInIndex|length>0) %}
-                                            {% for categorie in categoriesInIndex %}
-                                                <li class="draggable-item" data-id="{{ categorie.id }}">{{ categorie.name }}</li>
+                                            {% for categorie in categoriesInIndex|sortbyfield('orderInIndex') %}
+                                                <li class="draggable-item" id="{{ categorie.id }}" data-id="{{ categorie.id }}">
+                                                    <div class="row">
+                                                    <div class="col-md-10">{{ categorie.name }}</div>
+                                                    <div class="col-md-2"><a href="{{ path('dashboard_sc2_details', {id:categorie.id}) }}"><i class="fa fa-search"></i></a></div>
+                                                    </div>
+                                                </li>
                                             {% endfor %}
                                         {% endif %}
                                     </ul>
@@ -126,12 +136,21 @@
             });
         }
         
-        function addCategorieOnIndex(id) {
+        function addCategorieOnIndex(id, positions) {
             var url = '{{ path('dashboard_add_sc2_on_index', {'id': 'valeurselectionnee'}) }}';
             url = url.replace("valeurselectionnee", id);
+            var items = $('ul.droppable-area2>li');
+            console.log('Position');
+            console.log(positions);
+            var listValues = [];
+            $.each(items,function(index){
+                var pos = $(this).data('id');
+                listValues.push(pos);
+            });
             $.ajax({
                 url: url,
                 method: "POST",
+                data:{listItem:listValues,limit:$(".droppable-area2").children().length,page:1}, dataType: "json",
                 error: function (data) {
                     console.log('Erreur d\'ajouter une categorie à l\'acceuil');
                 },

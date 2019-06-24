@@ -19,18 +19,19 @@
   width: 90%;
   padding-top: 10px;
   padding-bottom: 10px;
-  background-color: #e3f2fd;
+  border: 2px solid #009688;
+  border-radius: 5px;
 }
 
 li.draggable-item {
   margin-bottom: 5px;
   text-align: center;
-  font-size: 16px;
+  font-size: 12px;
   font-weight: bold;
-  border-radius: 5px;
+  border-radius: 10px;
   width: inherit;
-  padding: 15px 20px;
-  background-color: #bbdefb;
+  padding: 10px 15px;
+  border: 2px solid #2196f3;
   -webkit-transition: transform .25s ease-in-out;
   -moz-transition: transform .25s ease-in-out;
   -o-transition: transform .25s ease-in-out;

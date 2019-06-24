@@ -15,6 +15,7 @@ use App\Document\Promotions;
 use App\Document\Keywords;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class ProductBackController extends Controller
 {   
@@ -128,20 +129,21 @@ class ProductBackController extends Controller
         /*start medias Images document*/
         if (isset($_FILES["images"]['name']) && !empty($_FILES["images"]['name'])) {
             for ($count = 0; $count < count($_FILES["images"]["name"]); $count++) {
-                
-                $mediaImage = new MediasImages();
-                $file = $_FILES['images']['name'][$count];
-                $File_Ext = substr($file, strrpos($file, '.'));
-                $fileName = md5(uniqid()) . $File_Ext;
-                $path = $this->getParameter('images_products_img_gallery') . '/' . $fileName;
-                move_uploaded_file($_FILES['images']['tmp_name'][$count], $path);
-                $mediaImage->setName($fileName);
-                $mediaImage->setProduct($product);
-                $dm->persist($mediaImage);
+                if(isset($_FILES["images"]['name']) && !empty($_FILES['images']['name'][$count])){
+                    $mediaImage = new MediasImages();
+                    $file = $_FILES['images']['name'][$count];
+                    $File_Ext = substr($file, strrpos($file, '.'));
+                    $fileName = md5(uniqid()) . $File_Ext;
+                    $path = $this->getParameter('images_products_img_gallery') . '/' . $fileName;
+                    move_uploaded_file($_FILES['images']['tmp_name'][$count], $path);
+                    $mediaImage->setName($fileName);
+                    $mediaImage->setProduct($product);
+                    $dm->persist($mediaImage);
+                }
             }
         }
         /*end medias Images document*/
-        if (isset($_FILES["iconeC"]) && !empty($_FILES["iconeC"])) {
+        if (isset($_FILES["iconeC"]['name']) && !empty($_FILES["iconeC"]['name'])) {
             $file = $_FILES["iconeC"]["name"];
             $File_Ext = substr($file, strrpos($file, '.'));
             $fileName = md5(uniqid()) . $File_Ext;
@@ -151,20 +153,20 @@ class ProductBackController extends Controller
             $product->setImage($fileName);
         }
         /*start promotion document*/
-        if(!empty($_POST['datedeb'])&&!empty($_POST['datefin'])&&!empty($_POST['fixe'])){
+        if($request->get('datedebut') && $request->get('datefin') && $request->get('fixe')){
             $promotion = null;
-            if($request->get('promo')){
-                $promotion = $dm->getRepository('App:Promotion')->find($request->get('promo'));
+            if($request->get('promotion')){
+                $promotion = $dm->getRepository('App:Promotions')->find($request->get('promotion'));
             }else{
                 $promotion = new Promotions(); 
+                $promotion->setProduct($product);
             }
-            
-            $promotion->setDebut($_POST['datedeb']);
-            $promotion->setFin($_POST['datefin']);
-            $promotion->setFixe($_POST['datedeb']);
+
+            $promotion->setDebut(new \DateTime(''.$request->get('datedebut').''));
+            $promotion->setFin(new \DateTime(''.$request->get('datefin').''));
+            $promotion->setFixe($request->get('fixe'));
             $promotion->setCreatedAt(new \DateTime('now'));
-            $promotion->setProduct($product);
-            $product->setPrice($_POST['price']-$_POST['fixe']);
+            $product->setPricePromotion($request->get('fixe'));
             $dm->persist($promotion);
         }
         /*end promotion document*/
@@ -231,20 +233,22 @@ class ProductBackController extends Controller
         /*start medias Images document*/
         if (isset($_FILES["images"]['name']) && !empty($_FILES["images"]['name'])) {
             for ($count = 0; $count < count($_FILES["images"]["name"]); $count++) {
+                if(isset($_FILES["images"]['name']) && !empty($_FILES['images']['name'][$count])){
                 
-                $mediaImage = new MediasImages();
-                $file = $_FILES['images']['name'][$count];
-                $File_Ext = substr($file, strrpos($file, '.'));
-                $fileName = md5(uniqid()) . $File_Ext;
-                $path = $this->getParameter('images_products_img_gallery') . '/' . $fileName;
-                move_uploaded_file($_FILES['images']['tmp_name'][$count], $path);
-                $mediaImage->setName($fileName);
-                $mediaImage->setProduct($product);
-                $dm->persist($mediaImage);
+                    $mediaImage = new MediasImages();
+                    $file = $_FILES['images']['name'][$count];
+                    $File_Ext = substr($file, strrpos($file, '.'));
+                    $fileName = md5(uniqid()) . $File_Ext;
+                    $path = $this->getParameter('images_products_img_gallery') . '/' . $fileName;
+                    move_uploaded_file($_FILES['images']['tmp_name'][$count], $path);
+                    $mediaImage->setName($fileName);
+                    $mediaImage->setProduct($product);
+                    $dm->persist($mediaImage);
+                }
             }
         }
         /*end medias Images document*/
-        if (isset($_FILES["iconeC"]) && !empty($_FILES["iconeC"])) {
+        if (isset($_FILES["iconeC"]['name']) && !empty($_FILES["iconeC"]['name'])) {
             $file = $_FILES["iconeC"]["name"];
             $File_Ext = substr($file, strrpos($file, '.'));
             $fileName = md5(uniqid()) . $File_Ext;
@@ -253,15 +257,19 @@ class ProductBackController extends Controller
             );
             $product->setImage($fileName);
         }
-        /*start promotion document*/
-        if(!empty($_POST['datedeb'])&&!empty($_POST['datefin'])&&!empty($_POST['fixe'])){
-           $promotion = new Promotions();
-            $promotion->setDebut($_POST['datedeb']);
-            $promotion->setFin($_POST['datefin']);
-            $promotion->setFixe($_POST['datedeb']);
-            $promotion->setCreatedAt(new \DateTime('now'));
-            $promotion->setProduct($product);
-            $product->setPrice($_POST['price']-$_POST['fixe']);
+        if($request->get('datedeb') && $request->get('datefin') && $request->get('fixe')){
+            if($request->get('promotion')){
+                $promotion = $dm->getRepository('App:Promotions')->find($request->get('promotion'));
+            }else{
+                $promotion = new Promotions(); 
+                $promotion->setProduct($product);
+            }
+
+            $promotion->setDebut(new \DateTime(''.$request->get('datedebut').''));
+            $promotion->setFin(new \DateTime(''.$request->get('datefin').''));
+            $promotion->setFixe($request->get('fixe'));
+            $promotion->setUpdatedAt(new \DateTime('now'));
+            $product->setPricePromotion($request->get('fixe'));
             $dm->persist($promotion);
         }
         /*end promotion document*/
@@ -373,14 +381,19 @@ class ProductBackController extends Controller
             $product->setImage($fileName);
         }
         /*start promotion document*/
-        if(!empty($_POST['datedeb'])&&!empty($_POST['datefin'])&&!empty($_POST['fixe'])){
-           $promotion = new Promotions();
-            $promotion->setDebut($_POST['datedeb']);
-            $promotion->setFin($_POST['datefin']);
-            $promotion->setFixe($_POST['datedeb']);
-            $promotion->setCreatedAt(new \DateTime('now'));
-            $promotion->setProduct($product);
-            $product->setPrice($_POST['price']-$_POST['fixe']);
+        if($request->get('datedeb') && $request->get('datefin') && $request->get('fixe')){
+            if($request->get('promotion')){
+                $promotion = $dm->getRepository('App:Promotions')->find($request->get('promotion'));
+            }else{
+                $promotion = new Promotions(); 
+                $promotion->setProduct($product);
+            }
+
+            $promotion->setDebut(new \DateTime(''.$request->get('datedebut').''));
+            $promotion->setFin(new \DateTime(''.$request->get('datefin').''));
+            $promotion->setFixe($request->get('fixe'));
+            $promotion->setUpdatedAt(new \DateTime('now'));
+            $product->setPricePromotion($request->get('fixe'));
             $dm->persist($promotion);
         }
         /*end promotion document*/
@@ -437,5 +450,34 @@ class ProductBackController extends Controller
         $dm->flush();
         $request->getSession()->getFlashBag()->add('success', "Le produit ".$product->getName()." est supprimé");
         return $this->redirectToRoute('dashboard_product_index');
+    }
+    
+    /*
+     * Products order in categorie
+     */
+    public function productOrderInCategorie(Request $request)
+    {
+        $dm = $this->get('doctrine_mongodb')->getManager();
+        $listItem = $request->request->get('listItem');
+        $limit = $request->request->get('limit');
+        $page = $request->request->get('page');
+        $count = 1;
+
+        foreach ($listItem as $item) {
+            $position = (($page - 1) * $limit) + $count;
+            $product = $dm->getRepository('App:Products')->find($item);
+            $product->setPosition($position);
+                $dm->persist($product);
+                $count++;
+        }
+
+        $dm->flush();
+
+        return new JsonResponse([
+            'listItem' => $listItem,
+            'limit' => $limit,
+            'page' => $page
+        ]);
+
     }
 }

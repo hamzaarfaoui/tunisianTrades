@@ -8,9 +8,15 @@ use App\Document\Categories;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Doctrine\ODM\MongoDB\DocumentManager;
+use App\Document\Products;
 
 class SousCategories2Controller extends Controller
 {
+    private $dc;
+    public function __construct(DocumentManager $dc) {
+        $this->dc = $dc;
+    }
     /*
      * Categories list
      */
@@ -38,11 +44,26 @@ class SousCategories2Controller extends Controller
     public function addCategorieOnIndexAction(Request $request, $id)
     {
         $dm = $this->get('doctrine_mongodb')->getManager();
-        $sc = $dm->getRepository('App:SousCategories')->find($id);
-        $sc->setShowInIndex(1);
-        $dm->persist($sc);
+        
+        $listItem = $request->request->get('listItem');
+        $limit = $request->request->get('limit');
+        $page = $request->request->get('page');
+        $count = 1;
+
+        foreach ($listItem as $item) {
+            $position = (($page - 1) * $limit) + $count;
+            $sc = $dm->getRepository('App:SousCategories')->find($item);
+            $sc->setOrderInIndex($position);
+            $dm->persist($sc);
+            $sc->setShowInIndex(1);
+            $dm->persist($sc);
+            $count++;
+        }
+        
         $dm->flush();
-        return new JsonResponse(array('message' => 'La catégorie '.$sc->getName().' a été ajouté à l\'acceuil'));
+        return new JsonResponse(array(
+            'message' => $listItem,'limit' => $limit,
+            'page' => $page));
     }
     
     /*
@@ -80,7 +101,12 @@ class SousCategories2Controller extends Controller
     {
         $dm = $this->get('doctrine_mongodb')->getManager();
         $categorie = $dm->getRepository('App:SousCategories')->find($id);
-        return $this->render('categories/sc2/show.html.twig', array('categorie' => $categorie));
+        $repository = $this->dc->getRepository(Products::class);
+        $products = $repository->findBy(array('sousCategorie' => $categorie), array('position' => 'ASC'));
+        return $this->render('categories/sc2/show.html.twig', array(
+            'categorie' => $categorie,
+            'products' => $products
+                ));
     }
     
     /*

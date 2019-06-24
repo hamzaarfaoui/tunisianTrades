@@ -77,17 +77,26 @@
                                                         <h4 class="modal-title" style="color: #000;">Banniére</h4>
                                                     </div>
                                                     <div class="modal-body">
+                                                        <input type="hidden" name="product" value="{{product.id}}">
                                                         <div class="row">
-                                                            <input type="hidden" name="product" value="{{product.id}}">
+                                                            
                                                             {% if banner %} 
                                                                 <div class="col-md-12">
                                                                     <div class="pull-right">
                                                                         <a class="btn btn-sm btn-danger" href="{{path('dashboard_banners_delete', {id : banner.id})}}">Supprimer</a>
                                                                     </div>
                                                                 </div>
-                                                                <label class="control-label col-md-3" style="color: #000;">Status</label>
-                                                                <div class="col-md-9">
+                                                                <label class="control-label col-md-6" style="color: #000;">Status</label>
+                                                                <div class="col-md-6">
                                                                     <input type="checkbox" {{banner.status == 1?'checked="true"':''}} class="make-switch" name="status" data-size="small">
+                                                                </div><br>
+                                                                <label class="control-label col-md-6" style="color: #000;">2 par ligne</label>
+                                                                <div class="col-md-6">
+                                                                    <input type="checkbox" {{banner.isTwo == 1?'checked="true"':''}} class="make-switch" name="isTow" data-size="small">
+                                                                </div><br>
+                                                                <label class="control-label col-md-6" style="color: #000;">3 par ligne</label>
+                                                                <div class="col-md-6">
+                                                                    <input type="checkbox" {{banner.isThree == 1?'checked="true"':''}} class="make-switch" name="isThree" data-size="small">
                                                                 </div><br>
                                                                 <div class="col-md-12">
                                                                     <img src="{{ asset('/uploads/banners/') }}{{ banner.image }}" style="width: 100%;height: 200px;">
@@ -117,11 +126,19 @@
                                                                 </div>
                                                             {% else %}
                                                                 <div class="col-md-12"><p style="color: #000;">Nouvelle banniére</p></div>
-                                                                <label class="control-label col-md-3" style="color: #000;">Status</label>
-                                                                <div class="col-md-9">
+                                                                <label class="control-label col-md-6" style="color: #000;">Status</label>
+                                                                <div class="col-md-6">
                                                                     <input type="checkbox" checked="true" class="make-switch" name="status" data-size="small">
                                                                 </div><br>
-
+                                                                <label class="control-label col-md-6" style="color: #000;">2 par ligne</label>
+                                                                <div class="col-md-6">
+                                                                    <input type="checkbox" checked="true" class="make-switch" name="isTow" data-size="small">
+                                                                </div><br>
+                                                                <label class="control-label col-md-6" style="color: #000;">3 par ligne</label>
+                                                                <div class="col-md-6">
+                                                                    <input type="checkbox" checked="true" class="make-switch" name="isThree" data-size="small">
+                                                                </div>
+                                                                <br>
                                                                 <div class="col-md-6">
                                                                     <label>Image</label> <br>
                                                                     <div class="fileinput fileinput-new" data-provides="fileinput">
@@ -277,14 +294,15 @@
                         <div class="portlet-body">
                             <div class="row">
                                 <div class="col-md-12">
-                                    {% if app.session.flashBag.has('success') %}
-                                        <div class="alert alert-success">
-                                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                                            {% for msg in app.session.flashBag.get('success') %}
-                                                <i class="fa fa-check"></i> {{ msg }}
-                                            {% endfor %}
-                                        </div>
-                                    {% endif %}
+                                    {% for label, messages in app.flashes %}
+                                        {% for message in messages %}
+                                            <div class="alert alert-dismissible alert-{{ label }}">
+                                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                                {{ message|trans({}, 'alert') }}
+                                            </div>
+                                        {% endfor %}
+                                    {% endfor %}
+
                                 </div>
                             </div>
                             <h1>{{product.name}}</h1>

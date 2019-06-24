@@ -335,7 +335,17 @@ class ProductsController extends Controller
         $fileSystem->remove(array('symlink', $this->getParameter('images_products_img')."/".$product->getImage(), ''.$product->getImage().''));
         foreach ($product->getMediasImages() as $image){
             $fileSystem->remove(array('symlink', $this->getParameter('images_products_img_gallery')."/".$image->getName(), ''.$image->getName().''));
-            $dm->remove($product);
+            $dm->remove($image);
+        }
+        $banners = $dm->getRepository('App:Banners')->findBy(array('product' => $product));
+        foreach ($banners as $image){
+            $fileSystem->remove(array('symlink', $this->getParameter('images_banners')."/".$image->getImage(), ''.$image->getImage().''));
+            $dm->remove($image);
+        }
+        $sliders = $dm->getRepository('App:Sliders')->findBy(array('product' => $product));
+        foreach ($sliders as $image){
+            $fileSystem->remove(array('symlink', $this->getParameter('images_sliders')."/".$image->getImage(), ''.$image->getImage().''));
+            $dm->remove($image);
         }
         $dm->remove($product);
         $dm->flush();

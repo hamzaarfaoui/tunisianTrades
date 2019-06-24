@@ -19,3 +19,28 @@
 <script src="{{ asset('template/assets/admin/pages/scripts/table-advanced.js')}}"></script>
 <!-- END PAGE LEVEL SCRIPTS -->
 <script type="text/javascript" src="{{asset('template/slick/slick.min.js')}}"></script>
+<script src="{{ asset('template/temp/assets/extra-libs/DataTables/datatables.min.js')}}"></script>
+<script>
+    
+    $('#zero_config').DataTable({
+        "language": {
+            "zeroRecords": "Aucun résultat trouvé",
+            "infoEmpty": "Aucune données trouvé",
+            "lengthMenu": "Afficher _MENU_ données",
+            "infoFiltered": "(filtered from _MAX_ total records)",
+            "loadingRecords": "Chargement...",
+            "processing": "Processing...",
+            "info": "Affichage de _START_ à _END_ sur _TOTAL_ données",
+            "paginate": {
+                "first": "Premier",
+                "last": "Dérnier",
+                "next": ">>",
+                "previous": "<<"
+            },
+            "search": "Recherche:"}, });
+    var table = $('#zero_config').DataTable();
+    var info = table.page.info();
+    var lengthMenuSetting = info.length;
+    console.log('Limit :'+lengthMenuSetting);
+    console.log('Page :'+info.page);
+</script>

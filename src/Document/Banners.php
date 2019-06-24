@@ -26,6 +26,16 @@ class Banners
      */
     protected $status;
     
+    /**
+     * @MongoDB\Field(type="boolean")
+     */
+    protected $isTwo;
+    
+    /**
+     * @MongoDB\Field(type="boolean")
+     */
+    protected $isThree;
+    
     /** 
      * @MongoDB\ReferenceOne(targetDocument="Products") */
     protected $product;
@@ -57,6 +67,30 @@ class Banners
     {
         $this->status = $status;
     }
+    
+    /**      * @return mixed      */
+    public function getIsTwo()
+    {
+        return $this->isTwo;
+    }
+    /**      * @param mixed $isTwo      */
+    public function setIsTwo($isTwo)
+    {
+        $this->isTwo = $isTwo;
+    }
+    
+    /**      * @return mixed      */
+    public function getIsThree()
+    {
+        return $this->isThree;
+    }
+    /**      * @param mixed $isThree      */
+    public function setIsThree($isThree)
+    {
+        $this->isThree = $isThree;
+    }
+    
+    
     
     /**
      * @return mixed
