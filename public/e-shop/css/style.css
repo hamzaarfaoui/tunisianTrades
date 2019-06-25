@@ -154,8 +154,8 @@ hr {
 }
 
 .primary-btn:hover, .primary-btn:focus {
-  color: #FFF;
-  background-color: #30323A;
+  color: #263238;
+  background-color: #ffeb3b;
 }
 
 /*----------------------------*\
@@ -854,7 +854,7 @@ textarea.input {
 }
 
 .product .product-label>span.sale {
-  background-color: #00e676;
+  background-color: #f44336;
 }
 
 .product .product-countdown {
@@ -997,10 +997,19 @@ textarea.input {
 /*-- hot product --*/
 
 .product.product-single.product-hot {
-  border: 2px solid #78909c;
+  border: 0.5px solid #90a4ae;
 }
 
 .product.product-single.product-hot .product-btns {
+  opacity: 1;
+  visibility: visible;
+}
+
+.product.product-single.product-hot-promotion {
+  border: 2px solid #f44336;
+}
+
+.product.product-single.product-hotpromotion .product-btns {
   opacity: 1;
   visibility: visible;
 }

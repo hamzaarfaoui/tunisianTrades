@@ -3,8 +3,8 @@
         {% for product in products %}
         {% if(product.qte>0) %}
             <!-- Product Single -->
-            <div class="col-md-2 col-sm-6 col-xs-6">
-                <div class="product product-single">
+            <div class="col-md-3 col-sm-6 col-xs-6">
+                <div class="product product-single {{product.pricePromotion != null?'product-hot-promotion':'product-hot'}}">
                     <div class="product-thumb">
                         <div class="product-label">
                             {#{% set today = "now"|date("d/m/Y") %}
@@ -35,12 +35,10 @@
                             <i class="fa fa-star-o empty"></i>
                         </div>#}
                         <h2 class="product-name"><a href="#">{{ product.name }}</a></h2>
-                        <div class="product-btns text-center">
+                        {#<div class="product-btns text-center">
                             <button title="Ajouter à mes favoris" class="main-btn icon-btn add-to-favoris" data-id="{{product.id}}"><i class="fa fa-heart"></i></button>
-                            <!--<button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button>-->
-                            {#<a href="{{ path('add_product_to_cart', {id:product.id}) }}" class="primary-btn add-to-cart"><i class="fa fa-plus"></i> <i class="fa fa-shopping-cart"></i> panier</a>#}
                             <button title="Ajouter au panier" class="primary-btn add-to-cart" data-id="{{product.id}}"><i class="fa fa-plus"></i> <i class="fa fa-shopping-cart"></i></button>
-                        </div>
+                        </div>#}
                     </div>
                 </div>
             </div>

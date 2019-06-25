@@ -315,14 +315,14 @@
 <script>
     {% for categorie in sc2 %}
         $('#product-slick-{{categorie.id}}').slick({
-    slidesToShow: 6,
+    slidesToShow: 5,
     slidesToScroll: 1,
-    autoplay: true,
+    autoplay: false,
     infinite: true,
     speed: 300,
     dots: true,
     arrows: false,
-    appendDots: '.product-slick-dots-2',
+    appendDots: '.product-slick-dots-1',
     responsive: [{
         breakpoint: 991,
         settings: {

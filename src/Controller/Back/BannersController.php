@@ -23,6 +23,28 @@ class BannersController extends Controller
     }
     
     /*
+     * Banners 2 in front
+     */
+    public function twoInFront()
+    {
+        $dm = $this->get('doctrine_mongodb')->getManager();
+        $banners = $dm->getRepository('App:Banners')->findBy(array('isTwo' => 1));
+        
+        return $this->render('Banners/front/2banners.html.twig', array('banners' => $banners));
+    }
+    
+    /*
+     * Banners 3 in front
+     */
+    public function threeInFront()
+    {
+        $dm = $this->get('doctrine_mongodb')->getManager();
+        $banners = $dm->getRepository('App:Banners')->findBy(array('isThree' => 1));
+        
+        return $this->render('Banners/front/3banners.html.twig', array('banners' => $banners));
+    }
+    
+    /*
      * CategorieMere details
      */
     public function showAction($id)
