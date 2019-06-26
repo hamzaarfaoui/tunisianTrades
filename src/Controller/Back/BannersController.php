@@ -28,7 +28,7 @@ class BannersController extends Controller
     public function twoInFront()
     {
         $dm = $this->get('doctrine_mongodb')->getManager();
-        $banners = $dm->getRepository('App:Banners')->findBy(array('isTwo' => 1));
+        $banners = $dm->getRepository('App:Banners')->findBy(array('isTwo' => true));
         
         return $this->render('Banners/front/2banners.html.twig', array('banners' => $banners));
     }
@@ -39,7 +39,7 @@ class BannersController extends Controller
     public function threeInFront()
     {
         $dm = $this->get('doctrine_mongodb')->getManager();
-        $banners = $dm->getRepository('App:Banners')->findBy(array('isThree' => 1));
+        $banners = $dm->getRepository('App:Banners')->findBy(array('isThree' => true));
         
         return $this->render('Banners/front/3banners.html.twig', array('banners' => $banners));
     }

@@ -22,6 +22,16 @@ class SlidersController extends Controller
     }
     
     /*
+     * Sliders list in front
+     */
+    public function listInFront()
+    {
+        $dm = $this->get('doctrine_mongodb')->getManager();
+        $sliders = $dm->getRepository('App:Sliders')->findAll();
+        return $this->render('Sliders/front.html.twig', array('sliders' => $sliders));
+    }
+    
+    /*
      * CategorieMere details
      */
     public function showAction($id)
@@ -57,7 +67,7 @@ class SlidersController extends Controller
         }else{
             $slider->setStatus(0);
         }
-        if (isset($_FILES["imageSlider"]) && !empty($_FILES["imageSlider"])) {
+        if (isset($_FILES["imageSlider"]["name"]) && !empty($_FILES["imageSlider"]["name"])) {
             $file = $_FILES["imageSlider"]["name"];
             $File_Ext = substr($file, strrpos($file, '.'));
             $fileName = md5(uniqid()) . $File_Ext;
@@ -91,7 +101,6 @@ class SlidersController extends Controller
         $slider = $dm->getRepository('App:Sliders')->find($id);
         $product = $dm->getRepository('App:Products')->find($request->get('product'));
         $slider->setProduct($product);
-        $slider->setOrdre($request->get('ordre'));
         if($request->get('status')){
            $slider->setStatus(1);
         }else{

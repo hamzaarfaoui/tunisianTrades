@@ -180,7 +180,7 @@
                                 <div id="modalSlider" class="modal fade" role="dialog">
                                     <div class="modal-dialog">
                                         {% if slider %}
-                                            <form action="{{ path('dashboard_sliders_edit_traitement', {id : banner.id}) }}" method="post" enctype="multipart/form-data">
+                                            <form action="{{ path('dashboard_sliders_edit_traitement', {id : slider.id}) }}" method="post" enctype="multipart/form-data">
                                             {% else %}
                                                 <form action="{{ path('dashboard_sliders_new_traitement') }}" method="post" enctype="multipart/form-data">
                                                 {% endif %}
@@ -199,14 +199,6 @@
                                                                         <a class="btn btn-sm btn-danger" href="{{path('dashboard_sliders_delete', {id : slider.id})}}">Supprimer</a>
                                                                     </div>
                                                                 </div>
-                                                                <label class="control-label col-md-3" style="color: #000;">Ordre</label>
-                                                                <div class="col-md-9">
-                                                                    <select name="ordre" class="form-control">
-                                                                        {% for i in 1..sliders|length %}
-                                                                            <option value="{{i}}" {#{{slider.order == i?'selected="true"':''}}#}>{{i}}</option>
-                                                                        {% endfor %}
-                                                                    </select>
-                                                                </div><br>
                                                                 <label class="control-label col-md-3" style="color: #000;">Status</label>
                                                                 <div class="col-md-9">
                                                                     <input type="checkbox" {{slider.status == 1?'checked="true"':''}} class="make-switch" name="status" data-size="small">
