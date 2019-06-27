@@ -353,7 +353,7 @@ class ProductBackController extends Controller
             $product->setSousCategorie($sc);
         }
         /*start medias Images document*/
-        if (isset($_FILES["images"]['name']) && empty($_FILES["images"]['name'])) {
+        if (isset($_FILES["images"]['name']) && !empty($_FILES["images"]['name'])) {
             foreach ($product->getMediasImages() as $img){
                 $dm->remove($img);
             }
@@ -371,7 +371,7 @@ class ProductBackController extends Controller
             }
         }
         /*end medias Images document*/
-        if (isset($_FILES["iconeC"]) && empty($_FILES["iconeC"])) {
+        if (isset($_FILES["iconeC"]['name']) && !empty($_FILES["iconeC"]['name'])) {
             $file = $_FILES["iconeC"]["name"];
             $File_Ext = substr($file, strrpos($file, '.'));
             $fileName = md5(uniqid()) . $File_Ext;

@@ -1744,7 +1744,12 @@ textarea.input {
 /*=========================================================
 	12 -> RESPONSIVE
 ===========================================================*/
-
+@media only screen and (min-width: 480px) {
+    .banner.banner-1 .banner-caption{
+        left: 700px;
+        top: 283px;
+    }
+}
 @media only screen and (max-width: 991px) {
   #home .home-wrap {
     margin-left: 0px;

@@ -23,4 +23,12 @@ product_page:
 
 livraison_page:
     path: /livraison
-    controller: App\Controller\Front\CartController::livraison        
+    controller: App\Controller\Front\CartController::livraison    
+    
+slider_front_details:
+    path: /new_promotions/{id}
+    controller: App\Controller\Back\SlidersController::showInFront    
+    
+banner_front_details:
+    path: /promotions/{id}
+    controller: App\Controller\Back\BannersController::showInFront     

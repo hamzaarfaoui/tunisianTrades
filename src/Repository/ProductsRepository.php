@@ -59,6 +59,14 @@ class ProductsRepository extends DocumentRepository
         return $qb->getQuery()->execute();
     }
     
+    public function liees($sousCategorie)
+    {
+        $qb = $this->createQueryBuilder('Products')
+                ->field('sousCategorie.id')->equals($sousCategorie)
+                ->sort('price', 'ASC');
+        return $qb->getQuery()->execute();
+    }
+    
     public function byStore($store)
     {
         $qb = $this->createQueryBuilder('Products')

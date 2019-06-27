@@ -7,11 +7,8 @@
             {% for banner in banners %}
                 <!-- banner -->
                 <div class="col-md-6 col-sm-6">
-                    <a class="banner banner-1" href="#">
+                    <a class="banner banner-1" href="{{ path('banner_front_details', {id: banner.id}) }}">
                         <img src="{{ asset('/uploads/banners/') }}{{ banner.image }}" alt="" style="height: 250px;">
-                        <div class="banner-caption text-center">
-                            <h4 class="white-color">NEW COLLECTION</h4>
-                        </div>
                     </a>
                 </div>
                 <!-- /banner -->

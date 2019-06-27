@@ -45,6 +45,25 @@ class BannersController extends Controller
     }
     
     /*
+     * Banner details in front
+     */
+    public function showInFront($id)
+    {
+        $dm = $this->get('doctrine_mongodb')->getManager();
+        $slider = $dm->getRepository('App:Banners')->find($id);
+        $products_liste = array();
+        $produit = $slider->getProduct();
+        $categorie = $produit->getSousCategorie()->getId();
+        $products = $dm->getRepository('App:Products')->liees($categorie);
+        foreach ($products as $p){
+            if($p->getId()!=$produit->getId()){
+                $products_liste[] = $p;
+            }
+        }
+        return $this->render('Banners/front/detailsFront.html.twig', array('product' => $produit, 'products' => $products_liste));
+    }
+    
+    /*
      * CategorieMere details
      */
     public function showAction($id)
