@@ -20,6 +20,38 @@ class ProductController extends Controller
     }
     
     /*
+     * New products
+     */
+    public function newProducts(Request $request)
+    {
+        $dm = $this->get('doctrine_mongodb')->getManager();
+        $find_products = $dm->getRepository('App:Products')->newProducts();
+        $paginator  = $this->get('knp_paginator');
+        $products = $paginator->paginate(
+            $find_products, /* query NOT result */
+            $request->query->get('page', 1), /*page number*/
+            20 /*limit per page*/
+        );
+        return $this->render('frontend/newProducts.html.twig', array('products' => $products));
+    }
+    
+    /*
+     * Products in promotion
+     */
+    public function productsInPromotion(Request $request)
+    {
+        $dm = $this->get('doctrine_mongodb')->getManager();
+        $find_products = $dm->getRepository('App:Products')->newProducts();
+        $paginator  = $this->get('knp_paginator');
+        $products = $paginator->paginate(
+            $find_products, /* query NOT result */
+            $request->query->get('page', 1), /*page number*/
+            20 /*limit per page*/
+        );
+        return $this->render('frontend/productsInPromotion.html.twig', array('products' => $products));
+    }
+    
+    /*
      * Products Tri
      */
     public function triAction(Request $request)

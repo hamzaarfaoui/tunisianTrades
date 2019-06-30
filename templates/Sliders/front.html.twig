@@ -1,11 +1,11 @@
 {% for slider in sliders %}
     <!-- banner -->
-    <div class="banner banner-1" style="height: 300px;">
+    <div class="banner banner-1" style="height: 350px;">
         <img src="{{ asset('/uploads/sliders/') }}{{ slider.image }}" alt="" style="height: 100%;">
         <div class="banner-caption text-center">
             {#<h1>Bags sale</h1>
             <h4 class="white-color font-weak">Up to 50% Discount</h4>#}
-            <a href="{{ path('slider_front_details', {id: slider.id}) }}" class="primary-btn">Voir</a>
+            <a href="{{ path('slider_front_details', {id: slider.id}) }}" class="btn-slider">Découvrir <i class="fa fa-chevron-circle-right"></i></a>
         </div>
     </div>
     <!-- /banner -->

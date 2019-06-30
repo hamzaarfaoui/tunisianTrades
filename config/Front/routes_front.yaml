@@ -31,4 +31,13 @@ slider_front_details:
     
 banner_front_details:
     path: /promotions/{id}
-    controller: App\Controller\Back\BannersController::showInFront     
+    controller: App\Controller\Back\BannersController::showInFront    
+    
+new_products:
+    path: /new_products
+    controller: App\Controller\Front\ProductController::newProducts    
+    
+products_in_promotion:
+    path: /products_in_promotion
+    controller: App\Controller\Front\ProductController::productsInPromotion    
+    

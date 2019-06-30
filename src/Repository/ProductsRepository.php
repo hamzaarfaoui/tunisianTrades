@@ -21,6 +21,21 @@ class ProductsRepository extends DocumentRepository
         return $qb->getQuery()->execute();
     }
     
+    public function newProducts()
+    {
+        $qb = $this->createQueryBuilder('Products')
+                ->sort('createdAt', 'desc');
+        return $qb->getQuery()->execute();
+    }
+    
+    public function inPromotion()
+    {
+        $qb = $this->createQueryBuilder('Products')
+                ->field('pricePromotion')->gt(0)
+                ->sort('createdAt', 'desc');
+        return $qb->getQuery()->execute();
+    }
+    
     public function byNbrViews($store)
     {
         $qb = $this->createQueryBuilder('Products')
