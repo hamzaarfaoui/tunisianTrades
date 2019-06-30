@@ -17,6 +17,15 @@ class UserController extends Controller
     }
     
     /*
+     * Employe
+     */
+    public function employe()
+    {
+        $dm = $this->get('doctrine_mongodb')->getManager();
+        return $this->render('user/espaces/employe.html.twig');
+    }
+    
+    /*
      * Marchand
      */
     public function marchand()

@@ -53,9 +53,21 @@ products:
     resource: "Back/routes_back_product.yaml"
     prefix:   /dash/products
     
+employes:
+    resource: "Back/routes_employes.yaml"
+    prefix:   /dash/employes    
+    
+manager_products:
+    resource: "Back/routes_manager_product.yaml"
+    prefix:   /employe/products    
+    
 stores_back:
     resource: "Back/routes_back_stores.yaml"
     prefix:   /dash/stores
+    
+commercial_stores:
+    resource: "Back/routes_commercial_stores.yaml"
+    prefix:   /employe/stores    
     
 caracteristiques:
     resource: "Back/routes_caracteristiques.yaml"

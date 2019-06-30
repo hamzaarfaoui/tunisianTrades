@@ -34,6 +34,10 @@ services:
     redirect.after.login.admin:
         class: App\Redirection\AfterLoginAdminRedirection
         arguments: ['@router']
+        
+    redirect.after.login.employe:
+        class: App\Redirection\AfterLoginEmployeRedirection
+        arguments: ['@router']    
     app.form.registration:
         class: App\Form\RegistrationFormType
         tags:

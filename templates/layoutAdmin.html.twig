@@ -107,6 +107,7 @@
     <!-- BEGIN CONTAINER -->
     <div class="page-container"> 
         <!-- BEGIN SIDEBAR -->
+        {% if (is_granted('ROLE_ADMIN'))%}
         <div class="page-sidebar-wrapper">
             <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
             <!-- DOC: Change data-auto-speed="200" to adjust the sub menu slide up/down speed -->
@@ -257,6 +258,25 @@
                             </li>
                         </ul>
                     </li>
+                    <li>
+                        <a href="javascript:;">
+                            <i class="fa fa-image"></i>
+                            <span class="title">Employés</span>
+                            <span class="arrow "></span>
+                        </a>
+                        <ul class="sub-menu">
+                            <li>
+                                <a href="{{ path('dashboard_employes_index') }}">
+                                    <i class="icon-home"></i>
+                                    Tous</a>
+                            </li>
+                            <li>
+                                <a href="{{ path('dashboard_employes_new') }}">
+                                    <i class="icon-plus"></i>
+                                    Ajouter</a>
+                            </li>
+                        </ul>
+                    </li>
                 </ul>
                 <div class="slimScrollBar" style="background: rgb(187, 187, 187); width: 7px; position: absolute; top: 0px; opacity: 0.4; display: block; border-radius: 7px; z-index: 99; right: 1px; height: 32.6945px;"></div>
                 <div class="slimScrollRail" style="width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(234, 234, 234); opacity: 0.2; z-index: 90; right: 1px;"></div>
@@ -264,6 +284,7 @@
                 </div>
             </div>
         </div>
+        {% endif %}
         <!-- END SIDEBAR -->
         <!-- BEGIN CONTENT -->
     {% block body %}{% endblock %}

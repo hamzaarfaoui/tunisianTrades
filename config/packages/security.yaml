@@ -8,6 +8,8 @@ security:
         ROLE_MEMBER_STORE:       ROLE_MEMBER_STORE
         ROLE_CLIENT:       ROLE_CLIENT
         ROLE_SUPER_ADMIN: ROLE_ADMIN
+        ROLE_COMMERCIAL: ROLE_COMMERCIAL
+        ROLE_GESTIONNEAIRE_STOCK: ROLE_GESTIONNEAIRE_STOCK
 
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
@@ -26,6 +28,19 @@ security:
                 login_path:     /dash/login
                 check_path:     /dash/login_check
                 success_handler: redirect.after.login.admin
+                default_target_path: /admin/
+            logout:
+                path:           /dash/logout
+                target:         /dash/login
+            anonymous:    true
+            
+        membre:
+            pattern:            ^/employe
+            form_login:
+                provider:       fos_userbundle
+                login_path:     /employe/login
+                check_path:     /employe/login_check
+                success_handler: redirect.after.login.employe
                 default_target_path: /admin/
             logout:
                 path:           /dash/logout
@@ -52,8 +67,13 @@ security:
         - { path: ^/dash/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/dash/logout$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/dash/login_check$, role: IS_AUTHENTICATED_ANONYMOUSLY } 
+        - { path: ^/employe/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/employe/logout$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/employe/login_check$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/dash/, role: ROLE_ADMIN }
         - { path: ^/dash, role: ROLE_ADMIN }
+        - { path: ^/employe/, roles: [ROLE_COMMERCIAL, ROLE_GESTIONNEAIRE_STOCK] }
+        - { path: ^/employe, roles: [ROLE_COMMERCIAL, ROLE_GESTIONNEAIRE_STOCK] }
         - { path: ^/marchand/, roles: [ROLE_MARCHAND, ROLE_MEMBER_STORE] }
         - { path: ^/marchand, roles: [ROLE_MARCHAND, ROLE_MEMBER_STORE] }
         - { path: ^/client/, role: ROLE_CLIENT }
