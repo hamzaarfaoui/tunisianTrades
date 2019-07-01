@@ -37,12 +37,18 @@ class AfterLoginAdminRedirection implements AuthenticationSuccessHandlerInterfac
         
         $redirection = new RedirectResponse($this->router->generate('client_homepage'));
         // If is a admin or super admin we redirect to the backoffice area
-        if (in_array('ROLE_MARCHAND', $rolesTab, true) || in_array('ROLE_MEMBER_STORE', $rolesTab, true) || in_array('ROLE_CLIENT', $rolesTab, true) || in_array('ROLE_COMMERCIAL', $rolesTab, true) || in_array('ROLE_GESTIONNEAIRE_STOCK', $rolesTab, true)){
+        if (in_array('ROLE_MARCHAND', $rolesTab, true) || in_array('ROLE_MEMBER_STORE', $rolesTab, true) || in_array('ROLE_CLIENT', $rolesTab, true)){
             $redirection = new RedirectResponse($this->router->generate('fos_user_security_logout'));
         // otherwise, if is a commercial user we redirect to the crm area
         }
         elseif (in_array('ROLE_ADMIN', $rolesTab, true) || in_array('ROLE_SUPER_ADMIN', $rolesTab, true)){
             $redirection = new RedirectResponse($this->router->generate('backoffice_homepage'));
+        
+        }elseif (in_array('ROLE_COMMERCIAL', $rolesTab, true)){
+            $redirection = new RedirectResponse($this->router->generate('commercialstores_back_index'));
+        
+        }elseif (in_array('ROLE_GESTIONNEAIRE_STOCK', $rolesTab, true)){
+            $redirection = new RedirectResponse($this->router->generate('manager_product_index'));
         
         }
         return $redirection;

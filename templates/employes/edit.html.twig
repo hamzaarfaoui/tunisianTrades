@@ -55,37 +55,37 @@
                             </div>
                         </div>
                         <div class="portlet-body form">
-                            <form action="{{ path('dashboard_employes_new_traitement') }}" method="post" role="form" enctype="multipart/form-data">
+                            <form action="{{ path('dashboard_employes_edit_traitement', {id:employe.id}) }}" method="post" role="form" enctype="multipart/form-data">
                                 <div class="form-body">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Nom</label>
-                                                <input type="text" class="form-control" required="true" placeholder="Nom" name="nom" value="{{emolye.nom}}">
+                                                <input type="text" class="form-control" required="true" placeholder="Nom" name="nom" value="{{employe.nom}}">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Prenom</label>
-                                                <input type="text" class="form-control" required="true" placeholder="Prenom" name="prenom" value="{{emolye.prenom}}">
+                                                <input type="text" class="form-control" required="true" placeholder="Prenom" name="prenom" value="{{employe.prenom}}">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Username</label>
-                                                <input type="text" class="form-control" required="true" placeholder="Username" name="username" value="{{emolye.username}}">
+                                                <input type="text" class="form-control" required="true" placeholder="Username" name="username" value="{{employe.username}}">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>E-mail</label>
-                                                <input type="email" class="form-control" required="true" placeholder="E-mail" name="email" value="{{emolye.email}}">
+                                                <input type="email" class="form-control" required="true" placeholder="E-mail" name="email" value="{{employe.email}}">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Télephone</label>
-                                                <input type="number" class="form-control" required="true" placeholder="Télephone" name="phone" value="{{emolye.phone}}">
+                                                <input type="number" class="form-control" required="true" placeholder="Télephone" name="phone" value="{{employe.phone}}">
                                             </div>
                                         </div>
                                         <div class="col-md-6">

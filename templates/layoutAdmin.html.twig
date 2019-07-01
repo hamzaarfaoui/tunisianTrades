@@ -13,6 +13,21 @@
                 background: #3B3F51;
                 border-bottom: 1px solid #e9ecf3;
             }
+            {% if ((is_granted('ROLE_COMMERCIAL'))or(is_granted('ROLE_GESTIONNEAIRE_STOCK')))%}
+                .page-content-wrapper .page-content {
+                    margin-left: -5px;
+                    margin-top: 0px;
+                    min-height: 600px;
+                    padding: 10px 0 0 20px;
+                  }
+                  {% else %}
+                      .page-content-wrapper .page-content {
+                    margin-left: 235px;
+                    margin-top: 0px;
+                    min-height: 600px;
+                    padding: 10px 0 0 20px;
+                  }
+            {% endif %}
         </style>
     {% block stylesheets %}{% endblock %}
 </head>
@@ -26,9 +41,11 @@
                 <a href="{{ path('backoffice_homepage') }}">
                     <img src="{{ asset('template/assets/admin/layout4/img/logo-light.png') }}" alt="logo" class="logo-default"/>
                 </a>
+                {% if (is_granted('ROLE_SUPER_ADMIN'))%}
                 <div class="menu-toggler sidebar-toggler">
                     <!-- DOC: Remove the above "hide" to enable the sidebar toggler button on header -->
                 </div>
+                {% endif %}
             </div>
             <!-- END LOGO -->
             <!-- BEGIN RESPONSIVE MENU TOGGLER -->
@@ -304,6 +321,8 @@
 </div>
 <!-- END FOOTER -->
 {% include 'includes/back/js.html.twig' %}
-{% block javascripts %}{% endblock %}
+{% block javascripts %}
+    $("p").css("background-color", "yellow");
+{% endblock %}
 </body>
 </html>

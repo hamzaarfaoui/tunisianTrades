@@ -64,6 +64,13 @@ class EmployesController extends Controller
         $employe->setPhone($request->get('phone'));
         $employe->addRole($request->get('role'));
         $employe->setEnabled(1);
+        $options = [
+                'cost' => 11,
+                //'salt' => mcrypt_create_iv(22, MCRYPT_DEV_URANDOM),
+            ];
+        $pass = $request->get('username');
+        $password = password_hash($pass, PASSWORD_BCRYPT, $options);
+        $employe->setPassword($password);
         $employe->setCreatedAt(new \DateTime('now'));
         $employe->setUpdatedAt(new \DateTime('now'));
         $dm->persist($employe);
@@ -77,6 +84,7 @@ class EmployesController extends Controller
      */
     public function editEmploye($id)
     {
+        $dm = $this->get('doctrine_mongodb')->getManager();
         $employe = $dm->getRepository('App:User')->find($id);
         return $this->render('employes/edit.html.twig', array('employe' => $employe));
     }

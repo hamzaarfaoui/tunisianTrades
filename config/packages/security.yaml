@@ -41,10 +41,10 @@ security:
                 login_path:     /employe/login
                 check_path:     /employe/login_check
                 success_handler: redirect.after.login.employe
-                default_target_path: /admin/
+                default_target_path: /employe/
             logout:
-                path:           /dash/logout
-                target:         /dash/login
+                path:           /employe/logout
+                target:         /employe/login
             anonymous:    true    
         main:
             pattern: ^/
@@ -72,6 +72,8 @@ security:
         - { path: ^/employe/login_check$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/dash/, role: ROLE_ADMIN }
         - { path: ^/dash, role: ROLE_ADMIN }
+        - { path: ^/dash/products/, roles: [ROLE_ADMIN, ROLE_GESTIONNEAIRE_STOCK] }
+        - { path: ^/dash/products, roles: [ROLE_ADMIN, ROLE_GESTIONNEAIRE_STOCK] }
         - { path: ^/employe/, roles: [ROLE_COMMERCIAL, ROLE_GESTIONNEAIRE_STOCK] }
         - { path: ^/employe, roles: [ROLE_COMMERCIAL, ROLE_GESTIONNEAIRE_STOCK] }
         - { path: ^/marchand/, roles: [ROLE_MARCHAND, ROLE_MEMBER_STORE] }

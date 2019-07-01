@@ -48,6 +48,10 @@ marchand_members:
 dash:
     resource: "Back/routes_dash.yaml"
     prefix:   /dash
+    
+emp:
+    resource: "Back/routes_emp.yaml"
+    prefix:   /employe    
 
 products:
     resource: "Back/routes_back_product.yaml"

@@ -16,7 +16,7 @@ dashboard_employes_new_traitement:
     
 dashboard_employes_edit:
     path: /{id}/edit
-    controller: App\Controller\Back\EmployesController::editAction    
+    controller: App\Controller\Back\EmployesController::editEmploye    
     
 dashboard_employes_edit_traitement:
     path: /{id}/edit_traitement
@@ -24,7 +24,7 @@ dashboard_employes_edit_traitement:
     
 dashboard_employes_status:
     path: /{id}/edit_status
-    controller: App\Controller\Back\EmployesController::editAction       
+    controller: App\Controller\Back\EmployesController::employeStatus       
     
 dashboard_employes_delete:
     path: /{id}/delete
