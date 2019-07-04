@@ -21,6 +21,15 @@ class ProductsRepository extends DocumentRepository
         return $qb->getQuery()->execute();
     }
     
+    public function produitsLiees($params)
+    {
+        $qb = $this->createQueryBuilder('Products')
+                ->field('_id')->notEqual($params['id'])
+                ->field('sousCategorie')->equals($params['sousCategorie']);
+
+        return $qb->getQuery()->execute();
+    }
+    
     public function newProducts()
     {
         $qb = $this->createQueryBuilder('Products')

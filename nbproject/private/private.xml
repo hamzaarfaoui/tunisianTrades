@@ -3,10 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/var/www/html/tunisianTrades/config/Back/routes_back_product.yaml</file>
+            <file>file:/var/www/html/tunisianTrades/templates/Products/front/details.html.twig</file>
             <file>file:/var/www/html/tunisianTrades/config/Back/routes_manager_product.yaml</file>
             <file>file:/var/www/html/tunisianTrades/config/packages/security.yaml</file>
+            <file>file:/var/www/html/tunisianTrades/templates/Products/back/emp/edit.html.twig</file>
+            <file>file:/var/www/html/tunisianTrades/templates/Products/back/emp/details.html.twig</file>
             <file>file:/var/www/html/tunisianTrades/templates/Products/back/emp/new.html.twig</file>
+            <file>file:/var/www/html/tunisianTrades/templates/Products/back/emp/list.html.twig</file>
             <file>file:/var/www/html/tunisianTrades/src/Controller/Back/ProductEmpController.php</file>
         </group>
     </open-files>

@@ -29,11 +29,16 @@ class FrontController extends Controller
     {
         $dm = $this->get('doctrine_mongodb')->getManager();
         $product = $dm->getRepository('App:Products')->find($id);
+        $query = array();
+        $query['id'] = $id;
+        $query['sousCategorie'] = $product->getSousCategorie();
+        $products = $dm->getRepository('App:Products')->produitsLiees($query);
         $product->setNbrView($product->getNbrView()+1);
         $dm->persist($product);
         $dm->flush();
         return $this->render('Products/front/details.html.twig', array(
-            'product' => $product
+            'product' => $product,
+            'products' => $products
         ));
     }
     
