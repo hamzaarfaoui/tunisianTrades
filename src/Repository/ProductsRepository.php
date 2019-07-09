@@ -25,9 +25,31 @@ class ProductsRepository extends DocumentRepository
     {
         $qb = $this->createQueryBuilder('Products')
                 ->field('_id')->notEqual($params['id'])
-                ->field('sousCategorie')->equals($params['sousCategorie']);
+                ->field('sousCategorie')->equals($params['sousCategorie'])
+                ->limit(4);
 
         return $qb->getQuery()->execute();
+    }
+    
+    public function byQB($params)
+    {
+        $qb = $this->createQueryBuilder('Products');
+        $qb = $this->addFilters($qb, $params);
+        return $qb->getQuery()->execute();
+    }
+    
+    private function addFilters($qb, $params)
+    {
+        
+        if(!empty($params['keyword'])){
+            $qb->field('name')->equals(new \MongoRegex('/.*'.$params['keyword'].'.*/i'));
+        }
+        if(!empty($params['disponible'])){
+            $qb->field('qte')->gt(0);
+        }
+        
+        
+       return $qb;
     }
     
     public function newProducts()
@@ -127,22 +149,7 @@ class ProductsRepository extends DocumentRepository
         return $qb->getQuery()->execute();
     }
     
-    private function addFilters($qb, $params)
-    {
-        
-        if(!empty($params['tri'])){
-            if ($params['tri'] == 1){
-                $qb->sort('price', 'DESC');
-            }elseif ($params['tri'] == 2){
-                $qb->sort('price', 'ASC');
-            }elseif ($params['tri'] == 3){
-                $qb->sort('nbrView', 'DESC');
-            }
-        }
-        
-        
-       return $qb;
-    }
+    
     
     public function byKeyword($keyword)
     {
