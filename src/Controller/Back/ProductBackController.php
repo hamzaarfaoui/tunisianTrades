@@ -16,16 +16,58 @@ use App\Document\Keywords;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use App\Form\DirectoryType;
 
 class ProductBackController extends Controller
 {   
     /*
      * Products list
      */
-    public function liste()
+    public function liste(Request $request)
     {
         $dm = $this->get('doctrine_mongodb')->getManager();
-        $products = $dm->getRepository('App:Products')->findAll();
+        $find_products = $dm->getRepository('App:Products')->findAll();
+        $paginator  = $this->get('knp_paginator');
+        $products = $paginator->paginate(
+            $find_products, /* query NOT result */
+            $request->query->get('page', 1), /*page number*/
+            10 /*limit per page*/
+        );
+        $products->setTemplate('Products/back/pagination.html.twig');
+        return $this->render('Products/back/list.html.twig', array('products' => $products));
+    }
+    
+    /*
+     * Products list
+     */
+    public function search(Request $request)
+    {
+        $dm = $this->get('doctrine_mongodb')->getManager();
+        $search = $request->get('recherche');
+        $disponible = null;
+        $request->get('disponible')?$disponible='oui':'non'; 
+        $find_products = $dm->getRepository('App:Products')->byQB($search, $disponible);
+        $paginator  = $this->get('knp_paginator');
+        $keywords = $dm->getRepository('App:Keywords')->byName($search);
+        $result = array();
+        foreach ($find_products as $fp){
+            $result[] = $fp; 
+        }
+        if(count($result) == 0){
+            foreach ($keywords as $k){
+                if(in_array($k, $keys)){
+                    if(!in_array($k->getProduct(), $result)){
+                        $result[] = $product;
+                    }
+                }
+            }
+        }
+        $products = $paginator->paginate(
+            $result, /* query NOT result */
+            $request->query->get('page', 1), /*page number*/
+            10 /*limit per page*/
+        );
+        $products->setTemplate('Products/back/pagination.html.twig');
         return $this->render('Products/back/list.html.twig', array('products' => $products));
     }
     

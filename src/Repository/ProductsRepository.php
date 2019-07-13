@@ -31,20 +31,17 @@ class ProductsRepository extends DocumentRepository
         return $qb->getQuery()->execute();
     }
     
-    public function byQB($params)
+    public function byQB($params, $disponible)
     {
         $qb = $this->createQueryBuilder('Products');
-        $qb = $this->addFilters($qb, $params);
+        $qb->field('name')->equals(new \MongoRegex('/.*'.$params.'.*/i'));
+        $this->addFilters($qb, $disponible);
         return $qb->getQuery()->execute();
     }
     
     private function addFilters($qb, $params)
     {
-        
-        if(!empty($params['keyword'])){
-            $qb->field('name')->equals(new \MongoRegex('/.*'.$params['keyword'].'.*/i'));
-        }
-        if(!empty($params['disponible'])){
+        if($params == 'oui'){
             $qb->field('qte')->gt(0);
         }
         

@@ -41,3 +41,7 @@ dashboard_product_delete:
 dashboard_product_order_in_categorie:
     path: /product_order_in_categorie
     controller: App\Controller\Back\ProductBackController::productOrderInCategorie    
+    
+dashboard_product_search_result:
+    path: /dashboard_product_result
+    controller: App\Controller\Back\ProductBackController::search      
