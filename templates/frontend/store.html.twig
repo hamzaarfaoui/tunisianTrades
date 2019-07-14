@@ -22,6 +22,14 @@
     <div class="section">
         <!-- container -->
         <div class="container">
+            <div class="text-center">
+                <img src="{{ asset('/uploads/shops/couvertures/') }}{{ store.imageCouverture }}" style="height: 200px;width: 100%;margin-bottom: 10px;opacity: 0.5;">
+                <div style="position: absolute;top: 58%;left: 50%;transform: translate(-50%, -50%);">
+                    <img src="{{ asset('/uploads/shops/logos/') }}{{ store.logo }}" style="height: 170px;width: 170px;border-radius: 50%;border: 6px solid #fff;">
+                </div>
+                <h1>{{store.name}}</h1>
+                <hr>
+            </div>
             <!-- row -->
             <div class="row">
                 <!-- ASIDE -->
@@ -100,11 +108,7 @@
                     <!-- STORE -->
                     <div id="store">
                         <!-- row -->
-                        <div class="text-center">
-                            <img src="{{ asset('/uploads/shops/logos/') }}{{ store.logo }}" style="height: 120px;width: 120px;border-radius: 50%;border: 6px solid #fff;"><br>
-                            <h1>{{store.name}}</h1>
-                            <hr>
-                        </div>
+                        
                         <div id="list-produits">
                             <div class="row">
                             {% for product in products %}
