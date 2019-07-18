@@ -23,6 +23,30 @@ class FrontController extends Controller
     }
     
     /*
+     * About page
+     */
+    public function aboutPage()
+    {
+        return $this->render('frontend/about.html.twig');
+    }
+    
+    /*
+     * Contact page
+     */
+    public function contactPage()
+    {
+        return $this->render('frontend/contact.html.twig');
+    }
+    
+    /*
+     * Process order page
+     */
+    public function processOrderPage()
+    {
+        return $this->render('frontend/processOrder.html.twig');
+    }
+    
+    /*
      * Product page
      */
     public function productPage($id)

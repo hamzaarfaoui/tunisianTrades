@@ -12,17 +12,9 @@
                             <img src="{{asset('e-shop/img/logo.png') }}" alt="">
                         </a>
                     </div>
-                    <!-- /footer logo -->
-
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna</p>
-
-                    <!-- footer social -->
                     <ul class="footer-social">
                         <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                        <li><a href="#"><i class="fa fa-twitter"></i></a></li>
                         <li><a href="#"><i class="fa fa-instagram"></i></a></li>
-                        <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                        <li><a href="#"><i class="fa fa-pinterest"></i></a></li>
                     </ul>
                     <!-- /footer social -->
                 </div>
@@ -32,13 +24,11 @@
             <!-- footer widget -->
             <div class="col-md-3 col-sm-6 col-xs-6">
                 <div class="footer">
-                    <h3 class="footer-header">My Account</h3>
+                    <h3 class="footer-header">Mon compte</h3>
                     <ul class="list-links">
-                        <li><a href="#">My Account</a></li>
-                        <li><a href="#">My Wishlist</a></li>
-                        <li><a href="#">Compare</a></li>
-                        <li><a href="#">Checkout</a></li>
-                        <li><a href="#">Login</a></li>
+                        <li><a href="#">Infos</a></li>
+                        <li><a href="#">Commandes</a></li>
+                        <li><a href="#">Favoris</a></li>
                     </ul>
                 </div>
             </div>
@@ -49,12 +39,11 @@
             <!-- footer widget -->
             <div class="col-md-3 col-sm-6 col-xs-6">
                 <div class="footer">
-                    <h3 class="footer-header">Customer Service</h3>
+                    <h3 class="footer-header">Services</h3>
                     <ul class="list-links">
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="#">Shiping & Return</a></li>
-                        <li><a href="#">Shiping Guide</a></li>
-                        <li><a href="#">FAQ</a></li>
+                        <li><a href="{{ path('about_page') }}">Qui sommes-nous</a></li>
+                        <li><a href="{{ path('process_order_page') }}">Passer une commande</a></li>
+                        <li><a href="{{ path('contact_page') }}">Contact</a></li>
                     </ul>
                 </div>
             </div>
@@ -63,7 +52,7 @@
             <!-- footer subscribe -->
             <div class="col-md-3 col-sm-6 col-xs-6">
                 <div class="footer">
-                    <h3 class="footer-header">Stay Connected</h3>
+                    <h3 class="footer-header">Rester</h3>
                     <p>Rejoiner la Newsletter pour vous informer des nouveaux articles et des soldes.</p>
                     <form>
                         <div class="form-group">

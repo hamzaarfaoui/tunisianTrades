@@ -482,6 +482,15 @@ textarea.input {
   width: 204px;
 }
 
+.ct{
+    padding: 5px;
+  display: block;
+  text-transform: uppercase;
+  background: #78909c;
+  color: #FFF;
+  text-align: center;
+}
+
 .category-nav .category-header {
   padding: 15px;
   display: block;
@@ -732,9 +741,9 @@ textarea.input {
   .category-nav .category-list.open, .menu-nav .menu-list.open {
     display: block;
   }
-  .menu-nav .menu-header, .category-nav .category-header {
+/*  .menu-nav .menu-header, .category-nav .category-header {
     cursor: pointer;
-  }
+  }*/
   .category-nav {
     float: none;
     width: 100%;
@@ -1813,6 +1822,12 @@ textarea.input {
   margin: 0px;
     width: 100%;
 }
+#responsive-nav .dropdown.open .custom-menu {
+    display: block;
+   }
+   .category-nav .category-header{
+       display: none;
+   }
 .btn-slider{
     border-radius: 50px;
     padding: 10px;

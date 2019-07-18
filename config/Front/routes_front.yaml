@@ -2,6 +2,18 @@ index_page:
     path: /
     controller: App\Controller\Front\FrontController::indexPage
     
+about_page:
+    path: /qui_sommes_nous
+    controller: App\Controller\Front\FrontController::aboutPage
+    
+contact_page:
+    path: /contact
+    controller: App\Controller\Front\FrontController::contactPage
+    
+process_order_page:
+    path: /passer_une_commande
+    controller: App\Controller\Front\FrontController::processOrderPage    
+    
 product_by_category:
     path: /{id}/categorie/{title}
     controller: App\Controller\Front\FrontController::productByCategory 
