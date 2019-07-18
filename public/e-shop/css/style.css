@@ -482,15 +482,6 @@ textarea.input {
   width: 204px;
 }
 
-.ct{
-    padding: 5px;
-  display: block;
-  text-transform: uppercase;
-  background: #78909c;
-  color: #FFF;
-  text-align: center;
-}
-
 .category-nav .category-header {
   padding: 15px;
   display: block;
@@ -741,9 +732,9 @@ textarea.input {
   .category-nav .category-list.open, .menu-nav .menu-list.open {
     display: block;
   }
-/*  .menu-nav .menu-header, .category-nav .category-header {
+  .menu-nav .menu-header, .category-nav .category-header {
     cursor: pointer;
-  }*/
+  }
   .category-nav {
     float: none;
     width: 100%;

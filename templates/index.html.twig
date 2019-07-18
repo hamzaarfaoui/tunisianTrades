@@ -15,23 +15,26 @@
             <div id="responsive-nav">
                 <!-- category nav -->
                 <div class="category-nav">
-                    <span class="ct">Catégories <i class="fa fa-list"></i></span>
-                    <ul class="menu">
+                    <span class="category-header">Categories <i class="fa fa-list"></i></span>
+                    <ul class="category-list">
                         {% for categorie in categories %}
                         <li class="dropdown side-dropdown">
-                            <a class="dropdown-toggle" href="#">{{ categorie.name }}</a>
-                            <div class="megadrop">
-                                {% for sc1 in categorie.categories %}
-                                    <div class="col">
-                                         <h3>{{ sc1.name }}</h3>
-                                        <ul>
-                                            {% for souscat in sc1.sousCategories %}
-                                                <li><a href="#">{{ souscat.name }}</a></li>
-                                            {% endfor %}
-                                        </ul>
-                                        <hr class="hidden-md hidden-lg">
-                                    </div>
-                                {% endfor %}
+                            <a class="dropdown-toggle" style="margin: -6px;font-size: 12px;" data-toggle="dropdown" aria-expanded="true">{{ categorie.name }} <i class="fa fa-angle-right"></i></a>
+                            <div class="custom-menu">
+                                <div class="row">
+                                    {% for sc1 in categorie.categories %}
+                                        <div class="col-md-3">
+                                            <ul class="list-links">
+                                                <li>
+                                                    <h6 class="list-links-title">{{ sc1.name }}</h6></li>
+                                                    {% for souscat in sc1.sousCategories %}
+                                                        <li><a href="#">{{ souscat.name }}</a></li>
+                                                    {% endfor %}
+                                            </ul>
+                                            <hr class="hidden-md hidden-lg">
+                                        </div>
+                                    {% endfor %}
+                                </div>
                             </div>
                         </li>
                         {% endfor %}
@@ -53,7 +56,7 @@
             <!-- home wrap -->
             <div class="home-wrap">
                 <!-- home slick -->
-                <div id="home-slick" style="margin-bottom: 50px;margin-top: -31px;">
+                <div id="home-slick" style="margin-bottom: 50px;margin-top: -51px;">
                     {{ render(controller('App\\Controller\\Back\\SlidersController::listInFront')) }}
                 </div>
                 <!-- /home slick -->

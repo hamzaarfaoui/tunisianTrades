@@ -6,6 +6,8 @@
             <file>file:/var/www/html/tunisianTrades/public/e-shop/css/nav.css</file>
             <file>file:/var/www/html/tunisianTrades/templates/includes/front/css.html.twig</file>
             <file>file:/var/www/html/tunisianTrades/templates/index.html.twig</file>
+            <file>file:/var/www/html/tunisianTrades/templates/frontend/productsByCategory.html.twig</file>
+            <file>file:/var/www/html/tunisianTrades/templates/includes/front/nav.html.twig</file>
             <file>file:/var/www/html/tunisianTrades/public/e-shop/css/style.css</file>
         </group>
     </open-files>
