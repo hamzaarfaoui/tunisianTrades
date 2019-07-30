@@ -10,6 +10,10 @@ contact_page:
     path: /contact
     controller: App\Controller\Front\FrontController::contactPage
     
+contact_send:
+    path: /contact_send
+    controller: App\Controller\Front\FrontController::contactSend    
+    
 process_order_page:
     path: /passer_une_commande
     controller: App\Controller\Front\FrontController::processOrderPage    

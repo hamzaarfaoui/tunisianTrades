@@ -5,6 +5,7 @@ namespace App\Controller\Front;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use App\Document\Products;
 use Symfony\Component\HttpFoundation\Request;
+use App\Document\Contacts;
 
 class FrontController extends Controller
 {
@@ -36,6 +37,25 @@ class FrontController extends Controller
     public function contactPage()
     {
         return $this->render('frontend/contact.html.twig');
+    }
+    
+    /*
+     * Contact Send
+     */
+    public function contactSend(Request $request)
+    {
+        $dm = $this->get('doctrine_mongodb')->getManager();
+        $contact = new Contacts();
+        $contact->setCreatedAt(new \DateTime());
+        $contact->setNom($request->get('nom'));
+        $contact->setPrenom($request->get('prenom'));
+        $contact->setEmail($request->get('email'));
+        $contact->setPhone($request->get('phone'));
+        $contact->setMessage($request->get('msg'));
+        $dm->persist($contact);
+        $dm->flush();
+        $request->getSession()->getFlashBag()->add('success', "Nous avons bien reçu votre message ".$contact->getNom()." ".$contact->getPrenom().", nous vous répondrons trés prochainement");
+        return $this->redirectToRoute('contact_page');
     }
     
     /*
