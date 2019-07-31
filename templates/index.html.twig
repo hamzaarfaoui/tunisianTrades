@@ -96,6 +96,25 @@
 {% endblock %}
 {% block javascripts %}
 <script>
+    //subscribe to newsLetter
+    $('#formNewsLetter').submit(function(e){
+        e.preventDefault();
+        var email = $('#email').val();
+        $.ajax({
+            url: '{{ path('subscribe_to_news_letter') }}',
+            data : $("#formNewsLetter").serialize(),
+            method: "POST",
+            error: function (data) {
+                console.log('Erreur de s\'abonner à la newsLstter');
+            },
+            success: function (data) {
+                $('#bloc-msg').show();
+                $('#text-msg').html('Vous êtes inscrit à la news letter');
+                setTimeout(function(){ $('#bloc-msg').fadeOut(); }, 3000);
+            }
+        });
+    });
+        
     {% for categorie in sc2 %}
         $('#product-slick-{{categorie.id}}').slick({
     slidesToShow: 5,

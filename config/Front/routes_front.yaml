@@ -12,7 +12,11 @@ contact_page:
     
 contact_send:
     path: /contact_send
-    controller: App\Controller\Front\FrontController::contactSend    
+    controller: App\Controller\Front\FrontController::contactSend   
+    
+subscribe_to_news_letter:
+    path: /subscribe_to_news_letter
+    controller: App\Controller\Front\FrontController::subscribeToNewsLetter     
     
 process_order_page:
     path: /passer_une_commande

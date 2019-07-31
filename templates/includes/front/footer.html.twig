@@ -52,14 +52,17 @@
             <!-- footer subscribe -->
             <div class="col-md-3 col-sm-6 col-xs-6">
                 <div class="footer">
-                    <h3 class="footer-header">Rester</h3>
+                    <h3 class="footer-header">Rester Connecter</h3>
                     <p>Rejoiner la Newsletter pour vous informer des nouveaux articles et des soldes.</p>
-                    <form>
+                    <form id="formNewsLetter">
                         <div class="form-group">
-                            <input class="input" placeholder="Enter votre adresse mail" required="true">
+                            <input type="email" name="email" class="input" placeholder="Enter votre adresse mail" required="true">
                         </div>
-                        <button class="primary-btn" style="width: 100%;" type="submit">Rejoindre la Newslatter</button>
+                        <button class="primary-btn" style="width: 100%;" type="submit">Rejoindre la Newsletter</button><br>
                     </form>
+                    <div class="alert alert-success" id="bloc-msg" style="display: none;margin-top: 10px;">
+                        <p id="text-msg"></p>
+                    </div>
                 </div>
             </div>
             <!-- /footer subscribe -->
@@ -72,7 +75,7 @@
                 <!-- footer copyright -->
                 <div class="footer-copyright">
                     <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                    Copyright &copy;<script>document.write(new Date().getFullYear());</script> SINDBAD 
+                    Copyright &copy;<script>document.write(new Date().getFullYear());</script> EMALL 
                     <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                 </div>
                 <!-- /footer copyright -->

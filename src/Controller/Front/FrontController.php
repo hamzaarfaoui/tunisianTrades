@@ -6,6 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use App\Document\Products;
 use Symfony\Component\HttpFoundation\Request;
 use App\Document\Contacts;
+use App\Document\NewsLetter;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class FrontController extends Controller
 {
@@ -56,6 +58,20 @@ class FrontController extends Controller
         $dm->flush();
         $request->getSession()->getFlashBag()->add('success', "Nous avons bien reçu votre message ".$contact->getNom()." ".$contact->getPrenom().", nous vous répondrons trés prochainement");
         return $this->redirectToRoute('contact_page');
+    }
+    
+    /*
+     * Contact Send
+     */
+    public function subscribeToNewsLetter(Request $request)
+    {
+        $dm = $this->get('doctrine_mongodb')->getManager();
+        $newsLetter = new NewsLetter();
+        $newsLetter->setEmail($request->get('email'));
+        $newsLetter->setCreatedAt(new \DateTime());
+        $dm->persist($newsLetter);
+        $dm->flush();
+        return new JsonResponse(array('email' => $request->get('email')));
     }
     
     /*
