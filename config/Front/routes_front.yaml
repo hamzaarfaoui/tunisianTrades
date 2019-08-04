@@ -1,6 +1,18 @@
 index_page:
     path: /
     controller: App\Controller\Front\FrontController::indexPage
+
+new_pproducts_page:
+    path: /new_pproducts
+    controller: App\Controller\Front\FrontController::newProductsPage
+    
+vente_flash:
+    path: /vente_flash
+    controller: App\Controller\Front\FrontController::venteFlashPage
+    
+all_stores:
+    path: /all_stores
+    controller: App\Controller\Front\FrontController::allStoresPage    
     
 about_page:
     path: /qui_sommes_nous

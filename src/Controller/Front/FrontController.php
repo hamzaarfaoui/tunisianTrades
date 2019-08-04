@@ -26,6 +26,69 @@ class FrontController extends Controller
     }
     
     /*
+     * New products
+     */
+    public function newProductsPage(Request $request)
+    {
+        $dm = $this->get('doctrine_mongodb')->getManager();
+        $find_products = $dm->getRepository('App:Products')->newProducts();
+        $products_list = array();
+        foreach ($find_products as $product){
+            $products_list[] = $product;
+        }
+        $paginator  = $this->get('knp_paginator');
+        $products = $paginator->paginate(
+            $products_list, /* query NOT result */
+            $request->query->get('page', 1), /*page number*/
+            30 /*limit per page*/
+        );
+        return $this->render('frontend/nouveautes.html.twig', array(
+            'products' => $products
+        ));
+    }
+    
+    /*
+     * Vente flash
+     */
+    public function venteFlashPage(Request $request)
+    {
+        $dm = $this->get('doctrine_mongodb')->getManager();
+        $find_products = $dm->getRepository('App:Products')->venteFlash();
+        $products_list = array();
+        foreach ($find_products as $product){
+            $products_list[] = $product;
+        }
+        $paginator  = $this->get('knp_paginator');
+        $products = $paginator->paginate(
+            $products_list, /* query NOT result */
+            $request->query->get('page', 1), /*page number*/
+            30 /*limit per page*/
+        );
+        return $this->render('frontend/venteFlash.html.twig', array(
+            'products' => $products
+        ));
+    }
+    
+    /*
+     * All stores
+     */
+    public function allStoresPage(Request $request)
+    {
+        $dm = $this->get('doctrine_mongodb')->getManager();
+        $find_stores = $dm->getRepository('App:Stores')->findAll();
+        
+        $paginator  = $this->get('knp_paginator');
+        $stores = $paginator->paginate(
+            $find_stores, /* query NOT result */
+            $request->query->get('page', 1), /*page number*/
+            30 /*limit per page*/
+        );
+        return $this->render('frontend/allStores.html.twig', array(
+            'stores' => $stores
+        ));
+    }
+    
+    /*
      * Index page
      */
     public function navigation()

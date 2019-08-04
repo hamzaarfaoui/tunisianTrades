@@ -1743,12 +1743,15 @@ textarea.input {
 }
 .btn-slider{
     border-radius: 50px;
-    padding: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 8px;
+    padding-bottom: 8px;
     font-size: 22px;
     font-weight: bold;
     color: black;
     text-decoration: none;
-    background-color: #ffeb3b;
+    background-color: red;
 }
 .banner.banner-1 .banner-caption {
   -webkit-transform: translate(-50%, -50%);
@@ -1767,14 +1770,17 @@ textarea.input {
         width: 300px;
     }
     .btn-slider{
-    border-radius: 50px;
-    padding: 15px;
-    font-size: 22px;
-    font-weight: bold;
-    color: black;
-    text-decoration: none;
-    background-color: #ffeb3b;
-}
+        border-radius: 50px;
+        padding-left: 15px;
+        padding-right: 15px;
+        padding-top: 2px;
+        padding-bottom: 2px;
+        font-size: 22px;
+        font-weight: bold;
+        color: black;
+        text-decoration: none;
+        background-color: #ffeb3b;
+    }
     #home-slick{
   margin: 0px;
     width: 935px;
@@ -1821,6 +1827,18 @@ textarea.input {
       #home-slick{
   margin: 0px;
     width: 100%;
+}
+.btn-slider{
+    border-radius: 50px;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    font-size: 16px;
+    font-weight: bold;
+    color: black;
+    text-decoration: none;
+    background-color: #ffeb3b;
 }
 #responsive-nav .dropdown.open .custom-menu {
     display: block;
