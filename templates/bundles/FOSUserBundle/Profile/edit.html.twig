@@ -3,7 +3,7 @@
 
 {% block body %}
     <!-- NAVIGATION -->
-    {% include 'includes/front/nav.html.twig' %}
+    {{ render(controller('App\\Controller\\Front\\FrontController::navigation')) }}
 
     <!-- /NAVIGATION -->
     <!-- BREADCRUMB -->
