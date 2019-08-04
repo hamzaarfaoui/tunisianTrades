@@ -56,7 +56,7 @@
         <div class="container">
             <div id="responsive-nav">
                 <!-- NAVIGATION -->
-                {% include 'includes/front/nav.html.twig' %}
+                {{ render(controller('App\\Controller\\Front\\FrontController::navigation')) }}
 
                 <!-- /NAVIGATION -->
             </div>

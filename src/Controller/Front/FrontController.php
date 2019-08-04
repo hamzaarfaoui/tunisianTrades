@@ -26,6 +26,19 @@ class FrontController extends Controller
     }
     
     /*
+     * Index page
+     */
+    public function navigation()
+    {
+        $dm = $this->get('doctrine_mongodb')->getManager();
+        $sc2 = $dm->getRepository('App:SousCategories')->findBy(array('showInIndex' => 1));
+        $categories = $dm->getRepository('App:CategoriesMere')->findAll();
+        return $this->render('includes/front/nav.html.twig', array(
+            'categories' => $categories
+        ));
+    }
+    
+    /*
      * About page
      */
     public function aboutPage()
