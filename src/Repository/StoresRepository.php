@@ -13,7 +13,7 @@ date_default_timezone_set("Europe/Paris");
 class StoresRepository extends DocumentRepository
 {
     
-    public function byname($params, $disponible)
+    public function byname($params)
     {
         $qb = $this->createQueryBuilder('Stores');
         $qb->field('name')->equals(new \MongoRegex('/.*'.$params.'.*/i'));

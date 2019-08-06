@@ -1,5 +1,5 @@
 {% extends "base.html.twig" %}
-{% block title %}Produits{% endblock %}
+{% block title %}Vendeurs{% endblock %}
 {% block stylesheets %}{% endblock %}
 {% block body %}
     <!-- NAVIGATION -->
@@ -221,6 +221,20 @@
                     <!-- STORE -->
                     <div id="store">
                         <!-- row -->
+                        <div class="row">
+                        <div class="col-md-8" style="margin-left: 32%;">
+                            <form action="{{ path('search_stores') }}" method="post">
+                            <div class="row">
+                                <div class="col-md-4 col-sm-6 col-xs-6">
+                                    <input class="form-control" name="searchStore" placeholder="Quel vendeur cherchez-vous"/>
+                                </div>
+                                <div class="col-md-3 col-sm-6 col-xs-6">
+                                    <button class="btn btn-primary" type="submit">Recherche</button>
+                                </div>
+                            </div>
+                            </form>
+                        </div>
+                        </div>
                         <div class="row">
                             {% for store in stores %}
                                 <!-- Product Single -->

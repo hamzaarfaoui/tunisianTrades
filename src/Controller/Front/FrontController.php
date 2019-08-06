@@ -89,6 +89,28 @@ class FrontController extends Controller
     }
     
     /*
+     * All stores
+     */
+    public function searchStoresPage(Request $request)
+    {
+        $dm = $this->get('doctrine_mongodb')->getManager();
+        $find_stores = $dm->getRepository('App:Stores')->byname($request->get('searchStore'));
+        $stores_list = array();
+        foreach ($find_stores as $store){
+            $stores_list[] = $store;
+        }
+        $paginator  = $this->get('knp_paginator');
+        $stores = $paginator->paginate(
+            $stores_list, /* query NOT result */
+            $request->query->get('page', 1), /*page number*/
+            30 /*limit per page*/
+        );
+        return $this->render('frontend/allStores.html.twig', array(
+            'stores' => $stores
+        ));
+    }
+    
+    /*
      * Index page
      */
     public function navigation()
