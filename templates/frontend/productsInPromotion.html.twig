@@ -221,11 +221,11 @@
                     <!-- STORE -->
                     <div id="store">
                         <!-- row -->
-                        <div class="row">
+                        <div style="display: table;">
                             {% for product in products %}
                                 {% if(product.qte>0) %}
                                 <!-- Product Single -->
-                                <div class="col-md-2 col-sm-6 col-xs-6">
+                                <div style="display: table-cell;">
                                     <div class="product product-single {{product.pricePromotion != null?'product-hot-promotion':'product-hot'}}">
                                     <div class="product-thumb">
                                         <div class="product-label">

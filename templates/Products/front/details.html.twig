@@ -90,7 +90,7 @@
                             </div>
                             {% for image in product.getMediasImages() %}
                                 <div class="product-view">
-                                    <img style="height: 400px;" src="{{ asset('uploads/products/gallery/') }}{{ image.name }}" alt="">
+                                    <img src="{{ asset('uploads/products/gallery/') }}{{ image.name }}" alt="">
                                 </div>
                             {% endfor %}
                         </div>
@@ -100,7 +100,7 @@
                             </div>
                             {% for image in product.getMediasImages() %}
                                 <div class="product-view">
-                                    <img style="width: 100%;height: 100px;" src="{{ asset('uploads/products/gallery/') }}{{ image.name }}" alt="">
+                                    <img src="{{ asset('uploads/products/gallery/') }}{{ image.name }}" alt="">
                                 </div>
                             {% endfor %}
                         </div>

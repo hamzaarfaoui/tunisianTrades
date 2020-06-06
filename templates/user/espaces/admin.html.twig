@@ -18,7 +18,7 @@
             <div class="page-head">
                 <!-- BEGIN PAGE TITLE -->
                 <div class="page-title">
-                    <h1>Dashboard <small>statistics & reports</small></h1>
+                    <h1>Tableau de bord <small>statistiques et rapports</small></h1>
                 </div>
                 <!-- END PAGE TITLE -->
             </div>
@@ -35,18 +35,20 @@
             <!-- END PAGE BREADCRUMB -->
             <!-- BEGIN PAGE CONTENT INNER -->
             <div class="row margin-top-10">
-                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
                     <div class="dashboard-stat2">
                         <div class="display">
                             <div class="number">
-                                <h3 class="font-green-sharp">7800<small class="font-green-sharp">$</small></h3>
-                                <small>TOTAL PROFIT</small>
+                                <small>Commandes</small>
+                                <h3 class="font-green-sharp">{{ nombre_commandes_valide }} <span style="font-size: 16px;">Validés</span>{#<small class="font-green-sharp">$</small>#}</h3>
+                                <h3 class="font-red">{{ nombre_commandes_en_cours }} <span style="font-size: 16px;">En cours</span>{#<small class="font-green-sharp">$</small>#}</h3>
+                                
                             </div>
                             <div class="icon">
-                                <i class="icon-pie-chart"></i>
+                                <i class="icon-basket"></i>
                             </div>
                         </div>
-                        <div class="progress-info">
+                        {#<div class="progress-info">
                             <div class="progress">
                                 <span style="width: 76%;" class="progress-bar progress-bar-success green-sharp">
                                     <span class="sr-only">76% progress</span>
@@ -60,38 +62,23 @@
                                     76%
                                 </div>
                             </div>
-                        </div>
+                        </div>#}
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
                     <div class="dashboard-stat2">
                         <div class="display">
                             <div class="number">
-                                <h3 class="font-red-haze">1349</h3>
-                                <small>NEW FEEDBACKS</small>
+                                <h3 class="font-red-haze">2</h3>
+                                <small>Visites</small>
                             </div>
                             <div class="icon">
                                 <i class="icon-like"></i>
                             </div>
                         </div>
-                        <div class="progress-info">
-                            <div class="progress">
-                                <span style="width: 85%;" class="progress-bar progress-bar-success red-haze">
-                                    <span class="sr-only">85% change</span>
-                                </span>
-                            </div>
-                            <div class="status">
-                                <div class="status-title">
-                                    change
-                                </div>
-                                <div class="status-number">
-                                    85%
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
                     <div class="dashboard-stat2">
                         <div class="display">
                             <div class="number">
@@ -119,7 +106,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
                     <div class="dashboard-stat2">
                         <div class="display">
                             <div class="number">

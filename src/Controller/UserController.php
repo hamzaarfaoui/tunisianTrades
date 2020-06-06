@@ -13,7 +13,14 @@ class UserController extends Controller
     public function dashboard()
     {
         $dm = $this->get('doctrine_mongodb')->getManager();
-        return $this->render('user/espaces/admin.html.twig');
+        $nombreCmdValide = $dm->getRepository('App:Commandes')->nombreCmdValide();
+        $nombreCmdEnCours = $dm->getRepository('App:Commandes')->nombreCmdEnCours();
+        $nombreVisite = $dm->getRepository('App:MySite')->getVisites();
+        return $this->render('user/espaces/admin.html.twig',array(
+            'nombre_commandes_valide' => $nombreCmdValide,
+            'nombre_commandes_en_cours' => $nombreCmdEnCours,
+            'nombre_visite' => $nombreVisite
+        ));
     }
     
     /*

@@ -18,6 +18,18 @@ class CommandesRepository extends DocumentRepository
                 ->sort('createdAt', 'desc');
         return $qb->getQuery()->execute();
     }
+    public function nombreCmdValide()
+    {
+        $qb = $this->createQueryBuilder('Commandes')
+                ->field('status')->equals(1);
+        return $qb->getQuery()->execute()->count();
+    }
+    public function nombreCmdEnCours()
+    {
+        $qb = $this->createQueryBuilder('Commandes')
+                ->field('status')->equals(0);
+        return $qb->getQuery()->execute()->count();
+    }
     
     public function listeInDash()
     {

@@ -254,7 +254,7 @@ class ProductBackController extends Controller
         $product->setPrice($request->get('price'));
         $product->setQte($request->get('qte'));
         $product->setContent($request->get('descriptionC'));
-        $marque_id = $request->get('categorie');
+        $marque_id = $request->get('marque');
         $marque = $dm->getRepository('App:Marques')->find($marque_id);
         $product->setMarque($marque);
         

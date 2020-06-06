@@ -81,6 +81,7 @@ class CommandesController extends Controller
         }
         //dump($commande);die();
         $commande->setCreatedAt(new \DateTime('now'));
+        $commande->setUpdatedAt(new \DateTime('now'));
         $commande->setUser($user);
         $commande->setStatus(0);
         $commande->setFacture($this->facture($request));
@@ -100,7 +101,7 @@ class CommandesController extends Controller
         if (!$commande || $commande->getStatus() == 1){
         return $this->redirect($this->generateUrl('index_page'));
         }
-        
+        $commande->setUpdatedAt(new \DateTime('now'));
         $commande->setStatus(1);
         $dm->persist($commande);
         $dm->flush();   

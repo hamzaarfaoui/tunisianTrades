@@ -1,6 +1,6 @@
 {% for categorie in sc2|sortbyfield('orderInIndex') %}
     <!-- section -->
-    <div class="section">
+    <div class="section" style="width: 100%;">
         <!-- container -->
         <div class="container">
            
@@ -26,7 +26,7 @@
                             {% for product in categorie.products|sortbyfield('position') %}
                                 {% if(product.qte>0) %}
                                 <!-- Product Single -->
-                                <div class="product product-single {{product.pricePromotion != null?'product-hot-promotion':'product-hot'}}">
+                                <div class="product product-single {{product.pricePromotion != null?'product-hot-promotion':'product-hot'}}" style="height: 339px;">
                                     <div class="product-thumb">
                                         <div class="product-label">
                                             {% if(product.createdAt != null) %}
