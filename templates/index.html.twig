@@ -6,10 +6,9 @@
         .section {
             margin-top: -62px;
         }
-        
-    .slick-track{
-        width: 100%;
-    }
+        .slick-slide {
+    width: 200px;
+}
     </style>
 {% endblock %}
 {% block body %}
@@ -166,13 +165,14 @@
         {% for categorie in sc2 %}
             $('#product-slick-{{categorie.id}}').slick({
                 slidesToShow: 5,
-                slidesToScroll: 1,
+                slidesToScroll: 2,
                 autoplay: false,
                 infinite: true,
                 speed: 300,
                 dots: true,
                 arrows: false,
                 appendDots: '.product-slick-dots-1',
+                variableWidth: true,
                 responsive: [{
                         breakpoint: 991,
                         settings: {

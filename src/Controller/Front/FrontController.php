@@ -20,8 +20,6 @@ class FrontController extends Controller
         $dm = $this->get('doctrine_mongodb')->getManager();
         $sc2 = $dm->getRepository('App:SousCategories')->findBy(array('showInIndex' => 1));
         $categories = $dm->getRepository('App:CategoriesMere')->findAll();
-        $nbrVisite = $dm->getRepository('App:MySite')->getVisites();
-        $dm->flush();
         return $this->render('index.html.twig', array(
             'sc2' => $sc2,
             'categories' => $categories

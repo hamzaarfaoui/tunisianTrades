@@ -4,7 +4,7 @@
         <div id="responsive-nav">
             <!-- category nav -->
             <div class="category-nav show-on-click">
-                <span class="category-header">Catégories <i class="fa fa-list"></i></span>
+                <span class="category-header">Catégoriesff <i class="fa fa-list"></i></span>
                 <ul class="category-list">
                     {% for categorie in categories %}
                     <li class="dropdown side-dropdown">
@@ -17,7 +17,7 @@
                                             <li>
                                                 <h6 class="list-links-title">{{ sc1.name }}</h6></li>
                                                 {% for souscat in sc1.sousCategories %}
-                                                    <li><a href="#">{{ souscat.name }}</a></li>
+                                                    <li><a href="{{ path('product_by_category', {id:souscat.id, title: souscat.name}) }}">{{ souscat.name }}</a></li>
                                                 {% endfor %}
                                         </ul>
                                         <hr class="hidden-md hidden-lg">
