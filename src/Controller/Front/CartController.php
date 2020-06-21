@@ -209,13 +209,15 @@ class CartController extends Controller
     
     public function validation(Request $request)
     {
-        if ($request->getMethod() == 'POST')
-        {
-            //$this->setLivraisonOnSession($request);
-            $this->getUser()->setAdressLivraison($request->get('adresse'));
-            $this->getUser()->setCityLivraison($request->get('city'));
-        }
         $dm = $this->get('doctrine_mongodb')->getManager();
+        if ($this->getUser())
+        {
+            $user = $this->getUser();
+            $user->setAdressLivraison($request->get('adresse'));
+            $user->setCityLivraison($request->get('city'));
+            $dm->persist($user);
+            $dm->flush();  
+        }
         $prepareCommande = $this->forward('App\Controller\Front\CommandesController::prepareCommande');
         $commande = $dm->getRepository('App:Commandes')->find($prepareCommande->getContent());
         return $this->render('frontend/cart/validation.html.twig', array('commande' => $commande));

@@ -49,8 +49,8 @@ class CommandesController extends Controller
         }  
         
         $commande['livraison'] = array(
-            'adresse' => $this->getUser()->getAdress(),
-            'ville' => $this->getUser()->getCity(),
+            'adresse' => $this->getUser()->getAdressLivraison(),
+            'ville' => $this->getUser()->getCityLivraison(),
             'pays' => $this->getUser()->getCountry()
             );
         

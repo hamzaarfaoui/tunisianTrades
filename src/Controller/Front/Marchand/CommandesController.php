@@ -116,6 +116,42 @@ class CommandesController extends Controller
             'products' => $products,
             'montant' => $montant,
             'date' => $commande->getCreatedAt(),
+            'client'=>$commande->getFacture()[2]['nom_prenom'],
+            'store' => $store
+            ));
+    }
+    
+    /*
+     * store Commande validate
+     */
+    public function validateAction(Request $request,$id, $store)
+    {
+        $dm = $this->get('doctrine_mongodb')->getManager();
+        $commande = $dm->getRepository('App:Commandes')->find($id);
+        $products = array();
+        foreach ($commande->getFacture()[0] as $facture){
+            if($facture['id_vendeur'] == $store){
+                if(!in_array($commande, $products)){
+                    $products [] = $facture;
+                }
+
+            }
+        }
+        $montant = 0;
+        foreach ($commande->getFacture()[0] as $f){
+            if($f['id_vendeur'] == $store){
+                $montant += $f['price']*$f['quantite'];
+            }
+        }
+        $commande->setStatus(2);
+        $dm->persist($commande);
+        $dm->flush();
+        $request->getSession()->getFlashBag()->add('success', "Commande validée");
+        return $this->render('commandes/marchand/show.html.twig', array(
+            'commande' => $commande,
+            'products' => $products,
+            'montant' => $montant,
+            'date' => $commande->getCreatedAt(),
             'client'=>$commande->getFacture()[2]['nom_prenom']
             ));
     }

@@ -6,6 +6,10 @@ marchand_commandes_details:
     path: /{id}/details/{store}
     controller: App\Controller\Front\Marchand\CommandesController::showAction
     
+marchand_commandes_validate:
+    path: /{id}/validate/{store}
+    controller: App\Controller\Front\Marchand\CommandesController::validateAction    
+    
 marchand_commandes_new:
     path: /{id}/valider
     controller: App\Controller\Front\Marchand\CommandesController::valider   
