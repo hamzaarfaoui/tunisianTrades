@@ -69,10 +69,11 @@
                                                 </td>
                                                 <td class="price text-center"><strong>{{ product.pricePromotion!=null?product.pricePromotion:product.price }} TND</strong><br>{#<del class="font-weak"><small>$40.00</small></del>#}</td>
                                                 <td class="qty text-center">
+                                                    {% set quantite = product.qte %}
                                                     <select name="qte" data-id="{{ product.id }}" class="input quantite" onchange="this.form.submit()">
                                                         <option selected value="{{ panier[product.id] }}">{{ panier[product.id] }}</option>
-                                                        {% for i in 1..10 %}
-                                                            {% if(i != [product.id]) %}
+                                                        {% for i in 1..quantite %}
+                                                            {% if(i != panier[product.id]) %}
                                                                 <option value="{{i}}">{{i}}</option>
                                                             {% endif %}
                                                         {% endfor %}

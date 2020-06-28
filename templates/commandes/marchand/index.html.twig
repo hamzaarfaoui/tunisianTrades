@@ -87,6 +87,9 @@
                                             Montant
                                         </th>
                                         <th>
+                                            Status
+                                        </th>
+                                        <th>
                                             Date
                                         </th>
                                         <th>
@@ -99,6 +102,7 @@
                                         <tr>
                                             <td>{{commande.client}}</td>
                                             <td>{{commande.montant}} TND</td>
+                                            <td>{{commande.status == 2?'Validé':'En cours'}}</td>
                                             <td>Le {{commande.date|date('d/m/Y')}} à {{commande.date|date('H:i')}}</td>
                                             <td>
                                                 <a href="{{ path('marchand_commandes_details', {id:commande.id, store:store}) }}" class="btn btn-sm btn-primary">Détails</a>

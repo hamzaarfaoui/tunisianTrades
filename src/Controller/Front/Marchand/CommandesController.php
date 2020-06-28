@@ -132,6 +132,8 @@ class CommandesController extends Controller
         foreach ($commande->getFacture()[0] as $facture){
             if($facture['id_vendeur'] == $store){
                 if(!in_array($commande, $products)){
+                    $product = $dm->getRepository('App:Products')->find($facture['id']);
+                    $product->setQte($product->getQte()-$facture['quantite']);
                     $products [] = $facture;
                 }
 
@@ -146,14 +148,7 @@ class CommandesController extends Controller
         $commande->setStatus(2);
         $dm->persist($commande);
         $dm->flush();
-        $request->getSession()->getFlashBag()->add('success', "Commande validée");
-        return $this->render('commandes/marchand/show.html.twig', array(
-            'commande' => $commande,
-            'products' => $products,
-            'montant' => $montant,
-            'date' => $commande->getCreatedAt(),
-            'client'=>$commande->getFacture()[2]['nom_prenom']
-            ));
+        return $this->redirectToRoute('marchand_commandes_details', array('id' => $id, 'store' => $store));
     }
     
     /*

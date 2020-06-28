@@ -45,7 +45,6 @@ class CommandesController extends Controller
                 'id_vendeur' => $product->getStore()?$product->getStore()->getId():''
                 //'prixTTC' => round($produit->getPrixunitaireht() / $produit->getTva()->getMultiplicate(),2)
                 );
-        $product->setQte($product->getQte()-$panier[$product->getId()]);
         }  
         
         $commande['livraison'] = array(
