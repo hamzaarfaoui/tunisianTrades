@@ -5,7 +5,7 @@
     margin-left: 50%;
     margin-right: 50%;
     border: 5px solid #f3f3f3; /* Light grey */
-    border-top: 5px solid #3498db; /* Blue */
+    border-top: 5px solid #00c853;
     border-radius: 50%;
     width: 50px;
     height: 50px;
@@ -47,9 +47,16 @@
 }
 
 .menu-nav{
-    border-top: 1px solid #78909c;
-    border-right: 1px solid #78909c;
-    border-bottom: 1px solid #78909c;
+    border-top: 1px solid transparent;
+    border-right: 1px solid transparent;
+    border-bottom: 1px solid transparent;
+}
+.menu-list{
+    display: none;
+}
+.home-wrap{
+    position: relative;
+    top: -81px;
 }
 .bouton-gris{
     background-color: #FFF;
@@ -71,6 +78,51 @@
 }
 .container{
     margin-bottom: 30px;
+}
+.primary-btn{
+    background-color: #00c853;
+}
+.primary-btn:hover{
+    background-color: #00e676;
+    color: #fff;
+}
+.header-cart .header-btns-icon .qty{
+    background-color: #00c853;
+}
+.category-nav .category-header{
+    background-color: #00c853;
+}
+.noUi-connect{
+    background: #00c853;
+}
+.noUi-horizontal{
+    height: 10px;
+}
+.noUi-horizontal .noUi-handle {
+    width: 14px;
+    height: 21px;
+    left: -8px;
+    top: -6px;
+    background: #eee;
+    border: 1px solid #ccc;
+}
+.noUi-handle:after, .noUi-handle:before{
+    background: transparent;
+}
+.noUi-value-horizontal {
+    top: 20px;
+}
+.filter-bloc{
+    top: 59px;
+    position: relative;
+}
+.list-products{
+    padding-left: 37px;
+}
+.img-product-filter{
+    height: 191px;
+    margin-top: 35px;
+    width: 100%;
 }
 @media screen and (max-width: 450px){
     .input-login{

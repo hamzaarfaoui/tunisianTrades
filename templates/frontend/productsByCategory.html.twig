@@ -1,6 +1,8 @@
 {% extends "base.html.twig" %}
 {% block title %}{{ categorie.name }}{% endblock %}
-{% block stylesheets %}{% endblock %}
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('custom/css/nouislider.min.css') }}">
+{% endblock %}
 {% block body %}
     <!-- NAVIGATION -->
     {{ render(controller('App\\Controller\\Front\\FrontController::navigation')) }}
@@ -10,7 +12,7 @@
     <div id="breadcrumb">
         <div class="container">
             <ul class="breadcrumb">
-                <li><a href="{{ path('index_page') }}">Sindbad</a></li>
+                <li><a href="{{ path('index_page') }}">Kaiser Mall</a></li>
                 <li class="active">{{ categorie.name }}</li>
             </ul>
         </div>
@@ -35,7 +37,7 @@
                     </div>
                     
                     <!-- aside widget -->
-                    <div class="aside">
+                    <div class="aside filter-bloc">
                         <h5>Marques</h5>
                         <ul>
                             {% for marque in marques %}
@@ -93,7 +95,7 @@
                                     {% if(product.qte>0) %}
                                     <!-- Product Single -->
                                     <div class="col-md-3 col-sm-6 col-xs-6">
-                                        <div class="product product-single {{product.pricePromotion != null?'product-hot-promotion':'product-hot'}}" style="height: 400px;">
+                                        <div class="product product-single {{product.pricePromotion != null?'product-hot-promotion':'product-hot'}}" style="height: 360px;">
                                         <div class="product-thumb">
                                             <div class="product-label">
                                                 {#{% set today = "now"|date("d/m/Y") %}
@@ -108,7 +110,7 @@
                                                 {% endif %}
                                             </div>
                                             <a href="{{ path('product_page', {id:product.id}) }}" class="main-btn quick-view"> Détails</a>
-                                            <img src="{{ asset('uploads/products/images/') }}{{ product.image }}" alt="" style="height:150px;">
+                                            <img src="{{ asset('uploads/products/images/') }}{{ product.image }}" alt="" class="img-product-filter">
                                         </div>
                                         <div class="product-body">
                                             {% if(product.pricePromotion != null) %}
@@ -171,9 +173,9 @@
     <!-- /section -->
 {% endblock %}
 {% block javascripts %}
-    <script src="https://unpkg.com/nouislider@10.0.0/distribute/nouislider.min.js"></script>
-<script src="https://unpkg.com/wnumb@1.1.0"></script>
-<link rel="stylesheet" href="https://unpkg.com/nouislider@10.0.0/distribute/nouislider.min.css">
+    <script src="{{ asset('custom/js/nouislider.min.js') }}"></script>
+    <script src="{{ asset('custom/js/wNumb.js') }}"></script>
+
     <script>
         ///filter by range price
     // PRICE SLIDER
