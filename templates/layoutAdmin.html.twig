@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}{% endblock %}</title>
+        <title>Kaiser Mall {% block title %}{% endblock %}</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta content="width=device-width, initial-scale=1" name="viewport"/>
         <meta content="" name="description"/>
@@ -10,8 +10,16 @@
         {% include 'includes/back/css.html.twig' %}
         <style>
             .page-header.navbar {
-                background: #3B3F51;
+                background: #FFFFFF;
                 border-bottom: 1px solid #e9ecf3;
+            }
+            .btn-primary{
+                background: #39b54a;
+            }
+            .logo-dash{
+                position: relative;
+                bottom: 22px;
+                width: 115px;
             }
             {% if ((is_granted('ROLE_COMMERCIAL'))or(is_granted('ROLE_GESTIONNEAIRE_STOCK')))%}
                 .page-content-wrapper .page-content {
@@ -39,7 +47,7 @@
             <!-- BEGIN LOGO -->
             <div class="page-logo">
                 <a href="{{ path('backoffice_homepage') }}">
-                    <img src="{{ asset('template/assets/admin/layout4/img/logo-light.png') }}" alt="logo" class="logo-default"/>
+                    <img src="{{ asset('e-shop/img/logo.png') }}" alt="logo" class="logo-default logo-dash"/>
                 </a>
                 {% if (is_granted('ROLE_SUPER_ADMIN'))%}
                 <div class="menu-toggler sidebar-toggler">
@@ -71,10 +79,10 @@
                         <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
                         <li class="dropdown dropdown-user dropdown-dark">
                             <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-                                <span class="username username-hide-on-mobile">
+                                <span class="username username-hide-on-mobile" style="color: #757575;">
                                     {{app.user.username}} </span>
                                 <!-- DOC: Do not remove below empty space(&nbsp;) as its purposely used -->
-                                <img alt="" class="img-circle" src="{{ asset('template/assets/admin/layout4/img/avatar9.jpg') }}"/>
+                                <img alt="" class="img-circle" src="{{ asset('template/assets/admin/layout4/img/avatar9.jpg') }}" style="border: 2px solid #757575;"/>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-default">
                                 <li>
