@@ -20,28 +20,32 @@ class CommandesRepository extends ServiceEntityRepository
     }
     public function liste()
     {
-        $qb = $this->createQueryBuilder('Commandes')
-                ->sort('createdAt', 'desc');
+        $qb = $this->createQueryBuilder('u')
+                ->orderBy('u.createdAt', 'desc');
         return $qb->getQuery()->execute();
     }
     public function nombreCmdValide()
     {
-        $qb = $this->createQueryBuilder('Commandes')
-                ->field('status')->equals(1);
-        return $qb->getQuery()->execute()->count();
+        $qb = $this->createQueryBuilder('u')
+        ->select('COUNT(u)')
+                ->where('u.status = 1');
+        return $qb->getQuery()
+ ->getSingleScalarResult();
     }
     public function nombreCmdEnCours()
     {
-        $qb = $this->createQueryBuilder('Commandes')
-                ->field('status')->equals(0);
-        return $qb->getQuery()->execute()->count();
+        $qb = $this->createQueryBuilder('u')
+        ->select('COUNT(u)')
+                ->where('u.status = 0');
+        return $qb->getQuery()
+ ->getSingleScalarResult();
     }
     
     public function listeInDash()
     {
-        $qb = $this->createQueryBuilder('Commandes')
-                ->sort('createdAt', 'desc')
-                ->limit(6);
+        $qb = $this->createQueryBuilder('u')
+                ->orderBy('u.createdAt', 'desc')
+                ->setMaxResults(6);
         return $qb->getQuery()->execute();
     }
     // /**

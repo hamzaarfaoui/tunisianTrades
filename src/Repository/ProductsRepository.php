@@ -30,10 +30,12 @@ class ProductsRepository extends ServiceEntityRepository
     
     public function produitsLiees($params)
     {
-        $qb = $this->createQueryBuilder('Products')
-                ->field('_id')->notEqual($params['id'])
-                ->field('sousCategorie')->equals($params['sousCategorie'])
-                ->limit(4);
+        $qb = $this->createQueryBuilder('u')
+                ->where('u.id != :id')
+                ->where('u.sousCategorie = :sousCategorie')
+                ->limit(4)
+                ->setParameter('id', $params['id'])
+                ->setParameter('id', $params['sousCategorie']);
 
         return $qb->getQuery()->execute();
     }
@@ -59,7 +61,7 @@ class ProductsRepository extends ServiceEntityRepository
     public function newProducts()
     {
         $qb = $this->createQueryBuilder('Products')
-                ->sort('createdAt', 'desc');
+                ->orderBy('createdAt', 'desc');
         return $qb->getQuery()->execute();
     }
     
@@ -67,7 +69,7 @@ class ProductsRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('Products')
                 ->field('pricePromotion')->gt(0)
-                ->sort('createdAt', 'desc');
+                ->orderBy('createdAt', 'desc');
         return $qb->getQuery()->execute();
     }
     
@@ -75,7 +77,7 @@ class ProductsRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('Products')
                 ->field('pricePromotion')->gt(0)
-                ->sort('createdAt', 'desc');
+                ->orderBy('createdAt', 'desc');
         return $qb->getQuery()->execute();
     }
     
@@ -83,7 +85,7 @@ class ProductsRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('Products')
                 ->field('store')->equals($store)
-                ->sort('nbrView', 'desc')
+                ->orderBy('nbrView', 'desc')
                 ->field('nbrView')->gt(0)
                 ->limit(6);
         return $qb->getQuery()->execute();
@@ -93,7 +95,7 @@ class ProductsRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('Products')
                 ->field('store')->equals($store)
-                ->sort('nbrAddToCart', 'desc')
+                ->orderBy('nbrAddToCart', 'desc')
                 ->field('nbrAddToCart')->gt(0)
                 ->limit(6);
         return $qb->getQuery()->execute();
@@ -103,7 +105,7 @@ class ProductsRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('Products')
                 ->field('store')->equals($store)
-                ->sort('nbrAddToFavorite', 'desc')
+                ->orderBy('nbrAddToFavorite', 'desc')
                 ->field('nbrAddToFavorite')->gt(0)
                 ->limit(6);
         return $qb->getQuery()->execute();
@@ -113,7 +115,7 @@ class ProductsRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('Products')
                 ->field('sousCategorie.id')->equals($sousCategorie)
-                ->sort('position', 'ASC');
+                ->orderBy('position', 'ASC');
         return $qb->getQuery()->execute();
     }
     
@@ -121,7 +123,7 @@ class ProductsRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('Products')
                 ->field('sousCategorie.id')->equals($sousCategorie)
-                ->sort('price', 'ASC');
+                ->orderBy('price', 'ASC');
         return $qb->getQuery()->execute();
     }
     
@@ -129,7 +131,7 @@ class ProductsRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('Products')
                 ->field('store.id')->equals($store)
-                ->sort('createdAt', 'desc');
+                ->orderBy('createdAt', 'desc');
         return $qb->getQuery()->execute();
     }
     
@@ -142,11 +144,11 @@ class ProductsRepository extends ServiceEntityRepository
         }
         if(isset($params['tri'])&&!empty($params['tri'])){
             if ($params['tri'] == 1){
-                $qb->sort('price', 'DESC');
+                $qb->orderBy('price', 'DESC');
             }elseif ($params['tri'] == 2){
-                $qb->sort('price', 'ASC');
+                $qb->orderBy('price', 'ASC');
             }elseif ($params['tri'] == 3){
-                $qb->sort('nbrView', 'DESC');
+                $qb->orderBy('nbrView', 'DESC');
             }
         }
         if(isset($params['categorie'])&&!empty($params['categorie'])){
@@ -167,7 +169,7 @@ class ProductsRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('Products')
                 ->field('keywords.id')->in($keyword)
-                ->sort('createdAt', 'desc');
+                ->orderBy('createdAt', 'desc');
         return $qb->getQuery()->execute();
     }
 
@@ -175,14 +177,14 @@ class ProductsRepository extends ServiceEntityRepository
 //    public function byPriceAsc()
 //    {
 //        $qb = $this->createQueryBuilder('Products')
-//                ->sort('price', 'asc');
+//                ->orderBy('price', 'asc');
 //        return $qb->getQuery()->execute();
 //    }
 //    
 //    public function byPulaires()
 //    {
 //        $qb = $this->createQueryBuilder('Products')
-//                ->sort('nbrView', 'desc');
+//                ->orderBy('nbrView', 'desc');
 //        return $qb->getQuery()->execute();
 //    }
     
