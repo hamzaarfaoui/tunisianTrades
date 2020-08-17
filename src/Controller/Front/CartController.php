@@ -3,11 +3,11 @@
 namespace App\Controller\Front;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use App\Document\Products;
+use App\Entity\Products;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\BrowserKit\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use App\Document\AdressesUser;
+use App\Entity\AdressesUser;
 use App\Form\AdresseUserType;
 use App\Form\AdresseType;
 
@@ -19,7 +19,7 @@ class CartController extends Controller
     public function cart(Request $request)
     {
         $session = $request->getSession();
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         if (!$session->has('panier')){$session->set('panier', array());}
         $products = $dm->getRepository('App:Products')->findArray(array_keys($session->get('panier')));
         return $this->render('frontend/cart/cart.html.twig', array(
@@ -33,7 +33,7 @@ class CartController extends Controller
      */
     public function fetchTotalCart(Request $request)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $session = $request->getSession();
         
         $list = '';
@@ -80,7 +80,7 @@ class CartController extends Controller
      */
     public function CartInHeader(Request $request)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $session = $request->getSession();
         $array_product_ids = "";
         if (!$session->has('panier')){
@@ -106,7 +106,7 @@ class CartController extends Controller
      */
     public function addProductToCart(Request $request, $id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $session = $request->getSession();
         if (!$session->has('panier')) {$session->set('panier',array());}
         $panier = $session->get('panier');
@@ -174,7 +174,7 @@ class CartController extends Controller
         if($utilisateur){
         $form = $this->createForm(AdresseType::class, $utilisateur);
         if ($form->isSubmitted() && $form->isValid()) {
-            $dm = $this->get('doctrine_mongodb')->getManager();
+            $dm = $this->getDoctrine()->getManager();
             $dm->persist($utilisateur);
             $dm->flush();
             return $this->redirect($this->generateUrl('livraison_page'));
@@ -209,7 +209,7 @@ class CartController extends Controller
     
     public function validation(Request $request)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         if ($this->getUser())
         {
             $user = $this->getUser();

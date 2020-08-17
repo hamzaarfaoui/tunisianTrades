@@ -3,11 +3,11 @@
 namespace App\Controller\Front;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use App\Document\Products;
+use App\Entity\Products;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use App\Document\AdressesUser;
+use App\Entity\AdressesUser;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
@@ -25,7 +25,7 @@ class AdressesUserController extends Controller
      */
     public function index()
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $adresses = $dm->getRepository('App:AdressesUser')->findBy(array('user' => $this->getUser()));
         return $this->render('user/adresses/index.html.twig', array(
             'adresses' => $adresses,
@@ -41,7 +41,7 @@ class AdressesUserController extends Controller
      */
     public function newAdresseUser(Request $request)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $adresseUser = new AdressesUser();
         $form = $this->createForm('App\Form\AdresseUserType', $adresseUser);
         $form->handleRequest($request);
@@ -71,7 +71,7 @@ class AdressesUserController extends Controller
      */
     public function editAdresseUser(Request $request, $id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $adresseUser = $dm->getRepository('App:AdressesUser')->find($id);
         $form = $this->createForm('App\Form\AdresseUserType', $adresseUser);
         $form->handleRequest($request);
@@ -101,7 +101,7 @@ class AdressesUserController extends Controller
      */
     public function deleteAdresseUser(Request $request, $id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $adresseUser = $dm->getRepository('App:AdressesUser')->find($id);
         $dm->remove($adresseUser);
         $dm->flush();

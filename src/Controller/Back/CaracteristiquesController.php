@@ -3,7 +3,7 @@
 namespace App\Controller\Back;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use App\Document\Caracteristiques;
+use App\Entity\Caracteristiques;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -14,7 +14,7 @@ class CaracteristiquesController extends Controller
      */
     public function listAction()
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $caracteristiques = $dm->getRepository('App:Caracteristiques')->findAll();
         $categories = $dm->getRepository('App:SousCategories')->findAll();
         return $this->render('Products/back/caracteristiques/list.html.twig', array(
@@ -28,7 +28,7 @@ class CaracteristiquesController extends Controller
      */
     public function showAction($id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $caracteristique = $dm->getRepository('App:Caracteristiques')->find($id);
         return $this->render('Products/back/caracteristiques/details.html.twig', array('caracteristique' => $caracteristique));
     }
@@ -38,7 +38,7 @@ class CaracteristiquesController extends Controller
      */
     public function newAction(Request $request)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $caracteristique = new Caracteristiques();
         $caracteristique->setName($request->get('nom'));
         $categorie = $dm->getRepository('App:SousCategories')->find($request->get('categorie'));
@@ -54,7 +54,7 @@ class CaracteristiquesController extends Controller
      */
     public function editAction($id, Request $request)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $caracteristique = $dm->getRepository('App:Caracteristiques')->find($id);
         $caracteristique->setName($request->get('nom'));
         $categorie = $dm->getRepository('App:SousCategories')->find($request->get('categorie'));
@@ -73,7 +73,7 @@ class CaracteristiquesController extends Controller
      */
     public function deleteAction(Request $request, $id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $caracteristique = $dm->getRepository('App:Caracteristiques')->find($id);
         $dm->remove($caracteristique);
         $dm->flush();

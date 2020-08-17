@@ -3,16 +3,16 @@
 namespace App\Controller\Front\Marchand;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use App\Document\Products;
-use App\Document\User;
-use App\Document\Marchands;
-use App\Document\AdressesStore;
-use App\Document\AdressesUser;
-use App\Document\TelephonesUser;
-use App\Document\TelephonesStore;
-use App\Document\MediasImages;
-use App\Document\Promotions;
-use App\Document\Keywords;
+use App\Entity\Products;
+use App\Entity\User;
+use App\Entity\Marchands;
+use App\Entity\AdressesStore;
+use App\Entity\AdressesUser;
+use App\Entity\TelephonesUser;
+use App\Entity\TelephonesStore;
+use App\Entity\MediasImages;
+use App\Entity\Promotions;
+use App\Entity\Keywords;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -26,7 +26,7 @@ class MembersController extends Controller
      */
     public function liste()
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $members = $dm->getRepository('App:User')->findBy(array('owner' => $this->getUser()));
         return $this->render('marchand/members/index.html.twig', array('members' => $members));
     }
@@ -36,7 +36,7 @@ class MembersController extends Controller
      */
     public function details($id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $member = $dm->getRepository('App:User')->find($id);
         return $this->render('marchand/members/show.html.twig', array(
             'member' => $member
@@ -48,7 +48,7 @@ class MembersController extends Controller
      */
     public function newMember(Request $request)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $member = new User();
         $form = $this->createForm('App\Form\UserType', $member);
         $form->handleRequest($request);
@@ -96,7 +96,7 @@ class MembersController extends Controller
      */
     public function editMember(Request $request, $id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $member = $dm->getRepository('App:User')->find($id);
         $form = $this->createForm('App\Form\UserEditType', $member);
         $form->handleRequest($request);
@@ -119,7 +119,7 @@ class MembersController extends Controller
      */
     public function memberStatus(Request $request, $id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $member = $dm->getRepository('App:User')->find($id);
         $member->isEnabled() == 1?$member->setEnabled(0):$member->setEnabled(1);
         $dm->persist($member);
@@ -132,7 +132,7 @@ class MembersController extends Controller
      */
     public function deleteMember(Request $request, $id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $member = $dm->getRepository('App:User')->find($id);
         $dm->remove($member);
         $dm->flush();

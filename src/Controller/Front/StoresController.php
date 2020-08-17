@@ -3,7 +3,7 @@
 namespace App\Controller\Front;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use App\Document\Stores;
+use App\Entity\Stores;
 
 class StoresController extends Controller
 {
@@ -12,7 +12,7 @@ class StoresController extends Controller
      */
     public function listAction()
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $stores = $dm->getRepository('App:Stores')->findAll();
         return $this->render('stores/front/list.html.twig', array('stores' => $stores));
     }
@@ -22,7 +22,7 @@ class StoresController extends Controller
      */
     public function showAction($id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $store = $dm->getRepository('App:Stores')->find($id);
         return $this->render('stores/front/show.html.twig', array('store' => $store));
     }

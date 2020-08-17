@@ -3,16 +3,16 @@
 namespace App\Controller\Front\Marchand;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use App\Document\Products;
-use App\Document\User;
-use App\Document\Marchands;
-use App\Document\AdressesStore;
-use App\Document\AdressesUser;
-use App\Document\TelephonesUser;
-use App\Document\TelephonesStore;
-use App\Document\MediasImages;
-use App\Document\Promotions;
-use App\Document\Keywords;
+use App\Entity\Products;
+use App\Entity\User;
+use App\Entity\Marchands;
+use App\Entity\AdressesStore;
+use App\Entity\AdressesUser;
+use App\Entity\TelephonesUser;
+use App\Entity\TelephonesStore;
+use App\Entity\MediasImages;
+use App\Entity\Promotions;
+use App\Entity\Keywords;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -26,7 +26,7 @@ class PromotionsController extends Controller
      */
     public function liste($id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $store = $dm->getRepository('App:Stores')->find($id);
         $promotions_list = array();
         $products = $dm->getRepository('App:Products')->findBy(array('store' => $store));
@@ -47,7 +47,7 @@ class PromotionsController extends Controller
      */
     public function editAction(Request $request, $id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $promotion = $dm->getRepository('App:Promotions')->find($id);
 
         $promotion->setDebut(new \DateTime(''.$request->get('datedebut').''));
@@ -67,7 +67,7 @@ class PromotionsController extends Controller
      */
     public function deleteAction(Request $request, $id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $promotion = $dm->getRepository('App:Promotions')->find($id);
         $product = $promotion->getProduct();
         $product->setPricePromotion(null);

@@ -3,7 +3,7 @@
 namespace App\Controller\Front;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use App\Document\Marques;
+use App\Entity\Marques;
 
 class MarquesController extends Controller
 {
@@ -12,7 +12,7 @@ class MarquesController extends Controller
      */
     public function listAction()
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $marques = $dm->getRepository('App:Marques')->findAll();
         return $this->render('marques/list.html.twig', array('marques' => $marques));
     }
@@ -22,7 +22,7 @@ class MarquesController extends Controller
      */
     public function showAction($id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $marque = $dm->getRepository('App:Marques')->find($id);
         return $this->render('marques/show.html.twig', array('marque' => $marque));
     }
@@ -32,7 +32,7 @@ class MarquesController extends Controller
      */
     public function editAction($id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $marque = $dm->getRepository('App:Marques')->find($id);
         return $this->render('marques/edit.html.twig', array('marque' => $marque));
     }

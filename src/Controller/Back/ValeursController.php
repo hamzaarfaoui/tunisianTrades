@@ -3,7 +3,7 @@
 namespace App\Controller\Back;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use App\Document\Valeurs;
+use App\Entity\Valeurs;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -14,7 +14,7 @@ class ValeursController extends Controller
      */
     public function listAction()
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $valeurs = $dm->getRepository('App:Valeurs')->findAll();
         return $this->render('Products/back/valeurs/list.html.twig', array('valeurs' => $valeurs));
     }
@@ -24,7 +24,7 @@ class ValeursController extends Controller
      */
     public function showAction($id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $valeur = $dm->getRepository('App:Valeurs')->find($id);
         return $this->render('Products/back/valeurs/details.html.twig', array('valeur' => $valeur));
     }
@@ -34,7 +34,7 @@ class ValeursController extends Controller
      */
     public function newAction(Request $request, $id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $caracteristique = $dm->getRepository('App:Caracteristiques')->find($id);
         $valeur = new Valeurs();
         $valeur->setName($request->get('nom'));
@@ -50,7 +50,7 @@ class ValeursController extends Controller
      */
     public function editAction($id, Request $request, $c)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $valeur = $dm->getRepository('App:Valeurs')->find($id);
         $caracteristique = $dm->getRepository('App:Caracteristiques')->find($c);
         $valeur->setName($request->get('nom'));
@@ -67,7 +67,7 @@ class ValeursController extends Controller
      */
     public function deleteAction(Request $request, $id,$c)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $valeur = $dm->getRepository('App:Valeurs')->find($id);
         $caracteristique = $dm->getRepository('App:Caracteristiques')->find($c);
         $dm->remove($valeur);

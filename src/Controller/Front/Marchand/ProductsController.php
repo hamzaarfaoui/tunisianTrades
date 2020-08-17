@@ -3,16 +3,16 @@
 namespace App\Controller\Front\Marchand;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use App\Document\Products;
-use App\Document\User;
-use App\Document\Marchands;
-use App\Document\AdressesStore;
-use App\Document\AdressesUser;
-use App\Document\TelephonesUser;
-use App\Document\TelephonesStore;
-use App\Document\MediasImages;
-use App\Document\Promotions;
-use App\Document\Keywords;
+use App\Entity\Products;
+use App\Entity\User;
+use App\Entity\Marchands;
+use App\Entity\AdressesStore;
+use App\Entity\AdressesUser;
+use App\Entity\TelephonesUser;
+use App\Entity\TelephonesStore;
+use App\Entity\MediasImages;
+use App\Entity\Promotions;
+use App\Entity\Keywords;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -26,7 +26,7 @@ class ProductsController extends Controller
      */
     public function liste($id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $store = $dm->getRepository('App:Stores')->find($id);
         $products = $dm->getRepository('App:Products')->findBy(array('store' => $store));
         return $this->render('Products/marchand/index.html.twig', array('products' => $products, 'store' => $store));
@@ -37,7 +37,7 @@ class ProductsController extends Controller
      */
     public function listeInDash($id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $store = $dm->getRepository('App:Stores')->find($id);
         $productsByNbrViews = $dm->getRepository('App:Products')->byNbrViews($store);
         $productsByNbrAddToCart = $dm->getRepository('App:Products')->byNbrAddToCart($store);
@@ -55,7 +55,7 @@ class ProductsController extends Controller
      */
     public function details($id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $product = $dm->getRepository('App:Products')->find($id);
         $banner = $dm->getRepository('App:Banners')->findOneBy(array('product' => $product));
         $slider = $dm->getRepository('App:Sliders')->findOneBy(array('product' => $product));
@@ -73,7 +73,7 @@ class ProductsController extends Controller
      */
     public function newProduct($id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $store = $dm->getRepository('App:Stores')->find($id);
         $categoriesMere = $dm->getRepository('App:CategoriesMere')->findAll();
         $sousCategories1 = $dm->getRepository('App:Categories')->findAll();
@@ -98,7 +98,7 @@ class ProductsController extends Controller
      */
     public function newnewProductTraitement(Request $request, $id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $product = new Products();
         $product->setName($request->get('nom'));
         $product->setPrice($request->get('price'));
@@ -201,7 +201,7 @@ class ProductsController extends Controller
      */
     public function editAction($id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $product = $dm->getRepository('App:Products')->find($id);
         $promotion = $dm->getRepository('App:Promotions')->findOneBy(array('product' => $product));
         $medias = $dm->getRepository('App:MediasImages')->findBy(array('product' => $product));
@@ -229,7 +229,7 @@ class ProductsController extends Controller
      */
     public function editTraitementAction(Request $request, $id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $product = $dm->getRepository('App:Products')->find($id);
         $product->setName($request->get('nom'));
         $product->setPrice($request->get('price'));
@@ -329,7 +329,7 @@ class ProductsController extends Controller
      */
     public function deleteAction(Request $request, $id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $fileSystem = new Filesystem();
         $product = $dm->getRepository('App:Products')->find($id);
         $fileSystem->remove(array('symlink', $this->getParameter('images_products_img')."/".$product->getImage(), ''.$product->getImage().''));
@@ -358,7 +358,7 @@ class ProductsController extends Controller
      */
     public function deleteProductImage(Request $request, $id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $fileSystem = new Filesystem();
         $product = $dm->getRepository('App:Products')->find($id);
         $fileSystem->remove(array('symlink', $this->getParameter('images_products_img')."/".$product->getImage(), ''.$product->getImage().''));
@@ -373,7 +373,7 @@ class ProductsController extends Controller
      */
     public function deleteProductImageGallery(Request $request, $id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $fileSystem = new Filesystem();
         $image = $dm->getRepository('App:MediasImages')->find($id);
         $fileSystem->remove(array('symlink', $this->getParameter('images_products_img_gallery')."/".$image->getName(), ''.$image->getName().''));

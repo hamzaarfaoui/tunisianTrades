@@ -3,7 +3,7 @@
 namespace App\Controller\Back;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use App\Document\Marques;
+use App\Entity\Marques;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -14,7 +14,7 @@ class MarquesController extends Controller
      */
     public function listAction()
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $marques = $dm->getRepository('App:Marques')->findAll();
         return $this->render('marques/list.html.twig', array('marques' => $marques));
     }
@@ -24,7 +24,7 @@ class MarquesController extends Controller
      */
     public function showAction($id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $marque = $dm->getRepository('App:Marques')->find($id);
         return $this->render('marques/show.html.twig', array('marque' => $marque));
     }
@@ -34,7 +34,7 @@ class MarquesController extends Controller
      */
     public function newAction()
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $categories = $dm->getRepository('App:SousCategories')->findAll();
         return $this->render('marques/new.html.twig', array('categories' => $categories));
     }
@@ -44,7 +44,7 @@ class MarquesController extends Controller
      */
     public function marquesByCategorieAction($id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $categorie = $dm->getRepository('App:SousCategories')->find($id);
         $marques = $dm->getRepository('App:Marques')->findBy(array('sousCategorie' => $categorie));
         $options = '<option value="">Sélectionner une marque</option>';
@@ -59,7 +59,7 @@ class MarquesController extends Controller
      */
     public function newTraitementAction(Request $request)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $marque = new Marques();
         $marque->setName($request->get('nom'));
         $marque->setContent($request->get('descriptionC'));
@@ -88,7 +88,7 @@ class MarquesController extends Controller
      */
     public function editAction($id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $marque = $dm->getRepository('App:Marques')->find($id);
         $categories = $dm->getRepository('App:SousCategories')->findAll();
         return $this->render('marques/edit.html.twig', array('marque' => $marque, 'categories' => $categories));
@@ -99,7 +99,7 @@ class MarquesController extends Controller
      */
     public function editTraitementAction(Request $request, $id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $marque = $dm->getRepository('App:Marques')->find($id);
         $marque->setName($request->get('nom'));
         $marque->setContent($request->get('description'));
@@ -129,7 +129,7 @@ class MarquesController extends Controller
      */
     public function deleteAction(Request $request, $id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $fileSystem = new Filesystem();
         $marque = $dm->getRepository('App:CategoriesMere')->find($id);
         $fileSystem->remove(array('symlink', $this->getParameter('images_marques')."/".$marque->getImage(), ''.$marque->getImage().''));

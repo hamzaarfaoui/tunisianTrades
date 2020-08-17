@@ -3,8 +3,8 @@
 namespace App\Controller\Back;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use App\Document\Banners;
-use App\Document\SousBanners;
+use App\Entity\Banners;
+use App\Entity\SousBanners;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -16,7 +16,7 @@ class BannersController extends Controller
      */
     public function listAction()
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $banners = $dm->getRepository('App:Banners')->findAll();
         
         return $this->render('Banners/back/list.html.twig', array('banners' => $banners));
@@ -27,7 +27,7 @@ class BannersController extends Controller
      */
     public function twoInFront()
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $banners = $dm->getRepository('App:Banners')->findBy(array('isTwo' => true));
         
         return $this->render('Banners/front/2banners.html.twig', array('banners' => $banners));
@@ -38,7 +38,7 @@ class BannersController extends Controller
      */
     public function threeInFront()
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $banners = $dm->getRepository('App:Banners')->findBy(array('isThree' => true));
         
         return $this->render('Banners/front/3banners.html.twig', array('banners' => $banners));
@@ -49,7 +49,7 @@ class BannersController extends Controller
      */
     public function showInFront($id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $slider = $dm->getRepository('App:Banners')->find($id);
         $products_liste = array();
         $produit = $slider->getProduct();
@@ -68,7 +68,7 @@ class BannersController extends Controller
      */
     public function showAction($id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $banner = $dm->getRepository('App:Banners')->find($id);
         $product = $dm->getRepository('App:Products')->find($banner->getProduct()->getId());
         return $this->render('Banners/back/show.html.twig', array('banner' => $banner, 'product'=>$product));
@@ -79,7 +79,7 @@ class BannersController extends Controller
      */
     public function newAction()
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         return $this->render('Banners/back/new.html.twig',array());
     }
     
@@ -89,7 +89,7 @@ class BannersController extends Controller
     public function newTraitementAction(Request $request)
     {
         
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $banner = new Banners();
         $product = $dm->getRepository('App:Products')->find($request->get('product'));
         if($request->get('isThree') && $request->get('isThree')){
@@ -127,7 +127,7 @@ class BannersController extends Controller
      */
     public function editAction($id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $banner = $dm->getRepository('App:Banners')->find($id);
         return $this->render('Banners/back/edit.html.twig', array('banner' => $banner));
     }
@@ -137,7 +137,7 @@ class BannersController extends Controller
      */
     public function editTraitementAction(Request $request, $id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $banner = $dm->getRepository('App:Banners')->find($id);
         $product = $dm->getRepository('App:Products')->find($request->get('product'));
         if($request->get('isThree') && $request->get('isThree')){
@@ -176,7 +176,7 @@ class BannersController extends Controller
      */
     public function deleteAction(Request $request, $id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $fileSystem = new Filesystem();
         $banner = $dm->getRepository('App:Banners')->find($id);
         $fileSystem->remove(array('symlink', $this->getParameter('images_banners')."/".$banner->getImage(), ''.$banner->getImage().''));

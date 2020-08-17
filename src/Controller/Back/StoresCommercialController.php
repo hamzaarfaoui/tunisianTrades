@@ -3,13 +3,13 @@
 namespace App\Controller\Back;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use App\Document\Stores;
-use App\Document\User;
-use App\Document\Marchands;
-use App\Document\AdressesStore;
-use App\Document\AdressesUser;
-use App\Document\TelephonesUser;
-use App\Document\TelephonesStore;
+use App\Entity\Stores;
+use App\Entity\User;
+use App\Entity\Marchands;
+use App\Entity\AdressesStore;
+use App\Entity\AdressesUser;
+use App\Entity\TelephonesUser;
+use App\Entity\TelephonesStore;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -20,7 +20,7 @@ class StoresCommercialController extends Controller
      */
     public function listAction()
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $stores = $dm->getRepository('App:Stores')->findAll();
         return $this->render('stores/back/list.html.twig', array('stores' => $stores));
     }
@@ -30,7 +30,7 @@ class StoresCommercialController extends Controller
      */
     public function showAction($id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $store = $dm->getRepository('App:Stores')->find($id);
         return $this->render('stores/back/show.html.twig', array('store' => $store));
     }
@@ -48,7 +48,7 @@ class StoresCommercialController extends Controller
      */
     public function newTraitementAction(Request $request)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $store = new Stores();
         $user = new User();
         $marchand = new Marchands();
@@ -130,7 +130,7 @@ class StoresCommercialController extends Controller
      */
     public function editAction($id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $store = $dm->getRepository('App:Stores')->find($id);
         return $this->render('stores/back/edit.html.twig', array('store' => $store));
     }
@@ -140,7 +140,7 @@ class StoresCommercialController extends Controller
      */
     public function editTraitementAction(Request $request, $id)
      {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $store = $dm->getRepository('App:Stores')->find($id);
         $marchand = $store->getMarchand();
         $user = $marchand->getUser();
@@ -221,7 +221,7 @@ class StoresCommercialController extends Controller
      */
     public function deleteAction(Request $request, $id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $fileSystem = new Filesystem();
         $store = $dm->getRepository('App:Stores')->find($id);
         $adressesStore = $dm->getRepository('App:AdressesStore')->findBy(array('store' => $store));

@@ -3,7 +3,7 @@
 namespace App\Controller\Front;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use App\Document\Products;
+use App\Entity\Products;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -14,7 +14,7 @@ class ProductController extends Controller
      */
     public function listFrontAction()
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $products = $dm->getRepository('App:Products')->findAll();
         return $this->render('Products/front/list.html.twig', array('products' => $products));
     }
@@ -24,7 +24,7 @@ class ProductController extends Controller
      */
     public function newProducts(Request $request)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $find_products = $dm->getRepository('App:Products')->newProducts();
         $paginator  = $this->get('knp_paginator');
         $products = $paginator->paginate(
@@ -40,7 +40,7 @@ class ProductController extends Controller
      */
     public function productsInPromotion(Request $request)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $find_products = $dm->getRepository('App:Products')->newProducts();
         $paginator  = $this->get('knp_paginator');
         $products = $paginator->paginate(
@@ -56,7 +56,7 @@ class ProductController extends Controller
      */
     public function triAction(Request $request)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $query = array();
         $caracteristiques = [];
         $marques = [];

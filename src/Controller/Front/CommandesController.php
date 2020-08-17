@@ -3,16 +3,16 @@
 namespace App\Controller\Front;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use App\Document\Products;
+use App\Entity\Products;
 use Symfony\Component\HttpFoundation\Request;
-use App\Document\Commandes;
+use App\Entity\Commandes;
 use Symfony\Component\HttpFoundation\Response;
 
 class CommandesController extends Controller
 {
     public function facture(Request $request)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $session = $request->getSession();
         $adresse = $session->get('adresse');
         $panier = $session->get('panier');
@@ -20,7 +20,7 @@ class CommandesController extends Controller
         $total = 0;
         //$totalTTC = 0;
         
-        //$livraison = $em->getRepository('EcommerceBundle:Adresses')->find($adresse['livraison']);
+        //$livraison = $dm->getRepository('EcommerceBundle:Adresses')->find($adresse['livraison']);
         $products = $dm->getRepository('App:Products')->findArray(array_keys($session->get('panier')));
         
         foreach($products as $product)
@@ -67,7 +67,7 @@ class CommandesController extends Controller
     public function prepareCommande(Request $request)
     {
         $session = $request->getSession();
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $user = $this->getUser();
         
         if (!$session->has('commande'))
@@ -94,7 +94,7 @@ class CommandesController extends Controller
     
     public function validationCommande($id, Request $request)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $commande = $dm->getRepository('App:Commandes')->find($id);
         
         if (!$commande || $commande->getStatus() == 1){
@@ -119,7 +119,7 @@ class CommandesController extends Controller
      */
     public function orders()
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $commandes = $dm->getRepository('App:Commandes')->findBy(array('user' => $this->getUser()));
         return $this->render('commandes/front/list.html.twig', array(
             'commandes' => $commandes
@@ -132,7 +132,7 @@ class CommandesController extends Controller
      */
     public function detailsOrder($id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $commande = $dm->getRepository('App:Commandes')->find($id);
         return $this->render('commandes/front/show.html.twig', array(
             'commande' => $commande
@@ -145,7 +145,7 @@ class CommandesController extends Controller
      */
     public function payement()
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         return $this->render('commandes/front/payement.html.twig');
     }
     
@@ -154,7 +154,7 @@ class CommandesController extends Controller
      */
     public function livraison()
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         return $this->render('commandes/front/livraison.html.twig');
     }
 }

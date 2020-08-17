@@ -3,11 +3,11 @@
 namespace App\Controller\Front\Marchand;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use App\Document\Favoris;
+use App\Entity\Favoris;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use App\Document\AdressesStore;
-use App\Document\TelephonesStore;
+use App\Entity\AdressesStore;
+use App\Entity\TelephonesStore;
 
 class MarchandController extends Controller
 {
@@ -16,7 +16,7 @@ class MarchandController extends Controller
      */
     public function listStore()
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $marchand = $dm->getRepository('App:Marchands')->findOneBy(array('user' => $this->getUser()));
         if(!$marchand){
           $marchand = $dm->getRepository('App:Marchands')->findOneBy(array('user' => $this->getUser()->getOwner()));  
@@ -32,7 +32,7 @@ class MarchandController extends Controller
     public function infosStore(Request $request, $id)
     {
         
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $store = $dm->getRepository('App:Stores')->find($id);
         $form = $this->createForm('App\Form\StoreType', $store);
         $form->handleRequest($request);
@@ -54,7 +54,7 @@ class MarchandController extends Controller
      */
     public function visuels(Request $request, $id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $store = $dm->getRepository('App:Stores')->find($id);
         
         return $this->render('marchand/visuels.html.twig', array(
@@ -67,7 +67,7 @@ class MarchandController extends Controller
      */
     public function visuelsTraitement(Request $request, $id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $store = $dm->getRepository('App:Stores')->find($id);
         if (isset($_FILES["couvertureC"]) && !empty($_FILES["couvertureC"]['name'])) {
             $file = $_FILES["couvertureC"]["name"];
@@ -98,7 +98,7 @@ class MarchandController extends Controller
      */
     public function addAdressStore(Request $request)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $store = $dm->getRepository('App:Stores')->find($request->get('store'));
         $adresseStore = new AdressesStore();
         $adresseStore->setRue($request->get('adress'));
@@ -120,7 +120,7 @@ class MarchandController extends Controller
      */
     public function editAdressStore(Request $request, $id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $adresseStore = $dm->getRepository('App:AdressesStore')->find($id);
         $adresseStore->setRue($request->get('adress'));
         $dm->persist($adresseStore);
@@ -134,7 +134,7 @@ class MarchandController extends Controller
      */
     public function deleteAdressStore(Request $request, $id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $adresseStore = $dm->getRepository('App:AdressesStore')->find($id);
         $dm->remove($adresseStore);
         $dm->flush();
@@ -147,7 +147,7 @@ class MarchandController extends Controller
      */
     public function addPhoneStore(Request $request)
     {
-         $dm = $this->get('doctrine_mongodb')->getManager();
+         $dm = $this->getDoctrine()->getManager();
         $store = $dm->getRepository('App:Stores')->find($request->get('store'));
         $phoneStore = new TelephonesStore();
         $phoneStore->setNumero($request->get('phone'));
@@ -168,7 +168,7 @@ class MarchandController extends Controller
      */
     public function editPhoneStore(Request $request, $id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $phoneStore = $dm->getRepository('App:TelephonesStore')->find($id);
         $phoneStore->setNumero($request->get('phone'));
         $dm->persist($phoneStore);
@@ -181,7 +181,7 @@ class MarchandController extends Controller
      */
     public function deletePhoneStore(Request $request, $id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $phoneStore = $dm->getRepository('App:TelephonesStore')->find($id);
         $dm->remove($phoneStore);
         $dm->flush();

@@ -3,8 +3,8 @@
 namespace App\Controller\Back;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use App\Document\Categories;
-use App\Document\SousCategories;
+use App\Entity\Categories;
+use App\Entity\SousCategories;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -16,8 +16,8 @@ class SousCategories1Controller extends Controller
      */
     public function listAction()
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
-        $categories = $dm->getRepository('App:Categories')->findAll();
+        $dm = $this->getDoctrine()->getManager();
+        $categories = $em->getRepository('App:Categories')->findAll();
         return $this->render('categories/sc1/list.html.twig', array('categories' => $categories));
     }
     /*
@@ -25,9 +25,9 @@ class SousCategories1Controller extends Controller
      */
     public function Souscategories1bycm($cm)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
-        $categorieMere = $dm->getRepository('App:CategoriesMere')->find($cm);
-        $categories = $dm->getRepository('App:Categories')->findBy(array('categorieMere' => $categorieMere));
+        $dm = $this->getDoctrine()->getManager();
+        $categorieMere = $em->getRepository('App:CategoriesMere')->find($cm);
+        $categories = $em->getRepository('App:Categories')->findBy(array('categorieMere' => $categorieMere));
         $options = '<option value="">Sélectionner une catégorie</option>';
         foreach ($categories as $categorie){
             $options .= '<option value="'.$categorie->getId().'">'.$categorie->getName().'</option>';
@@ -40,8 +40,8 @@ class SousCategories1Controller extends Controller
      */
     public function showAction($id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
-        $categorie = $dm->getRepository('App:Categories')->find($id);
+        $dm = $this->getDoctrine()->getManager();
+        $categorie = $em->getRepository('App:Categories')->find($id);
         return $this->render('categories/sc1/show.html.twig', array('categorie' => $categorie));
     }
     
@@ -50,9 +50,9 @@ class SousCategories1Controller extends Controller
      */
     public function newAction($id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
-        $categorie = $dm->getRepository('App:CategoriesMere')->find($id);
-        $cms = $dm->getRepository('App:CategoriesMere')->findAll();
+        $dm = $this->getDoctrine()->getManager();
+        $categorie = $em->getRepository('App:CategoriesMere')->find($id);
+        $cms = $em->getRepository('App:CategoriesMere')->findAll();
         return $this->render('categories/sc1/new.html.twig',array('categorie' => $categorie, 'cms' => $cms));
     }
     
@@ -61,12 +61,12 @@ class SousCategories1Controller extends Controller
      */
     public function newTraitementAction(Request $request, $id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $categorie = new Categories();
         $categorie->setName($request->get('nom'));
         $categorie->setContent($request->get('descriptionC'));
         $categorie->setCreatedAt(new \DateTime('now'));
-        $cm = $dm->getRepository('App:CategoriesMere')->find($id);
+        $cm = $em->getRepository('App:CategoriesMere')->find($id);
         
         $categorie->setCategorieMere($cm);
         if (isset($_FILES["couvertureC"]) && !empty($_FILES["couvertureC"])) {
@@ -98,9 +98,9 @@ class SousCategories1Controller extends Controller
      */
     public function editAction($id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
-        $categorie = $dm->getRepository('App:Categories')->find($id);
-        $cms = $dm->getRepository('App:CategoriesMere')->findAll();
+        $dm = $this->getDoctrine()->getManager();
+        $categorie = $em->getRepository('App:Categories')->find($id);
+        $cms = $em->getRepository('App:CategoriesMere')->findAll();
         return $this->render('categories/sc1/edit.html.twig', array('categorie' => $categorie, 'cms' => $cms));
     }
     
@@ -109,12 +109,12 @@ class SousCategories1Controller extends Controller
      */
     public function editTraitementAction(Request $request, $id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
-        $categorie = $dm->getRepository('App:Categories')->find($id);
+        $dm = $this->getDoctrine()->getManager();
+        $categorie = $em->getRepository('App:Categories')->find($id);
         $categorie->setName($request->get('nom'));
         $categorie->setContent($request->get('descriptionC'));
         $categorie->setCreatedAt(new \DateTime('now'));
-        $cm = $dm->getRepository('App:CategoriesMere')->find($request->get('cm'));
+        $cm = $em->getRepository('App:CategoriesMere')->find($request->get('cm'));
         
         $categorie->setCategorieMere($cm);
         
@@ -151,10 +151,10 @@ class SousCategories1Controller extends Controller
      */
     public function deleteAction(Request $request, $id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $fileSystem = new Filesystem();
-        $categorie = $dm->getRepository('App:Categories')->find($id);
-        $cm = $dm->getRepository('App:CategoriesMere')->find($categorie->getCategorieMere());
+        $categorie = $em->getRepository('App:Categories')->find($id);
+        $cm = $em->getRepository('App:CategoriesMere')->find($categorie->getCategorieMere());
         $fileSystem->remove(array('symlink', $this->getParameter('images_categories_sc1')."/".$categorie->getImage(), ''.$categorie->getImage().''));
         $fileSystem->remove(array('symlink', $this->getParameter('images_categories_sc1')."/".$categorie->getIcone(), ''.$categorie->getIcone().''));
         $dm->remove($categorie);

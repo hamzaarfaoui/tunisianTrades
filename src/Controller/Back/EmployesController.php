@@ -3,7 +3,7 @@
 namespace App\Controller\Back;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use App\Document\User;
+use App\Entity\User;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -15,7 +15,7 @@ class EmployesController extends Controller
      */
     public function listAction()
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $employes = $dm->getRepository('App:User')->findAll();
         $employes_list = array();
         foreach ($employes as $employe){
@@ -31,7 +31,7 @@ class EmployesController extends Controller
      */
     public function showAction($id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $employe = $dm->getRepository('App:User')->find($id);
         $role = '';
         if(in_array('ROLE_COMMERCIAL', $employe->getRoles())){
@@ -55,7 +55,7 @@ class EmployesController extends Controller
      */
     public function newEmployeAction(Request $request)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $employe = new User();
         $employe->setNom($request->get('nom'));
         $employe->setPrenom($request->get('prenom'));
@@ -84,7 +84,7 @@ class EmployesController extends Controller
      */
     public function editEmploye($id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $employe = $dm->getRepository('App:User')->find($id);
         return $this->render('employes/edit.html.twig', array('employe' => $employe));
     }
@@ -94,7 +94,7 @@ class EmployesController extends Controller
      */
     public function editEmployeAction(Request $request, $id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $employe = $dm->getRepository('App:User')->find($id);
         $employe->setNom($request->get('nom'));
         $employe->setPrenom($request->get('prenom'));
@@ -114,7 +114,7 @@ class EmployesController extends Controller
      */
     public function employeStatus(Request $request, $id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $employe = $dm->getRepository('App:User')->find($id);
         if($employe->isEnabled() == 1){
             $employe->setEnabled(0);
@@ -135,7 +135,7 @@ class EmployesController extends Controller
      */
     public function deleteAction(Request $request, $id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $employe = $dm->getRepository('App:User')->find($id);
         $dm->remove($employe);
         $dm->flush();

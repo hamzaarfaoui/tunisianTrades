@@ -3,9 +3,9 @@
 namespace App\Controller\Back;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use App\Document\CategoriesMere;
-use App\Document\Categories;
-use App\Document\SousCategories;
+use App\Entity\CategoriesMere;
+use App\Entity\Categories;
+use App\Entity\SousCategories;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -16,7 +16,7 @@ class CategoriesController extends Controller
      */
     public function listAction()
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $categoriesMere = $dm->getRepository('App:CategoriesMere')->findAll();
         return $this->render('categories/cm/list.html.twig', array('categoriesMere' => $categoriesMere));
     }
@@ -26,7 +26,7 @@ class CategoriesController extends Controller
      */
     public function showAction($id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $categorie = $dm->getRepository('App:CategoriesMere')->find($id);
         return $this->render('categories/cm/show.html.twig', array('categorie' => $categorie));
     }
@@ -44,7 +44,7 @@ class CategoriesController extends Controller
      */
     public function newTraitementAction(Request $request)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $categoriesMere = new CategoriesMere();
         $categoriesMere->setName($request->get('nom'));
         $categoriesMere->setContent($request->get('descriptionC'));
@@ -78,7 +78,7 @@ class CategoriesController extends Controller
      */
     public function editAction($id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $categorie = $dm->getRepository('App:CategoriesMere')->find($id);
         return $this->render('categories/cm/edit.html.twig', array('categorie' => $categorie));
     }
@@ -88,7 +88,7 @@ class CategoriesController extends Controller
      */
     public function editTraitementAction(Request $request, $id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $categoriesMere = $dm->getRepository('App:CategoriesMere')->find($id);
         $categoriesMere->setName($request->get('nom'));
         $categoriesMere->setContent($request->get('descriptionC'));
@@ -126,7 +126,7 @@ class CategoriesController extends Controller
      */
     public function deleteAction(Request $request, $id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $fileSystem = new Filesystem();
         $categorie = $dm->getRepository('App:CategoriesMere')->find($id);
         $fileSystem->remove(array('symlink', $this->getParameter('images_categories_cm')."/".$categorie->getImage(), ''.$categorie->getImage().''));

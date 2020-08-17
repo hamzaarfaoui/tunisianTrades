@@ -3,11 +3,11 @@
 namespace App\Controller\Front\Marchand;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use App\Document\Favoris;
+use App\Entity\Favoris;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use App\Document\AdressesStore;
-use App\Document\TelephonesStore;
+use App\Entity\AdressesStore;
+use App\Entity\TelephonesStore;
 
 class CommandesController extends Controller
 {
@@ -16,7 +16,7 @@ class CommandesController extends Controller
      */
     public function listCommandes($id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $commandes = $dm->getRepository('App:Commandes')->liste();
         $commandes_liste = array();
         foreach ($commandes as $commande){
@@ -56,7 +56,7 @@ class CommandesController extends Controller
      */
     public function listCommandesInDash($id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $commandes = $dm->getRepository('App:Commandes')->listeInDash();
         $commandes_liste = array();
         foreach ($commandes as $commande){
@@ -94,7 +94,7 @@ class CommandesController extends Controller
      */
     public function showAction($id, $store)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $commande = $dm->getRepository('App:Commandes')->find($id);
         $products = array();
         foreach ($commande->getFacture()[0] as $facture){
@@ -126,7 +126,7 @@ class CommandesController extends Controller
      */
     public function validateAction(Request $request,$id, $store)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $commande = $dm->getRepository('App:Commandes')->find($id);
         $products = array();
         foreach ($commande->getFacture()[0] as $facture){
@@ -156,7 +156,7 @@ class CommandesController extends Controller
      */
     public function valider($id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $marchand = $dm->getRepository('App:Marchands')->find($id);
         $stores = $dm->getRepository('App:Stores')->findBy(array('marchand' => $marchand));
         return $this->render('marchand/storesList.html.twig', array('stores' => $stores));

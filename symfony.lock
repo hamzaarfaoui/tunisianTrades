@@ -1,7 +1,4 @@
 {
-    "alcaeus/mongo-php-adapter": {
-        "version": "1.1.5"
-    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {
@@ -59,21 +56,6 @@
     "doctrine/migrations": {
         "version": "v1.8.1"
     },
-    "doctrine/mongodb": {
-        "version": "1.6.3"
-    },
-    "doctrine/mongodb-odm": {
-        "version": "1.2.5"
-    },
-    "doctrine/mongodb-odm-bundle": {
-        "version": "3.3",
-        "recipe": {
-            "repo": "github.com/symfony/recipes-contrib",
-            "branch": "master",
-            "version": "3.3",
-            "ref": "e1ee362a520ff9e3e7c38fb5399499427ed91314"
-        }
-    },
     "doctrine/orm": {
         "version": "v2.6.3"
     },
@@ -83,20 +65,8 @@
     "doctrine/reflection": {
         "version": "v1.0.0"
     },
-    "easycorp/easy-log-handler": {
-        "version": "1.0",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "1.0",
-            "ref": "70062abc2cd58794d2a90274502f81b55cd9951b"
-        }
-    },
     "egulias/email-validator": {
         "version": "2.1.7"
-    },
-    "facebook/webdriver": {
-        "version": "1.6.0"
     },
     "fig/link-util": {
         "version": "1.0.0"
@@ -112,9 +82,6 @@
     },
     "knplabs/knp-paginator-bundle": {
         "version": "v3.0.0"
-    },
-    "mongodb/mongodb": {
-        "version": "1.4.2"
     },
     "monolog/monolog": {
         "version": "1.24.0"
@@ -293,9 +260,6 @@
     "symfony/orm-pack": {
         "version": "v1.0.5"
     },
-    "symfony/panther": {
-        "version": "v0.2.0"
-    },
     "symfony/phpunit-bridge": {
         "version": "4.1",
         "recipe": {
@@ -308,11 +272,20 @@
     "symfony/polyfill-intl-icu": {
         "version": "v1.10.0"
     },
+    "symfony/polyfill-intl-idn": {
+        "version": "v1.18.1"
+    },
+    "symfony/polyfill-intl-normalizer": {
+        "version": "v1.18.1"
+    },
     "symfony/polyfill-mbstring": {
         "version": "v1.10.0"
     },
     "symfony/polyfill-php72": {
         "version": "v1.10.0"
+    },
+    "symfony/polyfill-php80": {
+        "version": "v1.18.1"
     },
     "symfony/process": {
         "version": "v4.2.1"

@@ -3,26 +3,23 @@
 namespace App\Controller\Back;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use App\Document\SousCategories;
-use App\Document\Categories;
+use App\Entity\SousCategories;
+use App\Entity\Categories;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Doctrine\ODM\MongoDB\DocumentManager;
-use App\Document\Products;
+use App\Entity\Products;
 
 class SousCategories2Controller extends Controller
 {
-    private $dc;
-    public function __construct(DocumentManager $dc) {
-        $this->dc = $dc;
-    }
+    
     /*
      * Categories list
      */
     public function listAction()
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $categories = $dm->getRepository('App:SousCategories')->findAll();
         return $this->render('categories/sc2/list.html.twig', array('categories' => $categories));
     }
@@ -32,7 +29,7 @@ class SousCategories2Controller extends Controller
      */
     public function grefferAction()
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $categories = $dm->getRepository('App:SousCategories')->findAll();
         $categoriesInIndex = $dm->getRepository('App:SousCategories')->findBy(array('showInIndex' => 1));
         return $this->render('categories/sc2/greffer.html.twig', array('categories' => $categories, 'categoriesInIndex' => $categoriesInIndex));
@@ -43,7 +40,7 @@ class SousCategories2Controller extends Controller
      */
     public function addCategorieOnIndexAction(Request $request, $id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         
         $listItem = $request->request->get('listItem');
         $limit = $request->request->get('limit');
@@ -71,7 +68,7 @@ class SousCategories2Controller extends Controller
      */
     public function removeCategorieFromIndexAction(Request $request, $id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $sc = $dm->getRepository('App:SousCategories')->find($id);
         $sc->setShowInIndex(0);
         $dm->persist($sc);
@@ -84,7 +81,7 @@ class SousCategories2Controller extends Controller
      */
     public function Souscategories2bysc1($sc1)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $sc = $dm->getRepository('App:Categories')->find($sc1);
         $categories = $dm->getRepository('App:SousCategories')->findBy(array('categorie' => $sc));
         $options = '<option value="">Sélectionner une catégorie</option>';
@@ -99,7 +96,7 @@ class SousCategories2Controller extends Controller
      */
     public function showAction($id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $categorie = $dm->getRepository('App:SousCategories')->find($id);
         $repository = $this->dc->getRepository(Products::class);
         $products = $repository->findBy(array('sousCategorie' => $categorie), array('position' => 'ASC'));
@@ -114,7 +111,7 @@ class SousCategories2Controller extends Controller
      */
     public function showProductsBannersInIndexAction($id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $categorie = $dm->getRepository('App:SousCategories')->find($id);
         $message = '';
         if($categorie->getHasBanner() == 1){
@@ -134,7 +131,7 @@ class SousCategories2Controller extends Controller
      */
     public function newAction($id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $categorie = $dm->getRepository('App:Categories')->find($id);
        return $this->render('categories/sc2/new.html.twig', array('categorie' => $categorie));
     }
@@ -144,7 +141,7 @@ class SousCategories2Controller extends Controller
      */
     public function newTraitementAction(Request $request, $id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $sc = $dm->getRepository('App:Categories')->find($id);
         //dump($sc);die();
         $categorie = new SousCategories();
@@ -181,7 +178,7 @@ class SousCategories2Controller extends Controller
      */
     public function editAction($id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $categorie = $dm->getRepository('App:SousCategories')->find($id);
         return $this->render('categories/sc2/edit.html.twig', array('categorie' => $categorie));
     }
@@ -191,7 +188,7 @@ class SousCategories2Controller extends Controller
      */
     public function editTraitementAction(Request $request, $id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $categorie = $dm->getRepository('App:SousCategories')->find($id);
         $categorie->setName($request->get('nom'));
         $categorie->setContent($request->get('descriptionC'));
@@ -229,7 +226,7 @@ class SousCategories2Controller extends Controller
      */
     public function deleteAction(Request $request, $id, $c)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $fileSystem = new Filesystem();
         $categorie = $dm->getRepository('App:SousCategories')->find($id);
         $fileSystem->remove(array('symlink', $this->getParameter('images_categories_sc2')."/".$categorie->getImage(), ''.$categorie->getImage().''));

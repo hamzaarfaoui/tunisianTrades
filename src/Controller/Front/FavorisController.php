@@ -3,7 +3,7 @@
 namespace App\Controller\Front;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use App\Document\Favoris;
+use App\Entity\Favoris;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -14,7 +14,7 @@ class FavorisController extends Controller
      */
     public function listAction()
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $favoris = $dm->getRepository('App:Favoris')->findBy(array('user' => $this->getUser()));
         $products = array();
         foreach ($favoris as $f){
@@ -28,7 +28,7 @@ class FavorisController extends Controller
      */
     public function addFavoris($id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         
         $product = $dm->getRepository('App:Products')->find($id);
         
@@ -64,7 +64,7 @@ class FavorisController extends Controller
      */
     public function deleteFavoris($id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $product = $dm->getRepository('App:Products')->find($id);
         $favori = $dm->getRepository('App:Favoris')->findOneBy(array('product' => $product, 'user' => $this->getUser()));
         $dm->remove($favori);

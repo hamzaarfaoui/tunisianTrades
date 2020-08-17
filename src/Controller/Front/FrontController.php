@@ -3,12 +3,12 @@
 namespace App\Controller\Front;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use App\Document\Products;
+use App\Entity\Products;
 use Symfony\Component\HttpFoundation\Request;
-use App\Document\Contacts;
-use App\Document\NewsLetter;
+use App\Entity\Contacts;
+use App\Entity\NewsLetter;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use App\Document\MySite;
+use App\Entity\MySite;
 
 class FrontController extends Controller
 {
@@ -17,7 +17,7 @@ class FrontController extends Controller
      */
     public function indexPage()
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $sc2 = $dm->getRepository('App:SousCategories')->findBy(array('showInIndex' => 1));
         $categories = $dm->getRepository('App:CategoriesMere')->findAll();
         return $this->render('index.html.twig', array(
@@ -31,7 +31,7 @@ class FrontController extends Controller
      */
     public function newProductsPage(Request $request)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $find_products = $dm->getRepository('App:Products')->newProducts();
         $products_list = array();
         foreach ($find_products as $product){
@@ -53,7 +53,7 @@ class FrontController extends Controller
      */
     public function venteFlashPage(Request $request)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $find_products = $dm->getRepository('App:Products')->venteFlash();
         $products_list = array();
         foreach ($find_products as $product){
@@ -75,7 +75,7 @@ class FrontController extends Controller
      */
     public function allStoresPage(Request $request)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $find_stores = $dm->getRepository('App:Stores')->findAll();
         
         $paginator  = $this->get('knp_paginator');
@@ -94,7 +94,7 @@ class FrontController extends Controller
      */
     public function searchStoresPage(Request $request)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $find_stores = $dm->getRepository('App:Stores')->byname($request->get('searchStore'));
         $stores_list = array();
         foreach ($find_stores as $store){
@@ -116,7 +116,7 @@ class FrontController extends Controller
      */
     public function navigation()
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $sc2 = $dm->getRepository('App:SousCategories')->findBy(array('showInIndex' => 1));
         $categories = $dm->getRepository('App:CategoriesMere')->findAll();
         return $this->render('includes/front/nav.html.twig', array(
@@ -145,7 +145,7 @@ class FrontController extends Controller
      */
     public function contactSend(Request $request)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $contact = new Contacts();
         $contact->setCreatedAt(new \DateTime());
         $contact->setNom($request->get('nom'));
@@ -164,7 +164,7 @@ class FrontController extends Controller
      */
     public function subscribeToNewsLetter(Request $request)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $newsLetter = new NewsLetter();
         $newsLetter->setEmail($request->get('email'));
         $newsLetter->setCreatedAt(new \DateTime());
@@ -186,7 +186,7 @@ class FrontController extends Controller
      */
     public function productPage($id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $product = $dm->getRepository('App:Products')->find($id);
         $query = array();
         $query['id'] = $id;
@@ -206,7 +206,7 @@ class FrontController extends Controller
      */
     public function productByCategory(Request $request, $id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $categorie = $dm->getRepository('App:SousCategories')->find($id);
         $find_products = $dm->getRepository('App:Products')->findBy(array('sousCategorie' => $categorie));
         $paginator  = $this->get('knp_paginator');
@@ -236,7 +236,7 @@ class FrontController extends Controller
      */
     public function store(Request $request, $id)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $store = $dm->getRepository('App:Stores')->find($id);
         $products = $dm->getRepository('App:Products')->byStore($id);
         $categories = array();
@@ -287,7 +287,7 @@ class FrontController extends Controller
      */
     public function searchResult(Request $request)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $search = $request->get('search');
         $products = $dm->getRepository('App:Products')->findAll();
         $keywords = $dm->getRepository('App:Keywords')->byName($search);
@@ -321,7 +321,7 @@ class FrontController extends Controller
      */
     public function otherFiltersResult()
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         return $this->render('frontend/otherFiltersResult.html.twig');
     }
 }
