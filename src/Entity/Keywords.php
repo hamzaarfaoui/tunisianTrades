@@ -1,86 +1,75 @@
 <?php
 
-namespace App\Document;
+namespace App\Entity;
 
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
-use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Validator\Constraints as Assert;
+use App\Repository\KeywordsRepository;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @MongoDB\Document(repositoryClass="App\Repository\KeywordsRepository")
+ * @ORM\Entity(repositoryClass=KeywordsRepository::class)
  */
 class Keywords
 {
     /**
-     * @MongoDB\Id
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
      */
-    protected $id;
+    private $id;
 
     /**
-     * @MongoDB\Field(type="string")
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    protected $name;
-    
-    /** @MongoDB\ReferenceOne(targetDocument="Products", inversedBy="keywords") */
-    protected $product;
-    
-    /** 
-     * @MongoDB\ReferenceOne(targetDocument="SousCategories", inversedBy="keywords") */
-    protected $categorie = array();
-    
-    /**      * @return mixed      */
-    public function getId()
+    private $name;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Products::class, inversedBy="keywords")
+     */
+    private $product;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=SousCategories::class, inversedBy="keywords")
+     */
+    private $categorie;
+
+    public function getId(): ?int
     {
         return $this->id;
     }
-    
-    /**      * @return mixed      */
-    public function getName()
+
+    public function getName(): ?string
     {
         return $this->name;
     }
-    /**      * @param mixed $name      */
-    public function setName($name)
+
+    public function setName(?string $name): self
     {
         $this->name = $name;
+
+        return $this;
     }
-    
-    
-    
-    
-    /**
-     * @return mixed
-     */
-    public function getProduct()
+
+    public function getProduct(): ?Products
     {
         return $this->product;
     }
-    /**
-     * @param Products $product
-     *
-     * @return self
-     */
-    public function setProduct(Products $product)
+
+    public function setProduct(?Products $product): self
     {
         $this->product = $product;
+
         return $this;
     }
-    
-    /**
-     * @return mixed
-     */
-    public function getCategorie()
+
+    public function getCategorie(): ?SousCategories
     {
         return $this->categorie;
     }
-    /**
-     * @param Categorie $categorie
-     *
-     * @return self
-     */
-    public function setCategorie(SousCategories $categorie)
+
+    public function setCategorie(?SousCategories $categorie): self
     {
         $this->categorie = $categorie;
+
         return $this;
     }
 }

@@ -1,195 +1,143 @@
 <?php
 
-namespace App\Document;
+namespace App\Entity;
 
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
-use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Validator\Constraints as Assert;
+use App\Repository\CategoriesRepository;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @MongoDB\Document
+ * @ORM\Entity(repositoryClass=CategoriesRepository::class)
  */
 class Categories
 {
     /**
-     * @MongoDB\Id
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
      */
-    protected $id;
+    private $id;
 
     /**
-     * @MongoDB\Field(type="string")
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    protected $name;
+    private $name;
 
     /**
-     * @MongoDB\Field(type="string")
+     * @ORM\Column(type="text", nullable=true)
      */
-    protected $content;
-    
-    /**      
-     * @MongoDB\Field(type="integer") 
+    private $content;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
      */
-    protected $status;
-    /**     
-      * @MongoDB\Field(type="date")     
-      */
-    protected $createdAt;
-    /**      
-     * @MongoDB\Field(type="date")
+    private $status;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
      */
-    protected $updatedAt;
-    
-    /**      
-     * @MongoDB\Field(type="string")
-     * @Assert\NotBlank(message="Please, upload the Article image as an image file.")
-     * @Assert\File(mimeTypes={ "image/png","image/jpg""image/jpeg" })       
+    private $createdAt;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
      */
-    protected $image;
-    
-    /**      
-     * @MongoDB\Field(type="string")
-     * @Assert\NotBlank(message="Please, upload the Article image as an image file.")
-     * @Assert\File(mimeTypes={ "image/png","image/jpg""image/jpeg" })       
+    private $updatedAt;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    protected $icone;
-    
-    /** @MongoDB\ReferenceMany(targetDocument="SousCategories", mappedBy="categorie") */
-    protected $sousCategories;
-    
-    /** 
-     * @MongoDB\ReferenceOne(targetDocument="CategoriesMere", inversedBy="categories") */
-    protected $categorieMere;
-    
-    /**      * @return mixed      */
-    public function getId()
+    private $image;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $icone;
+
+    public function getId(): ?int
     {
         return $this->id;
     }
-    
-    /**      * @return mixed      */
-    public function getName()
+
+    public function getName(): ?string
     {
         return $this->name;
     }
-    /**      * @param mixed $name      */
-    public function setName($name)
+
+    public function setName(?string $name): self
     {
         $this->name = $name;
+
+        return $this;
     }
-    
-    /**      * @return mixed      */
-    public function getContent()
+
+    public function getContent(): ?string
     {
         return $this->content;
     }
-    /**      * @param mixed $content      */
-    public function setContent($content)
+
+    public function setContent(?string $content): self
     {
         $this->content = $content;
+
+        return $this;
     }
-    /**      * @return mixed      */
-    public function getUpdatedAt()
-    {
-        return $this->updatedAt;
-    }
-    /**      * @param mixed $updatedAt      */
-    public function setUpdatedAt($updatedAt)
-    {
-        $this->updatedAt = $updatedAt;
-    }
-    
-    /**      * @return mixed      */
-    public function getImage()
-    {
-        return $this->image;
-    }
-    /**      * @param mixed $image      */
-    public function setImage($image)
-    {
-        $this->image = $image;
-    }
-    
-    /**      * @return mixed      */
-    public function getIcone()
-    {
-        return $this->icone;
-    }
-    /**      * @param mixed $icone      */
-    public function setIcone($icone)
-    {
-        $this->icone = $icone;
-    }
-    
-    /**      * @return mixed      */
-    public function getCreatedAt()
-    {
-        return $this->createdAt;
-    }
-    /**      * @param mixed $createdAt      */
-    public function setCreatedAt($createdAt)
-    {
-        $this->createdAt = $createdAt;
-    }
-    
-    /**      * @return mixed      */
-    public function getStatus()
+
+    public function getStatus(): ?int
     {
         return $this->status;
     }
-    /**      * @param mixed $status      */
-    public function setIsStatus($status)
+
+    public function setStatus(?int $status): self
     {
         $this->status = $status;
-    }
-    /**
-     * Add sousCategorie
-     *
-     * @param App\Document\SousCategories $sousCategorie
-     */
-    public function addSousCategorie(SousCategories $sousCategorie)
-    {
-        $this->sousCategories[] = $sousCategorie;
-    }
-    /**
-     * Remove sousCategorie
-     *
-     * @param App\Document\SousCategories $sousCategorie
-     */
-    public function removeSousCategorie(SousCategories $sousCategorie)
-    {
-        $this->sousCategories->removeElement($sousCategorie);
-    }
-    /**
-     * Get sousCategories
-     *
-     * @return \Doctrine\Common\Collections\Collection $sousCategories
-     */
-    public function getSousCategories()
-    {
-        return $this->sousCategories;
-    }
-    
-    /**
-     * @param Categories $categorieMere
-     *
-     * @return self
-     */
-    public function setCategorieMere(CategoriesMere $categorieMere)
-    {
-        $this->categorieMere = $categorieMere;
+
         return $this;
     }
-    
-    /**
-     * Get categorieMere
-     *
-     */
-    public function getCategorieMere()
+
+    public function getCreatedAt(): ?\DateTimeInterface
     {
-        return $this->categorieMere;
+        return $this->createdAt;
     }
-    
-    public function __toString() {
-        return $this->getName();
+
+    public function setCreatedAt(?\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): self
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    public function getIcone(): ?string
+    {
+        return $this->icone;
+    }
+
+    public function setIcone(?string $icone): self
+    {
+        $this->icone = $icone;
+
+        return $this;
     }
 }

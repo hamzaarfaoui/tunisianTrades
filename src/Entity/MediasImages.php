@@ -1,62 +1,58 @@
 <?php
 
-namespace App\Document;
+namespace App\Entity;
 
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
-use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Validator\Constraints as Assert;
+use App\Repository\MediasImagesRepository;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @MongoDB\Document
+ * @ORM\Entity(repositoryClass=MediasImagesRepository::class)
  */
 class MediasImages
 {
     /**
-     * @MongoDB\Id
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
      */
-    protected $id;
+    private $id;
 
     /**
-     * @MongoDB\Field(type="string")
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    protected $name;
-    
-    /** 
-     * @MongoDB\ReferenceOne(targetDocument="Products", inversedBy="mediasImages") */
-    protected $product = array();
- 
-    /**      * @return mixed      */
-    public function getId()
+    private $name;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Products::class, inversedBy="mediasImages")
+     */
+    private $product;
+
+    public function getId(): ?int
     {
         return $this->id;
     }
-    
-    /**      * @return mixed      */
-    public function getName()
+
+    public function getName(): ?string
     {
         return $this->name;
     }
-    /**      * @param mixed $name      */
-    public function setName($name)
+
+    public function setName(?string $name): self
     {
         $this->name = $name;
+
+        return $this;
     }
-    
-    /**
-     * @return mixed
-     */
-    public function getProduct()
+
+    public function getProduct(): ?Products
     {
         return $this->product;
     }
-    /**
-     * @param Products $product
-     *
-     * @return self
-     */
-    public function setProduct(Products $product)
+
+    public function setProduct(?Products $product): self
     {
         $this->product = $product;
+
         return $this;
     }
 }

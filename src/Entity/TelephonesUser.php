@@ -1,47 +1,47 @@
 <?php
 
-namespace App\Document;
+namespace App\Entity;
 
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
-use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @MongoDB\Document
+ * @ORM\Entity(repositoryClass=TelephonesUserRepository::class)
  */
 class TelephonesUser
 {
     /**
-     * @MongoDB\Id
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $id;
-    
+    private $id;
+
     /**
-     * @MongoDB\Field(type="string")
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    protected $numero;
-    
+    private $numero;
+
     /** 
-     * @MongoDB\ReferenceOne(targetDocument="User" ,inversedBy="telephoneUser") */
+     * @ORM\ManyToOne(targetEntity="User" ,inversedBy="telephoneUser") */
     protected $user;
-    
-    /**      * @return mixed      */
-    public function getId()
+
+    public function getId(): ?int
     {
         return $this->id;
     }
-    
-    /**      * @return mixed      */
-    public function getNumero()
+
+    public function getNumero(): ?string
     {
         return $this->numero;
     }
-    /**      * @param mixed $numero      */
-    public function setNumero($numero)
+
+    public function setNumero(?string $numero): self
     {
         $this->numero = $numero;
+
+        return $this;
     }
-    
+
     /**
      * @param Users $user
      *

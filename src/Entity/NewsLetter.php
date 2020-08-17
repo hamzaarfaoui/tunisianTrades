@@ -1,61 +1,58 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+namespace App\Entity;
 
-namespace App\Document;
-
-use FOS\UserBundle\Model\User as BaseUser;
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use App\Repository\NewsLetterRepository;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @MongoDB\Document
+ * @ORM\Entity(repositoryClass=NewsLetterRepository::class)
  */
 class NewsLetter
 {
     /**
-     * @MongoDB\Id(strategy="auto")
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
      */
-    protected $id;
-    
+    private $id;
+
     /**
-     * @MongoDB\Field(type="string")
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    protected $email;
-    
-    /**     
-      * @MongoDB\Field(type="date")     
-      */
-    protected $createdAt;
-    
-    /**      * @return mixed      */
-    public function getId()
+    private $email;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $createdAt;
+
+    public function getId(): ?int
     {
         return $this->id;
-    } 
-    
-    /**      * @return mixed      */
-    public function getEmail()
+    }
+
+    public function getEmail(): ?string
     {
         return $this->email;
     }
-    /**      * @param mixed $email      */
-    public function setEmail($email)
+
+    public function setEmail(?string $email): self
     {
         $this->email = $email;
+
+        return $this;
     }
-    
-    /**      * @return mixed      */
-    public function getCreatedAt()
+
+    public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
     }
-    /**      * @param mixed $createdAt      */
-    public function setCreatedAt($createdAt)
+
+    public function setCreatedAt(?\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
     }
 }

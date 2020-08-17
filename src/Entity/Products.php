@@ -1,459 +1,413 @@
 <?php
 
-namespace App\Document;
+namespace App\Entity;
 
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use App\Repository\ProductsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @MongoDB\Document(repositoryClass="App\Repository\ProductsRepository")
+ * @ORM\Entity(repositoryClass=ProductsRepository::class)
  */
 class Products
 {
     /**
-     * @MongoDB\Id
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
      */
-    protected $id;
+    private $id;
 
     /**
-     * @MongoDB\Field(type="string")
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    protected $name;
+    private $name;
 
     /**
-     * @MongoDB\Field(type="float")
+     * @ORM\Column(type="float", nullable=true)
      */
-    protected $price;
-    
+    private $price;
+
     /**
-     * @MongoDB\Field(type="float")
+     * @ORM\Column(type="float", nullable=true)
      */
-    protected $pricePromotion;
-    
+    private $pricePromotion;
+
     /**
-     * @MongoDB\Field(type="string")
+     * @ORM\Column(type="text", nullable=true)
      */
-    protected $content;
-    
-    /**      
-     * @MongoDB\Field(type="integer") 
+    private $content;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
      */
-    protected $isDeleted;
-    
-    /**      
-     * @MongoDB\Field(type="integer") 
+    private $isDeleted;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
      */
-    protected $nbrView;
-    
-    /**      
-     * @MongoDB\Field(type="integer") 
+    private $nbrView;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
      */
-    protected $nbrAddToCart;
-    
-    /**      
-     * @MongoDB\Field(type="integer") 
+    private $nbrAddToCart;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
      */
-    protected $nbrAddToFavorite;
-    
-    /**      
-     * @MongoDB\Field(type="integer") 
+    private $nbrAddToFavorite;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
      */
-    protected $status;
-    
-    /**      
-     * @MongoDB\Field(type="integer") 
+    private $status;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
      */
-    protected $qte;
-    
-    /**      
-     * @MongoDB\Field(type="integer") 
+    private $qte;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
      */
-    protected $position;
-    
-    /**     
-      * @MongoDB\Field(type="date")     
-      */
-    protected $createdAt;
-    /**      
-     * @MongoDB\Field(type="date")
+    private $position;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
      */
-    protected $updatedAt;
-    
-    /**      
-     * @MongoDB\Field(type="string")
-     * @Assert\NotBlank(message="Please, upload the Article image as an image file.")
-     * @Assert\File(mimeTypes={ "image/png","image/jpg""image/jpeg" })       
+    private $createdAt;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
      */
-    protected $image;
-    
-    
-    
-    /** 
-     * @MongoDB\ReferenceMany(targetDocument="MediasImages", mappedBy="product") */
-    protected $mediasImages = array();
-    
-    /** 
-     * @MongoDB\ReferenceMany(targetDocument="MediasVideos", mappedBy="product") */
-    protected $mediasVideos = array();
-    
-    /** @MongoDB\ReferenceMany(targetDocument="Valeurs", mappedBy="products") */
-    protected $valeurs;
-    
-    /** 
-     * @MongoDB\ReferenceMany(targetDocument="Keywords", mappedBy="product") */
-    protected $keywords = array();
-    
-    /** 
-     * @MongoDB\ReferenceOne(targetDocument="Marques", inversedBy="products") */
-    protected $marque;
-    
-    /** 
-     * @MongoDB\ReferenceOne(targetDocument="SousCategories", inversedBy="products") */
-    protected $sousCategorie;
-    
-    /** 
-     * @MongoDB\ReferenceOne(targetDocument="Stores", inversedBy="products") */
-    protected $store;
-    
-    /**      * @return mixed      */
-    public function getId()
+    private $updatedAt;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $image;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Keywords::class, mappedBy="product")
+     */
+    private $keywords;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Marques::class, inversedBy="products")
+     */
+    private $marque;
+
+    /**
+     * @ORM\OneToMany(targetEntity=MediasImages::class, mappedBy="product")
+     */
+    private $mediasImages;
+
+    /**
+     * @ORM\OneToMany(targetEntity=MediasVideos::class, mappedBy="product")
+     */
+    private $mediasVideos;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Stores::class, inversedBy="products")
+     */
+    private $store;
+
+    public function __construct()
+    {
+        $this->keywords = new ArrayCollection();
+        $this->mediasImages = new ArrayCollection();
+        $this->mediasVideos = new ArrayCollection();
+    }
+
+    public function getId(): ?int
     {
         return $this->id;
     }
-    
-    /**      * @return mixed      */
-    public function getName()
+
+    public function getName(): ?string
     {
         return $this->name;
     }
-    /**      * @param mixed $name      */
-    public function setName($name)
+
+    public function setName(?string $name): self
     {
         $this->name = $name;
+
+        return $this;
     }
-    
-    /**      * @return mixed      */
-    public function getPrice()
+
+    public function getPrice(): ?float
     {
         return $this->price;
     }
-    /**      * @param mixed $price      */
-    public function setPrice($price)
+
+    public function setPrice(?float $price): self
     {
         $this->price = $price;
+
+        return $this;
     }
-    
-    /**      * @return mixed      */
-    public function getPricePromotion()
+
+    public function getPricePromotion(): ?float
     {
         return $this->pricePromotion;
     }
-    /**      * @param mixed $pricePromotion      */
-    public function setPricePromotion($pricePromotion)
+
+    public function setPricePromotion(?float $pricePromotion): self
     {
         $this->pricePromotion = $pricePromotion;
+
+        return $this;
     }
-    
-    /**      * @return mixed      */
-    public function getContent()
+
+    public function getContent(): ?string
     {
         return $this->content;
     }
-    /**      * @param mixed $content      */
-    public function setContent($content)
+
+    public function setContent(?string $content): self
     {
         $this->content = $content;
+
+        return $this;
     }
-    /**      * @return mixed      */
-    public function getUpdatedAt()
-    {
-        return $this->updatedAt;
-    }
-    /**      * @param mixed $updatedAt      */
-    public function setUpdatedAt($updatedAt)
-    {
-        $this->updatedAt = $updatedAt;
-    }
-    
-    /**      * @return mixed      */
-    public function getImage()
-    {
-        return $this->image;
-    }
-    /**      * @param mixed $image      */
-    public function setImage($image)
-    {
-        $this->image = $image;
-    }
-    /**      * @return mixed      */
-    public function getCreatedAt()
-    {
-        return $this->createdAt;
-    }
-    /**      * @param mixed $createdAt      */
-    public function setCreatedAt($createdAt)
-    {
-        $this->createdAt = $createdAt;
-    }
-    
-    /**      * @param mixed $isDeleted      */
-    public function setIsDeleted($isDeleted)
-    {
-        $this->isDeleted = $isDeleted;
-    }
-    
-    /**      * @return mixed      */
-    public function getIsDeleted()
+
+    public function getIsDeleted(): ?int
     {
         return $this->isDeleted;
     }
-    /**      * @param mixed $nbrView      */
-    public function setNbrView($nbrView)
+
+    public function setIsDeleted(?int $isDeleted): self
     {
-        $this->nbrView = $nbrView;
+        $this->isDeleted = $isDeleted;
+
+        return $this;
     }
-    
-    /**      * @return mixed      */
-    public function getNbrView()
+
+    public function getNbrView(): ?int
     {
         return $this->nbrView;
     }
-    
-    /**      * @param mixed $nbrAddToCart      */
-    public function setNbrAddToCart($nbrAddToCart)
+
+    public function setNbrView(?int $nbrView): self
     {
-        $this->nbrAddToCart = $nbrAddToCart;
+        $this->nbrView = $nbrView;
+
+        return $this;
     }
-    
-    /**      * @return mixed      */
-    public function getNbrAddToCart()
+
+    public function getNbrAddToCart(): ?int
     {
         return $this->nbrAddToCart;
     }
-    
-    /**      * @param mixed $nbrAddToFavorite      */
-    public function setNbrAddToFavorite($nbrAddToFavorite)
+
+    public function setNbrAddToCart(?int $nbrAddToCart): self
     {
-        $this->nbrAddToFavorite = $nbrAddToFavorite;
+        $this->nbrAddToCart = $nbrAddToCart;
+
+        return $this;
     }
-    
-    /**      * @return mixed      */
-    public function getNbrAddToFavorite()
+
+    public function getNbrAddToFavorite(): ?int
     {
         return $this->nbrAddToFavorite;
     }
-    
-    
-    
-    /**      * @return mixed      */
-    public function getStatus()
+
+    public function setNbrAddToFavorite(?int $nbrAddToFavorite): self
+    {
+        $this->nbrAddToFavorite = $nbrAddToFavorite;
+
+        return $this;
+    }
+
+    public function getStatus(): ?int
     {
         return $this->status;
     }
-    /**      * @param mixed $status      */
-    public function setIsStatus($status)
+
+    public function setStatus(?int $status): self
     {
         $this->status = $status;
+
+        return $this;
     }
-    
-    /**      * @return mixed      */
-    public function getQte()
+
+    public function getQte(): ?int
     {
         return $this->qte;
     }
-    /**      * @param mixed $qte      */
-    public function setQte($qte)
+
+    public function setQte(?int $qte): self
     {
         $this->qte = $qte;
+
+        return $this;
     }
-    
-    /**      * @param mixed $position      */
-    public function setPosition($position)
-    {
-        $this->position = $position;
-    }
-    
-    /**      * @return mixed      */
-    public function getPosition()
+
+    public function getPosition(): ?int
     {
         return $this->position;
     }
 
-    /**
-     * Add mediaImage
-     *
-     * @param App\Document\MediasImages $mediaImage
-     */
-    public function addMediaImage(MediasImages $mediaImage)
+    public function setPosition(?int $position): self
     {
-        $this->mediasImages[] = $mediaImage;
+        $this->position = $position;
+
+        return $this;
     }
- 
-    /**
-     * Remove mediaImage
-     *
-     * @param App\Document\MediasImages $mediaImage
-     */
-    public function removeMediaImage(MediasImages $mediaImage)
+
+    public function getCreatedAt(): ?\DateTimeInterface
     {
-        $this->mediasImages->removeElement($mediaImage);
+        return $this->createdAt;
     }
- 
-    /**
-     * Get MediasImages
-     *
-     * @return \Doctrine\Common\Collections\Collection $MediasImages
-     */
-    public function getMediasImages()
+
+    public function setCreatedAt(?\DateTimeInterface $createdAt): self
     {
-        return $this->mediasImages;
+        $this->createdAt = $createdAt;
+
+        return $this;
     }
-    
-    /**
-     * Add mediaVideo
-     *
-     * @param App\Document\MediasVideos $mediaVideo
-     */
-    public function addMediasVideos(MediasVideos $mediaVideo)
+
+    public function getUpdatedAt(): ?\DateTimeInterface
     {
-        $this->mediasVideos[] = $mediaVideo;
+        return $this->updatedAt;
     }
- 
-    /**
-     * Remove mediaVideo
-     *
-     * @param App\Document\MediasVideos $mediasVideo
-     */
-    public function removeMediasVideos(MediasVideos $mediasVideo)
+
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
     {
-        $this->mediasVideos->removeElement($mediasVideo);
+        $this->updatedAt = $updatedAt;
+
+        return $this;
     }
- 
-    /**
-     * Get mediasVideos
-     *
-     * @return \Doctrine\Common\Collections\Collection $mediasVideos
-     */
-    public function getMediasVideos()
+
+    public function getImage(): ?string
     {
-        return $this->mediasVideos;
+        return $this->image;
     }
-    
-    /**
-     * Add valeur
-     *
-     * @param App\Document\Valeurs $valeur
-     */
-    public function addValeur(Valeurs $valeur)
+
+    public function setImage(?string $image): self
     {
-        $this->valeurs[] = $valeur;
+        $this->image = $image;
+
+        return $this;
     }
+
     /**
-     * Remove valeur
-     *
-     * @param App\Document\Valeurs $valeur
+     * @return Collection|Keywords[]
      */
-    public function removeValeur(Valeurs $valeur)
-    {
-        $this->valeurs->removeElement($valeur);
-    }
-    /**
-     * Get valeurs
-     *
-     * @return \Doctrine\Common\Collections\Collection $valeurs
-     */
-    public function getValeurs()
-    {
-        return $this->valeurs;
-    }
-    
-    /**
-     * Add keyword
-     *
-     * @param App\Document\Keywords $keyword
-     */
-    public function addKeyword(Keywords $keyword)
-    {
-        $this->keywords[] = $keyword;
-    }
- 
-    /**
-     * Remove keyword
-     *
-     * @param App\Document\Keywords $keyword
-     */
-    public function removeKeyword(Keywords $keyword)
-    {
-        $this->keywords->removeElement($keyword);
-    }
- 
-    /**
-     * Get keywords
-     *
-     * @return \Doctrine\Common\Collections\Collection $MediasImages
-     */
-    public function getKeywords()
+    public function getKeywords(): Collection
     {
         return $this->keywords;
     }
-    
-    /**
-     * @return mixed
-     */
-    public function getMarque()
+
+    public function addKeyword(Keywords $keyword): self
+    {
+        if (!$this->keywords->contains($keyword)) {
+            $this->keywords[] = $keyword;
+            $keyword->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeKeyword(Keywords $keyword): self
+    {
+        if ($this->keywords->contains($keyword)) {
+            $this->keywords->removeElement($keyword);
+            // set the owning side to null (unless already changed)
+            if ($keyword->getProduct() === $this) {
+                $keyword->setProduct(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getMarque(): ?Marques
     {
         return $this->marque;
     }
-    /**
-     * @param Marques $marque
-     *
-     * @return self
-     */
-    public function setMarque(Marques $marque)
+
+    public function setMarque(?Marques $marque): self
     {
         $this->marque = $marque;
+
         return $this;
     }
-    
-    
+
     /**
-     * @param SousCategories $sousCategorie
-     *
-     * @return self
+     * @return Collection|MediasImages[]
      */
-    public function setSousCategorie(SousCategories $sousCategorie)
+    public function getMediasImages(): Collection
     {
-        $this->sousCategorie = $sousCategorie;
+        return $this->mediasImages;
+    }
+
+    public function addMediasImage(MediasImages $mediasImage): self
+    {
+        if (!$this->mediasImages->contains($mediasImage)) {
+            $this->mediasImages[] = $mediasImage;
+            $mediasImage->setProduct($this);
+        }
+
         return $this;
     }
-    
-    /**
-     * Get sousCategorie
-     *
-     */
-    public function getSousCategorie()
+
+    public function removeMediasImage(MediasImages $mediasImage): self
     {
-        return $this->sousCategorie;
-    }
-    
-    /**
-     * @param Stores $store
-     *
-     * @return self
-     */
-    public function setStore(Stores $store)
-    {
-        $this->store = $store;
+        if ($this->mediasImages->contains($mediasImage)) {
+            $this->mediasImages->removeElement($mediasImage);
+            // set the owning side to null (unless already changed)
+            if ($mediasImage->getProduct() === $this) {
+                $mediasImage->setProduct(null);
+            }
+        }
+
         return $this;
     }
-    
+
     /**
-     * Get store
-     *
+     * @return Collection|MediasVideos[]
      */
-    public function getStore()
+    public function getMediasVideos(): Collection
+    {
+        return $this->mediasVideos;
+    }
+
+    public function addMediasVideo(MediasVideos $mediasVideo): self
+    {
+        if (!$this->mediasVideos->contains($mediasVideo)) {
+            $this->mediasVideos[] = $mediasVideo;
+            $mediasVideo->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMediasVideo(MediasVideos $mediasVideo): self
+    {
+        if ($this->mediasVideos->contains($mediasVideo)) {
+            $this->mediasVideos->removeElement($mediasVideo);
+            // set the owning side to null (unless already changed)
+            if ($mediasVideo->getProduct() === $this) {
+                $mediasVideo->setProduct(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getStore(): ?Stores
     {
         return $this->store;
+    }
+
+    public function setStore(?Stores $store): self
+    {
+        $this->store = $store;
+
+        return $this;
     }
 }

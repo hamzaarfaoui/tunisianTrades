@@ -1,112 +1,118 @@
 <?php
 
-namespace App\Document;
+namespace App\Entity;
 
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use App\Repository\MarchandsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @MongoDB\Document
+ * @ORM\Entity(repositoryClass=MarchandsRepository::class)
  */
 class Marchands
 {
     /**
-     * @MongoDB\Id
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
      */
-    protected $id;
+    private $id;
 
     /**
-     * @MongoDB\Field(type="string")
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    protected $nrc;
-    
+    private $nrc;
+
     /**
-     * @MongoDB\Field(type="string")
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    protected $matriculeFiscale;
-    
-    /** 
-     * @MongoDB\ReferenceMany(targetDocument="Stores", mappedBy="marchand") */
-    protected $stores = array();
-    
-    /** 
-     * @MongoDB\ReferenceOne(targetDocument="User") */
-    protected $user;
-    
-    /**      * @return mixed      */
-    public function getId()
+    private $matriculeFiscale;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class)
+     */
+    private $user;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Stores::class, mappedBy="marchand")
+     */
+    private $stores;
+
+    public function __construct()
+    {
+        $this->stores = new ArrayCollection();
+    }
+
+    public function getId(): ?int
     {
         return $this->id;
     }
-    
-    /**      * @return mixed      */
-    public function getNrc()
+
+    public function getNrc(): ?string
     {
         return $this->nrc;
     }
-    /**      * @param mixed $nrc      */
-    public function setNrc($nrc)
+
+    public function setNrc(?string $nrc): self
     {
         $this->nrc = $nrc;
+
+        return $this;
     }
-    
-    /**      * @return mixed      */
-    public function getMatriculeFiscale()
+
+    public function getMatriculeFiscale(): ?string
     {
         return $this->matriculeFiscale;
     }
-    /**      * @param mixed $matriculeFiscale      */
-    public function setMatriculeFiscale($matriculeFiscale)
+
+    public function setMatriculeFiscale(?string $matriculeFiscale): self
     {
         $this->matriculeFiscale = $matriculeFiscale;
+
+        return $this;
     }
-    
-    /**
-     * Add store
-     *
-     * @param App\Document\Stores $store
-     */
-    public function addStore(Stores $store)
+
+    public function getUser(): ?User
     {
-        $this->stores[] = $store;
+        return $this->user;
     }
-    /**
-     * Remove store
-     *
-     * @param App\Document\Stores $store
-     */
-    public function removeStore(Stores $store)
+
+    public function setUser(?User $user): self
     {
-        $this->stores->removeElement($store);
+        $this->user = $user;
+
+        return $this;
     }
+
     /**
-     * Get stores
-     *
-     * @return \Doctrine\Common\Collections\Collection $stores
+     * @return Collection|Stores[]
      */
-    public function getStores()
+    public function getStores(): Collection
     {
         return $this->stores;
     }
-    
-    /**
-     * @param Users $user
-     *
-     * @return self
-     */
-    public function setUser(User $user)
+
+    public function addStore(Stores $store): self
     {
-        $this->user = $user;
+        if (!$this->stores->contains($store)) {
+            $this->stores[] = $store;
+            $store->setMarchand($this);
+        }
+
         return $this;
     }
-    
-    /**
-     * Get user
-     *
-     */
-    public function getUser()
+
+    public function removeStore(Stores $store): self
     {
-        return $this->user;
+        if ($this->stores->contains($store)) {
+            $this->stores->removeElement($store);
+            // set the owning side to null (unless already changed)
+            if ($store->getMarchand() === $this) {
+                $store->setMarchand(null);
+            }
+        }
+
+        return $this;
     }
 }

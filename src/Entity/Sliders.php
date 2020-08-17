@@ -1,94 +1,92 @@
 <?php
 
-namespace App\Document;
+namespace App\Entity;
 
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
-use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Validator\Constraints as Assert;
+use App\Repository\SlidersRepository;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @MongoDB\Document
+ * @ORM\Entity(repositoryClass=SlidersRepository::class)
  */
 class Sliders
 {
     /**
-     * @MongoDB\Id
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
      */
-    protected $id;
+    private $id;
 
     /**
-     * @MongoDB\Field(type="string")
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    protected $image;
-    
+    private $image;
+
     /**
-     * @MongoDB\Field(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
-    protected $ordre;
-    
+    private $ordre;
+
     /**
-     * @MongoDB\Field(type="boolean")
+     * @ORM\Column(type="boolean", nullable=true)
      */
-    protected $status;
-    
-    /** 
-     * @MongoDB\ReferenceOne(targetDocument="Products") */
-    protected $product;
- 
-    /**      * @return mixed      */
-    public function getId()
+    private $status;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Products::class)
+     */
+    private $product;
+
+    public function getId(): ?int
     {
         return $this->id;
     }
-    
-    /**      * @return mixed      */
-    public function getImage()
+
+    public function getImage(): ?string
     {
         return $this->image;
     }
-    /**      * @param mixed $image      */
-    public function setImage($image)
+
+    public function setImage(?string $image): self
     {
         $this->image = $image;
+
+        return $this;
     }
-    
-    /**      * @return mixed      */
-    public function getOrdre()
+
+    public function getOrdre(): ?int
     {
         return $this->ordre;
     }
-    /**      * @param mixed $ordre      */
-    public function setOrdre($ordre)
+
+    public function setOrdre(?int $ordre): self
     {
         $this->ordre = $ordre;
+
+        return $this;
     }
-    
-    /**      * @return mixed      */
-    public function getStatus()
+
+    public function getStatus(): ?bool
     {
         return $this->status;
     }
-    /**      * @param mixed $status      */
-    public function setStatus($status)
+
+    public function setStatus(?bool $status): self
     {
         $this->status = $status;
+
+        return $this;
     }
-    
-    /**
-     * @return mixed
-     */
-    public function getProduct()
+
+    public function getProduct(): ?Products
     {
         return $this->product;
     }
-    /**
-     * @param Products $product
-     *
-     * @return self
-     */
-    public function setProduct(Products $product)
+
+    public function setProduct(?Products $product): self
     {
         $this->product = $product;
+
         return $this;
     }
 }

@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use App\Document\Products;
+use App\Entity\Products;
 
 class UserController extends Controller
 {
@@ -12,7 +12,7 @@ class UserController extends Controller
      */
     public function dashboard()
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         $nombreCmdValide = $dm->getRepository('App:Commandes')->nombreCmdValide();
         $nombreCmdEnCours = $dm->getRepository('App:Commandes')->nombreCmdEnCours();
         return $this->render('user/espaces/admin.html.twig',array(

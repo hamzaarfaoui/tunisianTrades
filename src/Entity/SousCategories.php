@@ -1,310 +1,237 @@
 <?php
 
-namespace App\Document;
+namespace App\Entity;
 
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use App\Repository\SousCategoriesRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @MongoDB\Document
+ * @ORM\Entity(repositoryClass=SousCategoriesRepository::class)
  */
 class SousCategories
 {
     /**
-     * @MongoDB\Id
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
      */
-    protected $id;
+    private $id;
 
     /**
-     * @MongoDB\Field(type="string")
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    protected $name;
+    private $name;
 
     /**
-     * @MongoDB\Field(type="string")
+     * @ORM\Column(type="text", nullable=true)
      */
-    protected $content;
-    
-    /**      
-     * @MongoDB\Field(type="integer") 
+    private $content;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
      */
-    protected $status;
-    
-    /**      
-     * @MongoDB\Field(type="integer") 
+    private $status;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
      */
-    protected $showInIndex;
-    
-    /**      
-     * @MongoDB\Field(type="integer") 
+    private $showInIndex;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
      */
-    protected $orderInIndex;
-    
-    /**      
-     * @MongoDB\Field(type="integer") 
+    private $orderInIndex;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
      */
-    protected $hasBanner;
-    
-    /**     
-      * @MongoDB\Field(type="date")     
-      */
-    protected $createdAt;
-    /**      
-     * @MongoDB\Field(type="date")
+    private $hasBanner;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
      */
-    protected $updatedAt;
-    
-    /**      
-     * @MongoDB\Field(type="string")
-     * @Assert\NotBlank(message="Please, upload the Article image as an image file.")
-     * @Assert\File(mimeTypes={ "image/png","image/jpg""image/jpeg" })       
+    private $createdAt;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
      */
-    protected $image;
-    
-    /**      
-     * @MongoDB\Field(type="string")
-     * @Assert\NotBlank(message="Please, upload the Article image as an image file.")
-     * @Assert\File(mimeTypes={ "image/png","image/jpg""image/jpeg" })       
+    private $updatedAt;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    protected $icone;
-    
-    /** @MongoDB\ReferenceMany(targetDocument="Products", mappedBy="sousCategorie") */
-    protected $products;
-    
-    /** @MongoDB\ReferenceMany(targetDocument="Caracteristiques", mappedBy="sousCategorie") */
-    protected $caracteristiques;
-    
-    /** 
-     * @MongoDB\ReferenceOne(targetDocument="Categories", inversedBy="sousCategories") */
-    protected $categorie;
-    
-    /** 
-     * @MongoDB\ReferenceMany(targetDocument="Keywords", mappedBy="categorie") */
-    protected $keywords = array();
-    
-    /**      * @return mixed      */
-    public function getId()
+    private $image;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $icone;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Keywords::class, mappedBy="categorie")
+     */
+    private $keywords;
+
+    public function __construct()
+    {
+        $this->keywords = new ArrayCollection();
+    }
+
+    public function getId(): ?int
     {
         return $this->id;
     }
-    
-    /**      * @return mixed      */
-    public function getName()
+
+    public function getName(): ?string
     {
         return $this->name;
     }
-    /**      * @param mixed $name      */
-    public function setName($name)
+
+    public function setName(?string $name): self
     {
         $this->name = $name;
+
+        return $this;
     }
-    
-    /**      * @return mixed      */
-    public function getContent()
+
+    public function getContent(): ?string
     {
         return $this->content;
     }
-    /**      * @param mixed $content      */
-    public function setContent($content)
+
+    public function setContent(?string $content): self
     {
         $this->content = $content;
+
+        return $this;
     }
-    /**      * @return mixed      */
-    public function getUpdatedAt()
-    {
-        return $this->updatedAt;
-    }
-    /**      * @param mixed $updatedAt      */
-    public function setUpdatedAt($updatedAt)
-    {
-        $this->updatedAt = $updatedAt;
-    }
-    
-    /**      * @return mixed      */
-    public function getImage()
-    {
-        return $this->image;
-    }
-    /**      * @param mixed $image      */
-    public function setImage($image)
-    {
-        $this->image = $image;
-    }
-    
-    /**      * @return mixed      */
-    public function getIcone()
-    {
-        return $this->icone;
-    }
-    /**      * @param mixed $icone      */
-    public function setIcone($icone)
-    {
-        $this->icone = $icone;
-    }
-    
-    /**      * @return mixed      */
-    public function getCreatedAt()
-    {
-        return $this->createdAt;
-    }
-    /**      * @param mixed $createdAt      */
-    public function setCreatedAt($createdAt)
-    {
-        $this->createdAt = $createdAt;
-    }
-    
-    /**      * @return mixed      */
-    public function getStatus()
+
+    public function getStatus(): ?int
     {
         return $this->status;
     }
-    /**      * @param mixed $status      */
-    public function setIsStatus($status)
+
+    public function setStatus(?int $status): self
     {
         $this->status = $status;
+
+        return $this;
     }
-    
-    /**      * @return mixed      */
-    public function getShowInIndex()
+
+    public function getShowInIndex(): ?int
     {
         return $this->showInIndex;
     }
-    /**      * @param mixed $showInIndex      */
-    public function setShowInIndex($showInIndex)
+
+    public function setShowInIndex(?int $showInIndex): self
     {
         $this->showInIndex = $showInIndex;
+
+        return $this;
     }
-    
-    /**      * @return mixed      */
-    public function getOrderInIndex()
+
+    public function getOrderInIndex(): ?int
     {
         return $this->orderInIndex;
     }
-    /**      * @param mixed $orderInIndex      */
-    public function setOrderInIndex($orderInIndex)
+
+    public function setOrderInIndex(?int $orderInIndex): self
     {
         $this->orderInIndex = $orderInIndex;
+
+        return $this;
     }
-    
-    /**      * @return mixed      */
-    public function getHasBanner()
+
+    public function getHasBanner(): ?int
     {
         return $this->hasBanner;
     }
-    /**      * @param mixed $hasBanner     */
-    public function setHasBanner($hasBanner)
+
+    public function setHasBanner(?int $hasBanner): self
     {
         $this->hasBanner = $hasBanner;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(?\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): self
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    public function getIcone(): ?string
+    {
+        return $this->icone;
+    }
+
+    public function setIcone(?string $icone): self
+    {
+        $this->icone = $icone;
+
+        return $this;
     }
 
     /**
-     * Add product
-     *
-     * @param App\Document\Products $product
+     * @return Collection|Keywords[]
      */
-    public function addProduct(Products $product)
-    {
-        $this->products[] = $product;
-    }
-    /**
-     * Remove product
-     *
-     * @param App\Document\Products $product
-     */
-    public function removeProduct(Products $product)
-    {
-        $this->products->removeElement($product);
-    }
-    /**
-     * Get products
-     *
-     * @return \Doctrine\Common\Collections\Collection $products
-     */
-    public function getProducts()
-    {
-        return $this->products;
-    }
-    
-    /**
-     * Add caracteristique
-     *
-     * @param App\Document\Caracteristiques $caracteristique
-     */
-    public function addCaracteristique(Caracteristiques $caracteristique)
-    {
-        $this->caracteristiques[] = $caracteristique;
-    }
-    /**
-     * Remove caracteristique
-     *
-     * @param App\Document\Caracteristiques $caracteristique
-     */
-    public function removeCaracteristique(Caracteristiques $caracteristique)
-    {
-        $this->caracteristiques->removeElement($caracteristique);
-    }
-    /**
-     * Get caracteristiques
-     *
-     * @return \Doctrine\Common\Collections\Collection $caracteristiques
-     */
-    public function getCaracteristiques()
-    {
-        return $this->caracteristiques;
-    }
-    
-    /**
-     * @param Categories $categorie
-     *
-     * @return self
-     */
-    public function setCategorie(Categories $categorie)
-    {
-        $this->categorie = $categorie;
-        return $this;
-    }
-    
-    /**
-     * Get categorie
-     *
-     */
-    public function getCategorie()
-    {
-        return $this->categorie;
-    }
-    
-    /**
-     * Add keyword
-     *
-     * @param App\Document\Keywords $keyword
-     */
-    public function addKeyword(Keywords $keyword)
-    {
-        $this->keywords[] = $keyword;
-    }
- 
-    /**
-     * Remove keyword
-     *
-     * @param App\Document\Keywords $keyword
-     */
-    public function removeKeyword(Keywords $keyword)
-    {
-        $this->keywords->removeElement($keyword);
-    }
- 
-    /**
-     * Get keywords
-     *
-     * @return \Doctrine\Common\Collections\Collection $MediasImages
-     */
-    public function getKeywords()
+    public function getKeywords(): Collection
     {
         return $this->keywords;
     }
-    
-    public function __toString() {
-        return $this->getName();
+
+    public function addKeyword(Keywords $keyword): self
+    {
+        if (!$this->keywords->contains($keyword)) {
+            $this->keywords[] = $keyword;
+            $keyword->setCategorie($this);
+        }
+
+        return $this;
+    }
+
+    public function removeKeyword(Keywords $keyword): self
+    {
+        if ($this->keywords->contains($keyword)) {
+            $this->keywords->removeElement($keyword);
+            // set the owning side to null (unless already changed)
+            if ($keyword->getCategorie() === $this) {
+                $keyword->setCategorie(null);
+            }
+        }
+
+        return $this;
     }
 }

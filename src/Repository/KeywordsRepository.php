@@ -1,23 +1,50 @@
 <?php
 
 namespace App\Repository;
-use Doctrine\ODM\MongoDB\DocumentRepository;
-use App\Utils\EntityDocumentManager;
-date_default_timezone_set("Europe/Paris");
+
+use App\Entity\Keywords;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Persistence\ManagerRegistry;
+
 /**
  * @method Keywords|null find($id, $lockMode = null, $lockVersion = null)
  * @method Keywords|null findOneBy(array $criteria, array $orderBy = null)
  * @method Keywords[]    findAll()
  * @method Keywords[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class KeywordsRepository extends DocumentRepository
+class KeywordsRepository extends ServiceEntityRepository
 {
-    public function byName($chaine)
+    public function __construct(ManagerRegistry $registry)
     {
-        $qb = $this->createQueryBuilder('Keywords')
-                ->Select('id', 'name')
-                ->field('name')->equals(new \MongoRegex('/.*'.$chaine.'.*/i'));
-
-        return $qb->getQuery()->execute();
+        parent::__construct($registry, Keywords::class);
     }
+
+    // /**
+    //  * @return Keywords[] Returns an array of Keywords objects
+    //  */
+    /*
+    public function findByExampleField($value)
+    {
+        return $this->createQueryBuilder('k')
+            ->andWhere('k.exampleField = :val')
+            ->setParameter('val', $value)
+            ->orderBy('k.id', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+    */
+
+    /*
+    public function findOneBySomeField($value): ?Keywords
+    {
+        return $this->createQueryBuilder('k')
+            ->andWhere('k.exampleField = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+    */
 }

@@ -1,271 +1,294 @@
 <?php
 
-namespace App\Document;
+namespace App\Entity;
 
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use App\Repository\StoresRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @MongoDB\Document(repositoryClass="App\Repository\StoresRepository")
+ * @ORM\Entity(repositoryClass=StoresRepository::class)
  */
 class Stores
 {
     /**
-     * @MongoDB\Id
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
      */
-    protected $id;
+    private $id;
 
     /**
-     * @MongoDB\Field(type="string")
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    protected $name;
+    private $name;
 
     /**
-     * @MongoDB\Field(type="string")
+     * @ORM\Column(type="text", nullable=true)
      */
-    protected $description;
-    
-    /**      
-     * @MongoDB\Field(type="integer") 
+    private $description;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
      */
-    protected $status;
-    /**     
-      * @MongoDB\Field(type="date")     
-      */
-    protected $createdAt;
-    /**      
-     * @MongoDB\Field(type="date")
+    private $status;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
      */
-    protected $updatedAt;
-    
-    /**      
-     * @MongoDB\Field(type="string")
-     * @Assert\NotBlank(message="Please, upload the store imageCouverture as an imageCouverture file.")
-     * @Assert\File(mimeTypes={ "imageCouverture/png","imageCouverture/jpg""imageCouverture/jpeg" })       
+    private $createdAt;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
      */
-    protected $imageCouverture;
-    
-    /**      
-     * @MongoDB\Field(type="string")
-     * @Assert\NotBlank(message="Please, upload the store imageCouverture as an imageCouverture file.")
-     * @Assert\File(mimeTypes={ "imageCouverture/png","imageCouverture/jpg""imageCouverture/jpeg" })       
+    private $updatedAt;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    protected $logo;
-    
-    /**      
-     * @MongoDB\Field(type="integer") 
+    private $imageCouverture;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    protected $nbrView;
-    
-    /** @MongoDB\ReferenceMany(targetDocument="Products", mappedBy="store") */
-    protected $products;
-    
-    /** 
-     * @MongoDB\ReferenceOne(targetDocument="Marchands", inversedBy="stores") */
-    protected $marchand;
-    
-    /** @MongoDB\ReferenceMany(targetDocument="AdressesStore", mappedBy="store") */
-    protected $adressesStore;
-    
-    /** @MongoDB\ReferenceMany(targetDocument="TelephonesStore", mappedBy="store") */
-    protected $telephonesStore;
-    
-    /**      * @return mixed      */
-    public function getId()
+    private $logo;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $nbrView;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Products::class, mappedBy="store")
+     */
+    private $products;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Marchands::class, inversedBy="stores")
+     */
+    private $marchand;
+
+    /**
+     * @ORM\OneToMany(targetEntity=TelephonesStore::class, mappedBy="store")
+     */
+    private $telephonesStore;
+
+    /**
+     * @ORM\OneToMany(targetEntity=AdressesStore::class, mappedBy="store")
+     */
+    private $adressesStore;
+
+    public function __construct()
+    {
+        $this->products = new ArrayCollection();
+        $this->telephonesStore = new ArrayCollection();
+        $this->adressesStore = new ArrayCollection();
+    }
+
+    public function getId(): ?int
     {
         return $this->id;
     }
-    
-    /**      * @return mixed      */
-    public function getName()
+
+    public function getName(): ?string
     {
         return $this->name;
     }
-    /**      * @param mixed $name      */
-    public function setName($name)
+
+    public function setName(?string $name): self
     {
         $this->name = $name;
+
+        return $this;
     }
-    
-    /**      * @return mixed      */
-    public function getDescription()
+
+    public function getDescription(): ?string
     {
         return $this->description;
     }
-    /**      * @param mixed $description      */
-    public function setDescription($description)
+
+    public function setDescription(?string $description): self
     {
         $this->description = $description;
+
+        return $this;
     }
-    /**      * @return mixed      */
-    public function getUpdatedAt()
-    {
-        return $this->updatedAt;
-    }
-    /**      * @param mixed $updatedAt      */
-    public function setUpdatedAt($updatedAt)
-    {
-        $this->updatedAt = $updatedAt;
-    }
-    
-    /**      * @return mixed      */
-    public function getImageCouverture()
-    {
-        return $this->imageCouverture;
-    }
-    /**      * @param mixed $imageCouverture      */
-    public function setImageCouverture($imageCouverture)
-    {
-        $this->imageCouverture = $imageCouverture;
-    }
-    
-    /**      * @return mixed      */
-    public function getLogo()
-    {
-        return $this->logo;
-    }
-    /**      * @param mixed $logo      */
-    public function setLogo($logo)
-    {
-        $this->logo = $logo;
-    }
-    
-    /**      * @return mixed      */
-    public function getCreatedAt()
-    {
-        return $this->createdAt;
-    }
-    /**      * @param mixed $createdAt      */
-    public function setCreatedAt($createdAt)
-    {
-        $this->createdAt = $createdAt;
-    }
-    
-    /**      * @return mixed      */
-    public function getStatus()
+
+    public function getStatus(): ?int
     {
         return $this->status;
     }
-    /**      * @param mixed $status      */
-    public function setIsStatus($status)
+
+    public function setStatus(?int $status): self
     {
         $this->status = $status;
+
+        return $this;
     }
-    
-    /**      * @param mixed $nbrView      */
-    public function setNbrView($nbrView)
+
+    public function getCreatedAt(): ?\DateTimeInterface
     {
-        $this->nbrView = $nbrView;
+        return $this->createdAt;
     }
-    
-    /**      * @return mixed      */
-    public function getNbrView()
+
+    public function setCreatedAt(?\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getImageCouverture(): ?string
+    {
+        return $this->imageCouverture;
+    }
+
+    public function setImageCouverture(?string $imageCouverture): self
+    {
+        $this->imageCouverture = $imageCouverture;
+
+        return $this;
+    }
+
+    public function getLogo(): ?string
+    {
+        return $this->logo;
+    }
+
+    public function setLogo(?string $logo): self
+    {
+        $this->logo = $logo;
+
+        return $this;
+    }
+
+    public function getNbrView(): ?int
     {
         return $this->nbrView;
     }
 
-    /**
-     * Add product
-     *
-     * @param App\Document\Products $product
-     */
-    public function addProduct(Products $product)
+    public function setNbrView(?int $nbrView): self
     {
-        $this->products[] = $product;
+        $this->nbrView = $nbrView;
+
+        return $this;
     }
+
     /**
-     * Remove product
-     *
-     * @param App\Document\Products $product
+     * @return Collection|Products[]
      */
-    public function removeProduct(Products $product)
-    {
-        $this->products->removeElement($product);
-    }
-    /**
-     * Get products
-     *
-     * @return \Doctrine\Common\Collections\Collection $products
-     */
-    public function getProducts()
+    public function getProducts(): Collection
     {
         return $this->products;
     }
-    
-    /**
-     * @param Marchands $marchand
-     *
-     * @return self
-     */
-    public function setMarchand(Marchands $marchand)
+
+    public function addProduct(Products $product): self
     {
-        $this->marchand = $marchand;
+        if (!$this->products->contains($product)) {
+            $this->products[] = $product;
+            $product->setStore($this);
+        }
+
         return $this;
     }
-    
-    /**
-     * Get marchand
-     *
-     */
-    public function getMarchand()
+
+    public function removeProduct(Products $product): self
+    {
+        if ($this->products->contains($product)) {
+            $this->products->removeElement($product);
+            // set the owning side to null (unless already changed)
+            if ($product->getStore() === $this) {
+                $product->setStore(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getMarchand(): ?Marchands
     {
         return $this->marchand;
     }
-    
-    /**
-     * Add sousCategorie
-     *
-     * @param App\Document\AdressesStore $sousCategorie
-     */
-    public function addAdresseStore(AdressesStore $sousCategorie)
+
+    public function setMarchand(?Marchands $marchand): self
     {
-        $this->adressesStore[] = $sousCategorie;
+        $this->marchand = $marchand;
+
+        return $this;
     }
+
     /**
-     * Remove sousCategorie
-     *
-     * @param App\Document\AdressesStore $sousCategorie
+     * @return Collection|TelephonesStore[]
      */
-    public function removeAdresseStore(AdressesStore $sousCategorie)
+    public function getTelephonesStore(): Collection
     {
-        $this->adressesStore->removeElement($sousCategorie);
+        return $this->telephonesStore;
     }
+
+    public function addTelephonesStore(TelephonesStore $telephonesStore): self
+    {
+        if (!$this->telephonesStore->contains($telephonesStore)) {
+            $this->telephonesStore[] = $telephonesStore;
+            $telephonesStore->setStore($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTelephonesStore(TelephonesStore $telephonesStore): self
+    {
+        if ($this->telephonesStore->contains($telephonesStore)) {
+            $this->telephonesStore->removeElement($telephonesStore);
+            // set the owning side to null (unless already changed)
+            if ($telephonesStore->getStore() === $this) {
+                $telephonesStore->setStore(null);
+            }
+        }
+
+        return $this;
+    }
+
     /**
-     * Get adressesStore
-     *
-     * @return \Doctrine\Common\Collections\Collection $adressesStore
+     * @return Collection|AdressesStore[]
      */
-    public function getAdressesStore()
+    public function getAdressesStore(): Collection
     {
         return $this->adressesStore;
     }
-    
-    /**
-     * Add telephoneStore
-     *
-     * @param App\Document\TelephonesStore $telephoneStore
-     */
-    public function addTelephoneStore(TelephonesStore $telephoneStore)
+
+    public function addAdressesStore(AdressesStore $adressesStore): self
     {
-        $this->telephonesStore[] = $telephoneStore;
+        if (!$this->adressesStore->contains($adressesStore)) {
+            $this->adressesStore[] = $adressesStore;
+            $adressesStore->setStore($this);
+        }
+
+        return $this;
     }
-    /**
-     * Remove telephoneStore
-     *
-     * @param App\Document\TelephonesStore $telephoneStore
-     */
-    public function removeTelephoneStore(TelephonesStore $telephoneStore)
+
+    public function removeAdressesStore(AdressesStore $adressesStore): self
     {
-        $this->telephonesStore->removeElement($telephoneStore);
-    }
-    /**
-     * Get telephonesStore
-     *
-     * @return \Doctrine\Common\Collections\Collection $telephonesStore
-     */
-    public function getTelephonesStore()
-    {
-        return $this->telephonesStore;
+        if ($this->adressesStore->contains($adressesStore)) {
+            $this->adressesStore->removeElement($adressesStore);
+            // set the owning side to null (unless already changed)
+            if ($adressesStore->getStore() === $this) {
+                $adressesStore->setStore(null);
+            }
+        }
+
+        return $this;
     }
 }

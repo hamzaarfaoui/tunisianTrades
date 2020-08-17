@@ -1,112 +1,109 @@
 <?php
 
-namespace App\Document;
+namespace App\Entity;
 
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
-use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Validator\Constraints as Assert;
+use App\Repository\BannersRepository;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @MongoDB\Document
+ * @ORM\Entity(repositoryClass=BannersRepository::class)
  */
 class Banners
 {
     /**
-     * @MongoDB\Id
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
      */
-    protected $id;
+    private $id;
 
     /**
-     * @MongoDB\Field(type="string")
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    protected $image;
-    
+    private $image;
+
     /**
-     * @MongoDB\Field(type="boolean")
+     * @ORM\Column(type="boolean", nullable=true)
      */
-    protected $status;
-    
+    private $status;
+
     /**
-     * @MongoDB\Field(type="boolean")
+     * @ORM\Column(type="boolean", nullable=true)
      */
-    protected $isTwo;
-    
+    private $isTwo;
+
     /**
-     * @MongoDB\Field(type="boolean")
+     * @ORM\Column(type="boolean", nullable=true)
      */
-    protected $isThree;
-    
-    /** 
-     * @MongoDB\ReferenceOne(targetDocument="Products") */
-    protected $product;
- 
-    /**      * @return mixed      */
-    public function getId()
+    private $isThree;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Products::class)
+     */
+    private $product;
+
+    public function getId(): ?int
     {
         return $this->id;
     }
-    
-    /**      * @return mixed      */
-    public function getImage()
+
+    public function getImage(): ?string
     {
         return $this->image;
     }
-    /**      * @param mixed $image      */
-    public function setImage($image)
+
+    public function setImage(?string $image): self
     {
         $this->image = $image;
+
+        return $this;
     }
-    
-    /**      * @return mixed      */
-    public function getStatus()
+
+    public function getStatus(): ?bool
     {
         return $this->status;
     }
-    /**      * @param mixed $status      */
-    public function setStatus($status)
+
+    public function setStatus(?bool $status): self
     {
         $this->status = $status;
+
+        return $this;
     }
-    
-    /**      * @return mixed      */
-    public function getIsTwo()
+
+    public function getIsTwo(): ?bool
     {
         return $this->isTwo;
     }
-    /**      * @param mixed $isTwo      */
-    public function setIsTwo($isTwo)
+
+    public function setIsTwo(?bool $isTwo): self
     {
         $this->isTwo = $isTwo;
+
+        return $this;
     }
-    
-    /**      * @return mixed      */
-    public function getIsThree()
+
+    public function getIsThree(): ?bool
     {
         return $this->isThree;
     }
-    /**      * @param mixed $isThree      */
-    public function setIsThree($isThree)
+
+    public function setIsThree(?bool $isThree): self
     {
         $this->isThree = $isThree;
+
+        return $this;
     }
-    
-    
-    
-    /**
-     * @return mixed
-     */
-    public function getProduct()
+
+    public function getProduct(): ?Products
     {
         return $this->product;
     }
-    /**
-     * @param Products $product
-     *
-     * @return self
-     */
-    public function setProduct(Products $product)
+
+    public function setProduct(?Products $product): self
     {
         $this->product = $product;
+
         return $this;
     }
 }

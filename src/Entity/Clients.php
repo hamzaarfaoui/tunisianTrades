@@ -1,50 +1,24 @@
 <?php
 
-namespace App\Document;
+namespace App\Entity;
 
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
-use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Validator\Constraints as Assert;
+use App\Repository\ClientsRepository;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @MongoDB\Document
+ * @ORM\Entity(repositoryClass=ClientsRepository::class)
  */
 class Clients
 {
     /**
-     * @MongoDB\Id
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
      */
-    protected $id;
+    private $id;
 
-    /** 
-     * @MongoDB\ReferenceOne(targetDocument="User") */
-    protected $user;
-    
-    
-    
-    /**      * @return mixed      */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
-    }
-    
-    /**
-     * @param Users $user
-     *
-     * @return self
-     */
-    public function setUser(User $user)
-    {
-        $this->user = $user;
-        return $this;
-    }
-    
-    /**
-     * Get user
-     *
-     */
-    public function getUser()
-    {
-        return $this->user;
     }
 }

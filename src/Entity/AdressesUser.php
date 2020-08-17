@@ -1,129 +1,113 @@
 <?php
 
-namespace App\Document;
+namespace App\Entity;
 
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
-use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Validator\Constraints as Assert;
+use App\Repository\AdressesUserRepository;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @MongoDB\Document
+ * @ORM\Entity(repositoryClass=AdressesUserRepository::class)
  */
 class AdressesUser
 {
     /**
-     * @MongoDB\Id
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
      */
-    protected $id;
-    
+    private $id;
+
     /**
-     * @MongoDB\Field(type="string")
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    protected $rue;
-    
+    private $rue;
+
     /**
-     * @MongoDB\Field(type="string")
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    protected $residence;
-    
+    private $residence;
+
     /**
-     * @MongoDB\Field(type="string")
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    protected $ville;
-    
+    private $ville;
+
     /**
-     * @MongoDB\Field(type="string")
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    protected $gouvernaurat;
-    
+    private $gouvernaurat;
+
     /**
-     * @MongoDB\Field(type="string")
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    protected $pays;
-    
+    private $pays;
+
     /** 
-     * @MongoDB\ReferenceOne(targetDocument="User" ,inversedBy="adressesUser") */
+     * @ORM\ManyToOne(targetEntity="User" ,inversedBy="adressesUser") */
     protected $user;
-    
-    /**      * @return mixed      */
-    public function getId()
+
+    public function getId(): ?int
     {
         return $this->id;
     }
-    
-    /**      * @return mixed      */
-    public function getRue()
+
+    public function getRue(): ?string
     {
         return $this->rue;
     }
-    /**      * @param mixed $rue      */
-    public function setRue($rue)
+
+    public function setRue(?string $rue): self
     {
         $this->rue = $rue;
+
+        return $this;
     }
-    
-    /**      * @return mixed      */
-    public function getVille()
-    {
-        return $this->ville;
-    }
-    /**      * @param mixed $ville      */
-    public function setVille($ville)
-    {
-        $this->ville = $ville;
-    }
-    
-    /**      * @return mixed      */
-    public function getGouvernaurat()
-    {
-        return $this->gouvernaurat;
-    }
-    /**      * @param mixed $gouvernaurat      */
-    public function setGouvernaurat($gouvernaurat)
-    {
-        $this->gouvernaurat = $gouvernaurat;
-    }
-    
-    /**      * @return mixed      */
-    public function getPays()
-    {
-        return $this->pays;
-    }
-    /**      * @param mixed $pays      */
-    public function setPays($pays)
-    {
-        $this->pays = $pays;
-    }
-    
-    /**      * @return mixed      */
-    public function getResidence()
+
+    public function getResidence(): ?string
     {
         return $this->residence;
     }
-    /**      * @param mixed $residence      */
-    public function setResidence($residence)
+
+    public function setResidence(?string $residence): self
     {
         $this->residence = $residence;
-    }
-    
-    
-    /**
-     * @param Users $user
-     *
-     * @return self
-     */
-    public function setUser(User $user)
-    {
-        $this->user = $user;
+
         return $this;
     }
-    
-    /**
-     * Get user
-     *
-     */
-    public function getUser()
+
+    public function getVille(): ?string
     {
-        return $this->user;
+        return $this->ville;
+    }
+
+    public function setVille(?string $ville): self
+    {
+        $this->ville = $ville;
+
+        return $this;
+    }
+
+    public function getGouvernaurat(): ?string
+    {
+        return $this->gouvernaurat;
+    }
+
+    public function setGouvernaurat(?string $gouvernaurat): self
+    {
+        $this->gouvernaurat = $gouvernaurat;
+
+        return $this;
+    }
+
+    public function getPays(): ?string
+    {
+        return $this->pays;
+    }
+
+    public function setPays(?string $pays): self
+    {
+        $this->pays = $pays;
+
+        return $this;
     }
 }

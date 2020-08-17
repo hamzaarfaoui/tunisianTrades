@@ -1,29 +1,22 @@
 <?php
 
 namespace App\Repository;
-
-use App\Entity\Products;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
-
+use Doctrine\ODM\MongoDB\DocumentRepository;
+use App\Utils\EntityDocumentManager;
+date_default_timezone_set("Europe/Paris");
 /**
  * @method Products|null find($id, $lockMode = null, $lockVersion = null)
  * @method Products|null findOneBy(array $criteria, array $orderBy = null)
  * @method Products[]    findAll()
  * @method Products[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ProductsRepository extends ServiceEntityRepository
+class ProductsRepository extends DocumentRepository
 {
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, Products::class);
-    }
-
     public function findArray($array)
     {
-        $qb = $this->createQueryBuilder('u');
-        $qb->add('where', $qb->expr()->in('u.id', ':my_array'))
-        ->setParameter('my_array', $array);;
+        $qb = $this->createQueryBuilder('Products')
+                ->Select('id', 'name', 'price', 'image', 'store', 'qte', 'pricePromotion')
+                ->field('_id')->in($array);
 
         return $qb->getQuery()->execute();
     }
@@ -185,33 +178,4 @@ class ProductsRepository extends ServiceEntityRepository
 //                ->sort('nbrView', 'desc');
 //        return $qb->getQuery()->execute();
 //    }
-    
-    // /**
-    //  * @return Products[] Returns an array of Products objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Products
-    {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

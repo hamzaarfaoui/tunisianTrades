@@ -1,64 +1,58 @@
 <?php
 
-namespace App\Document;
+namespace App\Entity;
 
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
-use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Validator\Constraints as Assert;
+use App\Repository\TelephonesStoreRepository;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @MongoDB\Document
+ * @ORM\Entity(repositoryClass=TelephonesStoreRepository::class)
  */
 class TelephonesStore
 {
     /**
-     * @MongoDB\Id
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
      */
-    protected $id;
-    
+    private $id;
+
     /**
-     * @MongoDB\Field(type="string")
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    protected $numero;
-    
-    /** 
-     * @MongoDB\ReferenceOne(targetDocument="Stores" ,inversedBy="telephonesStore") */
-    protected $store;
-    
-    /**      * @return mixed      */
-    public function getId()
+    private $numero;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Stores::class, inversedBy="telephonesStore")
+     */
+    private $store;
+
+    public function getId(): ?int
     {
         return $this->id;
     }
-    
-    /**      * @return mixed      */
-    public function getNumero()
+
+    public function getNumero(): ?string
     {
         return $this->numero;
     }
-    /**      * @param mixed $numero      */
-    public function setNumero($numero)
+
+    public function setNumero(?string $numero): self
     {
         $this->numero = $numero;
-    }
-    
-    /**
-     * @param Stores $store
-     *
-     * @return self
-     */
-    public function setStore(Stores $store)
-    {
-        $this->store = $store;
+
         return $this;
     }
-    
-    /**
-     * Get store
-     *
-     */
-    public function getStore()
+
+    public function getStore(): ?Stores
     {
         return $this->store;
+    }
+
+    public function setStore(?Stores $store): self
+    {
+        $this->store = $store;
+
+        return $this;
     }
 }

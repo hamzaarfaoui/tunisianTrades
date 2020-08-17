@@ -2,129 +2,74 @@
 
 namespace App\Entity;
 
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Document
+ * AdressesStore
+ *
+ * @ORM\Table(name="adresses_store")
+ * @ORM\Entity
  */
 class AdressesStore
 {
     /**
      * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $id;
-    
+    private $id;
+
     /**
-     * @ORM\Column(type="string")
-     */
-    protected $rue;
-    
-    /**
-     * @ORM\Column(type="string")
-     */
-    protected $residence;
-    
-    /**
-     * @ORM\Column(type="string")
-     */
-    protected $ville;
-    
-    /**
-     * @ORM\Column(type="string")
-     */
-    protected $gouvernaurat;
-    
-    /**
-     * @ORM\Column(type="string")
-     */
-    protected $pays;
-    
-    /** 
-     * @ORM\ReferenceOne(targetDocument="Stores" ,inversedBy="adressesStore") */
-    protected $store;
-    
-    /**      * @return mixed      */
-    public function getId()
-    {
-        return $this->id;
-    }
-    
-    /**      * @return mixed      */
-    public function getRue()
-    {
-        return $this->rue;
-    }
-    /**      * @param mixed $rue      */
-    public function setRue($rue)
-    {
-        $this->rue = $rue;
-    }
-    
-    /**      * @return mixed      */
-    public function getVille()
-    {
-        return $this->ville;
-    }
-    /**      * @param mixed $ville      */
-    public function setVille($ville)
-    {
-        $this->ville = $ville;
-    }
-    
-    /**      * @return mixed      */
-    public function getGouvernaurat()
-    {
-        return $this->gouvernaurat;
-    }
-    /**      * @param mixed $gouvernaurat      */
-    public function setGouvernaurat($gouvernaurat)
-    {
-        $this->gouvernaurat = $gouvernaurat;
-    }
-    
-    /**      * @return mixed      */
-    public function getPays()
-    {
-        return $this->pays;
-    }
-    /**      * @param mixed $pays      */
-    public function setPays($pays)
-    {
-        $this->pays = $pays;
-    }
-    
-    /**      * @return mixed      */
-    public function getResidence()
-    {
-        return $this->residence;
-    }
-    /**      * @param mixed $residence      */
-    public function setResidence($residence)
-    {
-        $this->residence = $residence;
-    }
-    
-    
-    /**
-     * @param Stores $store
+     * @var string
      *
-     * @return self
+     * @ORM\Column(name="rue", type="string", length=255, nullable=false)
      */
-    public function setStore(Stores $store)
-    {
-        $this->store = $store;
-        return $this;
-    }
-    
+    private $rue;
+
     /**
-     * Get store
+     * @var string
      *
+     * @ORM\Column(name="residence", type="string", length=255, nullable=false)
      */
-    public function getStore()
+    private $residence;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="ville", type="string", length=255, nullable=false)
+     */
+    private $ville;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="gouvernaurat", type="string", length=255, nullable=false)
+     */
+    private $gouvernaurat;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="pays", type="string", length=255, nullable=false)
+     */
+    private $pays;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Stores::class, inversedBy="adressesStore")
+     */
+    private $store;
+
+    public function getStore(): ?Stores
     {
         return $this->store;
     }
+
+    public function setStore(?Stores $store): self
+    {
+        $this->store = $store;
+
+        return $this;
+    }
+
+
 }

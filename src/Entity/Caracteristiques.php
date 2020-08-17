@@ -1,95 +1,41 @@
 <?php
 
-namespace App\Document;
+namespace App\Entity;
 
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
-use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Validator\Constraints as Assert;
+use App\Repository\CaracteristiquesRepository;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @MongoDB\Document
+ * @ORM\Entity(repositoryClass=CaracteristiquesRepository::class)
  */
 class Caracteristiques
 {
     /**
-     * @MongoDB\Id
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
      */
-    protected $id;
+    private $id;
 
     /**
-     * @MongoDB\Field(type="string")
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    protected $name;
-    
-    /** @MongoDB\ReferenceMany(targetDocument="Valeurs", mappedBy="caracteristique") */
-    protected $valeurs;
-    
-    /** 
-     * @MongoDB\ReferenceOne(targetDocument="SousCategories", inversedBy="caracteristiques") */
-    protected $sousCategorie;
-    
-    /**      * @return mixed      */
-    public function getId()
+    private $name;
+
+    public function getId(): ?int
     {
         return $this->id;
     }
-    
-    /**      * @return mixed      */
-    public function getName()
+
+    public function getName(): ?string
     {
         return $this->name;
     }
-    /**      * @param mixed $name      */
-    public function setName($name)
+
+    public function setName(?string $name): self
     {
         $this->name = $name;
-    }
-    
-    /**
-     * Add valeur
-     *
-     * @param App\Document\Valeurs $valeur
-     */
-    public function addValeur(Valeurs $valeur)
-    {
-        $this->valeurs[] = $valeur;
-    }
-    /**
-     * Remove valeur
-     *
-     * @param App\Document\Valeurs $valeur
-     */
-    public function removeValeur(Valeurs $valeur)
-    {
-        $this->valeurs->removeElement($valeur);
-    }
-    /**
-     * Get valeurs
-     *
-     * @return \Doctrine\Common\Collections\Collection $valeurs
-     */
-    public function getValeurs()
-    {
-        return $this->valeurs;
-    }
-    
-    /**
-     * @param SousCategorie $sousCategorie
-     *
-     * @return self
-     */
-    public function setSousCategorie(SousCategories $sousCategorie)
-    {
-        $this->sousCategorie = $sousCategorie;
+
         return $this;
-    }
-    
-    /**
-     * Get sousCategorie
-     *
-     */
-    public function getSousCategorie()
-    {
-        return $this->sousCategorie;
     }
 }

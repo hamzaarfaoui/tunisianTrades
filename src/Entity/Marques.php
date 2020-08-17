@@ -1,191 +1,203 @@
 <?php
 
-namespace App\Document;
+namespace App\Entity;
 
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use App\Repository\MarquesRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @MongoDB\Document
+ * @ORM\Entity(repositoryClass=MarquesRepository::class)
  */
 class Marques
 {
     /**
-     * @MongoDB\Id
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
      */
-    protected $id;
+    private $id;
 
     /**
-     * @MongoDB\Field(type="string")
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    protected $name;
+    private $name;
 
     /**
-     * @MongoDB\Field(type="string")
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    protected $content;
-    
-    /**      
-     * @MongoDB\Field(type="integer") 
+    private $content;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
      */
-    protected $status;
-    /**     
-      * @MongoDB\Field(type="date")     
-      */
-    protected $createdAt;
-    /**      
-     * @MongoDB\Field(type="date")
+    private $status;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
      */
-    protected $updatedAt;
-    
-    /**      
-     * @MongoDB\Field(type="string")
-     * @Assert\NotBlank(message="Please, upload the Article image as an image file.")
-     * @Assert\File(mimeTypes={ "image/png","image/jpg""image/jpeg" })       
+    private $createdAt;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
      */
-    protected $image;
-    
-    /**      
-     * @MongoDB\Field(type="string")       
+    private $updatedAt;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    protected $video;
-    
-    /** @MongoDB\ReferenceMany(targetDocument="Products", mappedBy="marque") */
-    protected $products;
-    
-    /** 
-     * @MongoDB\ReferenceOne(targetDocument="SousCategories") */
-    protected $sousCategorie;
-    
-    /**      * @return mixed      */
-    public function getId()
+    private $image;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $video;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Products::class, mappedBy="marque")
+     */
+    private $products;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=SousCategories::class)
+     */
+    private $sousCategorie;
+
+    public function __construct()
+    {
+        $this->products = new ArrayCollection();
+    }
+
+    public function getId(): ?int
     {
         return $this->id;
     }
-    
-    /**      * @return mixed      */
-    public function getName()
+
+    public function getName(): ?string
     {
         return $this->name;
     }
-    /**      * @param mixed $name      */
-    public function setName($name)
+
+    public function setName(?string $name): self
     {
         $this->name = $name;
+
+        return $this;
     }
-    
-    /**      * @return mixed      */
-    public function getContent()
+
+    public function getContent(): ?string
     {
         return $this->content;
     }
-    /**      * @param mixed $content      */
-    public function setContent($content)
+
+    public function setContent(?string $content): self
     {
         $this->content = $content;
+
+        return $this;
     }
-    /**      * @return mixed      */
-    public function getUpdatedAt()
-    {
-        return $this->updatedAt;
-    }
-    /**      * @param mixed $updatedAt      */
-    public function setUpdatedAt($updatedAt)
-    {
-        $this->updatedAt = $updatedAt;
-    }
-    
-    /**      * @return mixed      */
-    public function getImage()
-    {
-        return $this->image;
-    }
-    /**      * @param mixed $image      */
-    public function setImage($image)
-    {
-        $this->image = $image;
-    }
-    
-    /**      * @return mixed      */
-    public function getVideo()
-    {
-        return $this->video;
-    }
-    /**      * @param mixed $video      */
-    public function setVideo($video)
-    {
-        $this->video = $video;
-    }
-    
-    /**      * @return mixed      */
-    public function getCreatedAt()
-    {
-        return $this->createdAt;
-    }
-    /**      * @param mixed $createdAt      */
-    public function setCreatedAt($createdAt)
-    {
-        $this->createdAt = $createdAt;
-    }
-    
-    /**      * @return mixed      */
-    public function getStatus()
+
+    public function getStatus(): ?int
     {
         return $this->status;
     }
-    /**      * @param mixed $status      */
-    public function setIsStatus($status)
+
+    public function setStatus(?int $status): self
     {
         $this->status = $status;
+
+        return $this;
     }
-    
-    /**
-     * Add product
-     *
-     * @param App\Document\Products $product
-     */
-    public function addProduct(Products $product)
+
+    public function getCreatedAt(): ?\DateTimeInterface
     {
-        $this->products[] = $product;
+        return $this->createdAt;
     }
-    /**
-     * Remove product
-     *
-     * @param App\Document\Products $product
-     */
-    public function removeProduct(Products $product)
+
+    public function setCreatedAt(?\DateTimeInterface $createdAt): self
     {
-        $this->products->removeElement($product);
+        $this->createdAt = $createdAt;
+
+        return $this;
     }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): self
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    public function getVideo(): ?string
+    {
+        return $this->video;
+    }
+
+    public function setVideo(?string $video): self
+    {
+        $this->video = $video;
+
+        return $this;
+    }
+
     /**
-     * Get products
-     *
-     * @return \Doctrine\Common\Collections\Collection $products
+     * @return Collection|Products[]
      */
-    public function getProducts()
+    public function getProducts(): Collection
     {
         return $this->products;
     }
-    
-    /**
-     * @param SousCategories $sousCategorie
-     *
-     * @return self
-     */
-    public function setSousCategorie(SousCategories $sousCategorie)
+
+    public function addProduct(Products $product): self
     {
-        $this->sousCategorie = $sousCategorie;
+        if (!$this->products->contains($product)) {
+            $this->products[] = $product;
+            $product->setMarque($this);
+        }
+
         return $this;
     }
-    
-    /**
-     * Get sousCategorie
-     *
-     */
-    public function getSousCategorie()
+
+    public function removeProduct(Products $product): self
+    {
+        if ($this->products->contains($product)) {
+            $this->products->removeElement($product);
+            // set the owning side to null (unless already changed)
+            if ($product->getMarque() === $this) {
+                $product->setMarque(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getSousCategorie(): ?SousCategories
     {
         return $this->sousCategorie;
     }
 
+    public function setSousCategorie(?SousCategories $sousCategorie): self
+    {
+        $this->sousCategorie = $sousCategorie;
+
+        return $this;
+    }
 }

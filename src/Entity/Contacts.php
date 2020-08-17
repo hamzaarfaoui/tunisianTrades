@@ -1,142 +1,143 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+namespace App\Entity;
 
-namespace App\Document;
-
-use FOS\UserBundle\Model\User as BaseUser;
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use App\Repository\ContactsRepository;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @MongoDB\Document
+ * @ORM\Entity(repositoryClass=ContactsRepository::class)
  */
 class Contacts
 {
     /**
-     * @MongoDB\Id(strategy="auto")
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
      */
-    protected $id;
+    private $id;
 
-    
     /**
-     * @MongoDB\Field(type="string")
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    protected $nom;
-    
+    private $nom;
+
     /**
-     * @MongoDB\Field(type="string")
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    protected $prenom;
-    
+    private $prenom;
+
     /**
-     * @MongoDB\Field(type="string")
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    protected $email;
-    
+    private $email;
+
     /**
-     * @MongoDB\Field(type="string")
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    protected $message;
-    
+    private $message;
+
     /**
-     * @MongoDB\Field(type="string")
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    protected $phone;
-    
-    /**     
-      * @MongoDB\Field(type="date")     
-      */
-    protected $createdAt;
-    /**      
-     * @MongoDB\Field(type="date")
+    private $phone;
+
+    /**
+     * @ORM\Column(type="datetime")
      */
-    protected $updatedAt;
-    
-    /**      * @return mixed      */
-    public function getId()
+    private $createdAt;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $updatedAt;
+
+    public function getId(): ?int
     {
         return $this->id;
     }
-    
-    
-    /**      * @return mixed      */
-    public function getNom()
+
+    public function getNom(): ?string
     {
         return $this->nom;
     }
-    /**      * @param mixed $nom      */
-    public function setNom($nom)
+
+    public function setNom(?string $nom): self
     {
         $this->nom = $nom;
+
+        return $this;
     }
-    
-    /**      * @return mixed      */
-    public function getPrenom()
+
+    public function getPrenom(): ?string
     {
         return $this->prenom;
     }
-    /**      * @param mixed $prenom      */
-    public function setPrenom($prenom)
+
+    public function setPrenom(?string $prenom): self
     {
         $this->prenom = $prenom;
-    }   
-    
-    /**      * @return mixed      */
-    public function getEmail()
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
     {
         return $this->email;
     }
-    /**      * @param mixed $email      */
-    public function setEmail($email)
+
+    public function setEmail(?string $email): self
     {
         $this->email = $email;
+
+        return $this;
     }
-    
-    /**      * @return mixed      */
-    public function getMessage()
+
+    public function getMessage(): ?string
     {
         return $this->message;
     }
-    /**      * @param mixed $message      */
-    public function setMessage($message)
+
+    public function setMessage(?string $message): self
     {
         $this->message = $message;
+
+        return $this;
     }
-    
-    /**      * @return mixed      */
-    public function getPhone()
+
+    public function getPhone(): ?string
     {
         return $this->phone;
     }
-    /**      * @param mixed $phone      */
-    public function setPhone($phone)
+
+    public function setPhone(?string $phone): self
     {
         $this->phone = $phone;
+
+        return $this;
     }
-    
-    /**      * @return mixed      */
-    public function getCreatedAt()
+
+    public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
     }
-    /**      * @param mixed $createdAt      */
-    public function setCreatedAt($createdAt)
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
     }
-    
-    /**      * @return mixed      */
-    public function getUpdatedAt()
+
+    public function getUpdatedAt(): ?\DateTimeInterface
     {
         return $this->updatedAt;
     }
-    /**      * @param mixed $updatedAt      */
-    public function setUpdatedAt($updatedAt)
+
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
     }
 }

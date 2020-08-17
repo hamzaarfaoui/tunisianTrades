@@ -95,6 +95,7 @@ class CartController extends Controller
             
         }
         $products = $dm->getRepository('App:Products')->findArray(array_keys($array_product_ids));
+        var_dump($products);die();
         return $this->render('frontend/cart/header.html.twig', array(
             'articles' => $articles,
             'products' => $products

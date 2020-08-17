@@ -1,114 +1,92 @@
 <?php
 
-namespace App\Document;
+namespace App\Entity;
 
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
-use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Validator\Constraints as Assert;
+use App\Repository\CommandesRepository;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @MongoDB\Document(repositoryClass="App\Repository\CommandesRepository")
+ * @ORM\Entity(repositoryClass=CommandesRepository::class)
  */
 class Commandes
 {
     /**
-     * @MongoDB\Id
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
      */
-    protected $id;
+    private $id;
 
-    /** 
-     * @MongoDB\ReferenceOne(targetDocument="User") */
-    protected $user;
-    
-    
-    /**      
-     * @MongoDB\Field(type="integer") 
-     */
-    protected $status;
-    
     /**
-     * @MongoDB\Field(type="collection")
+     * @ORM\Column(type="integer", nullable=true)
      */
-    private $facture;
-    
-    /**     
-      * @MongoDB\Field(type="date")     
-      */
-    protected $createdAt;
-    
-    /**      
-     * @MongoDB\Field(type="date")
+    private $status;
+
+    /**
+     * @ORM\Column(type="array", nullable=true)
      */
-    protected $updatedAt;
-    
-    /**      * @return mixed      */
-    public function getId()
+    private $facture = [];
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $createdAt;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $updatedAt;
+
+    public function getId(): ?int
     {
         return $this->id;
     }
-    
-    /**      * @return mixed      */
-    public function getFacture()
-    {
-        return $this->facture;
-    }
-    /**      * @param mixed $facture      */
-    public function setFacture($facture)
-    {
-        $this->facture = $facture;
-    }
-    
-    /**      * @return mixed      */
-    public function getStatus()
+
+    public function getStatus(): ?int
     {
         return $this->status;
     }
-    /**      * @param mixed $status      */
-    public function setStatus($status)
+
+    public function setStatus(?int $status): self
     {
         $this->status = $status;
+
+        return $this;
     }
-    
-    /**      * @return mixed      */
-    public function getCreatedAt()
+
+    public function getFacture(): ?array
+    {
+        return $this->facture;
+    }
+
+    public function setFacture(?array $facture): self
+    {
+        $this->facture = $facture;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
     }
-    /**      * @param mixed $createdAt      */
-    public function setCreatedAt($createdAt)
+
+    public function setCreatedAt(?\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
     }
-    
-    /**      * @return mixed      */
-    public function getUpdatedAt()
+
+    public function getUpdatedAt(): ?\DateTimeInterface
     {
         return $this->updatedAt;
     }
-    /**      * @param mixed $updatedAt      */
-    public function setUpdatedAt($updatedAt)
+
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
-    }
-    
-    /**
-     * @param Users $user
-     *
-     * @return self
-     */
-    public function setUser(User $user)
-    {
-        $this->user = $user;
+
         return $this;
     }
-    
-    /**
-     * Get user
-     *
-     */
-    public function getUser()
-    {
-        return $this->user;
-    }
-    
 }

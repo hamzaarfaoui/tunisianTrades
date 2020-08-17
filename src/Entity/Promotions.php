@@ -1,174 +1,177 @@
 <?php
 
-namespace App\Document;
+namespace App\Entity;
 
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
-use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Validator\Constraints as Assert;
+use App\Repository\PromotionsRepository;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @MongoDB\Document
+ * @ORM\Entity(repositoryClass=PromotionsRepository::class)
  */
 class Promotions
 {
     /**
-     * @MongoDB\Id
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
      */
-    protected $id;
+    private $id;
 
     /**
-     * @MongoDB\Field(type="string")
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    protected $name;
+    private $name;
 
     /**
-     * @MongoDB\Field(type="float")
+     * @ORM\Column(type="float", nullable=true)
      */
-    protected $variable;
-    
+    private $variable;
+
     /**
-     * @MongoDB\Field(type="float")
+     * @ORM\Column(type="float", nullable=true)
      */
-    protected $fixe;
-    
-    /**      
-     * @MongoDB\Field(type="integer") 
+    private $fixe;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
      */
-    protected $status;
-    
-    /**     
-      * @MongoDB\Field(type="date")     
-      */
-    protected $debut;
-    /**      
-     * @MongoDB\Field(type="date")
+    private $status;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
      */
-    protected $fin;
-    
-    /**     
-      * @MongoDB\Field(type="date")     
-      */
-    protected $createdAt;
-    /**      
-     * @MongoDB\Field(type="date")
+    private $debut;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
      */
-    protected $updatedAt;
-    
-    /** 
-     * @MongoDB\ReferenceOne(targetDocument="Products") */
-    protected $product = array();
-    
-    /**      * @return mixed      */
-    public function getId()
+    private $fin;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $createdAt;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $updatedAt;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Products::class)
+     */
+    private $product;
+
+    public function getId(): ?int
     {
         return $this->id;
     }
-    
-    /**      * @return mixed      */
-    public function getName()
+
+    public function getName(): ?string
     {
         return $this->name;
     }
-    /**      * @param mixed $name      */
-    public function setName($name)
+
+    public function setName(?string $name): self
     {
         $this->name = $name;
-    }
-    
-    /**      * @return mixed      */
-    public function getVariable()
-    {
-        return $this->variable;
-    }
-    /**      * @param mixed $variable      */
-    public function setVariable($variable)
-    {
-        $this->variable = $variable;
-    }
-    
-    /**      * @return mixed      */
-    public function getFixe()
-    {
-        return $this->fixe;
-    }
-    /**      * @param mixed $fixe      */
-    public function setFixe($fixe)
-    {
-        $this->fixe = $fixe;
-    }
-    
-    
-    /**      * @return mixed      */
-    public function getUpdatedAt()
-    {
-        return $this->updatedAt;
-    }
-    /**      * @param mixed $updatedAt      */
-    public function setUpdatedAt($updatedAt)
-    {
-        $this->updatedAt = $updatedAt;
-    }
-    
-    /**      * @return mixed      */
-    public function getDebut()
-    {
-        return $this->debut;
-    }
-    /**      * @param mixed $debut      */
-    public function setDebut($debut)
-    {
-        $this->debut = $debut;
-    }
-    
-    /**      * @return mixed      */
-    public function getCreatedAt()
-    {
-        return $this->createdAt;
-    }
-    /**      * @param mixed $createdAt      */
-    public function setCreatedAt($createdAt)
-    {
-        $this->createdAt = $createdAt;
-    }
-    
-    /**      * @return mixed      */
-    public function getFin()
-    {
-        return $this->fin;
-    }
-    /**      * @param mixed $fin      */
-    public function setFin($fin)
-    {
-        $this->fin = $fin;
-    }
-    
-    /**      * @return mixed      */
-    public function getStatus()
-    {
-        return $this->status;
-    }
-    /**      * @param mixed $status      */
-    public function setIsStatus($status)
-    {
-        $this->status = $status;
-    }
-    
-    /**
-     * @return mixed
-     */
-    public function getProduct()
-    {
-        return $this->product;
-    }
-    /**
-     * @param Products $product
-     *
-     * @return self
-     */
-    public function setProduct(Products $product)
-    {
-        $this->product = $product;
+
         return $this;
     }
 
+    public function getVariable(): ?float
+    {
+        return $this->variable;
+    }
+
+    public function setVariable(?float $variable): self
+    {
+        $this->variable = $variable;
+
+        return $this;
+    }
+
+    public function getFixe(): ?float
+    {
+        return $this->fixe;
+    }
+
+    public function setFixe(?float $fixe): self
+    {
+        $this->fixe = $fixe;
+
+        return $this;
+    }
+
+    public function getStatus(): ?int
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?int $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function getDebut(): ?\DateTimeInterface
+    {
+        return $this->debut;
+    }
+
+    public function setDebut(?\DateTimeInterface $debut): self
+    {
+        $this->debut = $debut;
+
+        return $this;
+    }
+
+    public function getFin(): ?\DateTimeInterface
+    {
+        return $this->fin;
+    }
+
+    public function setFin(?\DateTimeInterface $fin): self
+    {
+        $this->fin = $fin;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(?\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getProduct(): ?Products
+    {
+        return $this->product;
+    }
+
+    public function setProduct(?Products $product): self
+    {
+        $this->product = $product;
+
+        return $this;
+    }
 }
