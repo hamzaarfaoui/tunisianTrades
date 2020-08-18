@@ -14,9 +14,10 @@ class KeywordsRepository extends DocumentRepository
 {
     public function byName($chaine)
     {
-        $qb = $this->createQueryBuilder('Keywords')
-                ->Select('id', 'name')
-                ->field('name')->equals(new \MongoRegex('/.*'.$chaine.'.*/i'));
+        $qb = $this->createQueryBuilder('u')
+                ->Select('u.id', 'u.name')
+                ->where('u.name LIKE :name')
+                ->setParameter('name', '%'.$chaine.'%');
 
         return $qb->getQuery()->execute();
     }

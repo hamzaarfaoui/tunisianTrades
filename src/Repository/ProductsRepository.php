@@ -33,7 +33,7 @@ class ProductsRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('u')
                 ->where('u.id != :id')
                 ->where('u.sousCategorie = :sousCategorie')
-                ->limit(4)
+                ->setMaxResults(4)
                 ->setParameter('id', $params['id'])
                 ->setParameter('id', $params['sousCategorie']);
 
@@ -42,8 +42,9 @@ class ProductsRepository extends ServiceEntityRepository
     
     public function byQB($params, $disponible)
     {
-        $qb = $this->createQueryBuilder('Products');
-        $qb->field('name')->equals(new \MongoRegex('/.*'.$params.'.*/i'));
+        $qb = $this->createQueryBuilder('u');
+        $qb->where('u.name LIKE :name')
+                ->setParameter('name', '%'.$params.'%');
         $this->addFilters($qb, $disponible);
         return $qb->getQuery()->execute();
     }
@@ -51,7 +52,7 @@ class ProductsRepository extends ServiceEntityRepository
     private function addFilters($qb, $params)
     {
         if($params == 'oui'){
-            $qb->field('qte')->gt(0);
+            $qb->andWhere('u.qte > 0');
         }
         
         
@@ -60,37 +61,40 @@ class ProductsRepository extends ServiceEntityRepository
     
     public function newProducts()
     {
-        $qb = $this->createQueryBuilder('Products')
-                ->orderBy('createdAt', 'desc');
+        $qb = $this->createQueryBuilder('u')
+                ->orderBy('u.createdAt', 'desc');
         return $qb->getQuery()->execute();
     }
     
     public function venteFlash()
     {
-        $qb = $this->createQueryBuilder('Products')
-                ->field('pricePromotion')->gt(0)
-                ->orderBy('createdAt', 'desc');
+        $qb = $this->createQueryBuilder('u')
+                ->where('u.pricePromotion > 0')
+                ->orderBy('u.createdAt', 'desc');
         return $qb->getQuery()->execute();
     }
     
     public function inPromotion()
     {
-        $qb = $this->createQueryBuilder('Products')
-                ->field('pricePromotion')->gt(0)
-                ->orderBy('createdAt', 'desc');
+        $qb = $this->createQueryBuilder('u')
+                ->where('u.pricePromotion > 0')
+                ->orderBy('u.createdAt', 'desc');
         return $qb->getQuery()->execute();
     }
     
     public function byNbrViews($store)
     {
-        $qb = $this->createQueryBuilder('Products')
-                ->field('store')->equals($store)
-                ->orderBy('nbrView', 'desc')
-                ->field('nbrView')->gt(0)
-                ->limit(6);
+        $qb = $this->createQueryBuilder('u')
+                ->where('u.store = :store')
+                ->orderBy('u.nbrView', 'desc')
+                ->andWhere('u.nbrView > 0')
+                ->setMaxResults(6)
+                ->setParameter('store', $store);
         return $qb->getQuery()->execute();
     }
-    
+    /**
+    on est arrivé içi
+    */
     public function byNbrAddToCart($store)
     {
         $qb = $this->createQueryBuilder('Products')
