@@ -98,8 +98,7 @@ class SousCategories2Controller extends Controller
     {
         $dm = $this->getDoctrine()->getManager();
         $categorie = $dm->getRepository('App:SousCategories')->find($id);
-        $repository = $this->dc->getRepository(Products::class);
-        $products = $repository->findBy(array('sousCategorie' => $categorie), array('position' => 'ASC'));
+        $products = $dm->getRepository('App:Products')->findBy(array('sousCategorie' => $categorie), array('position' => 'ASC'));
         return $this->render('categories/sc2/show.html.twig', array(
             'categorie' => $categorie,
             'products' => $products

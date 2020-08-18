@@ -28,7 +28,10 @@ class CategoriesController extends Controller
     {
         $dm = $this->getDoctrine()->getManager();
         $categorie = $dm->getRepository('App:CategoriesMere')->find($id);
-        return $this->render('categories/cm/show.html.twig', array('categorie' => $categorie));
+        $scs = $dm->getRepository('App:Categories')->findBy(array('categorieMere' => $categorie));
+        return $this->render('categories/cm/show.html.twig', array('categorie' => $categorie,
+            'scs' => $scs
+    ));
     }
     
     /*

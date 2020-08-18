@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CategoriesRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -51,6 +53,21 @@ class Categories
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $icone;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=CategoriesMere::class, inversedBy="categories")
+     */
+    private $categorieMere;
+
+    /**
+     * @ORM\OneToMany(targetEntity=SousCategories::class, mappedBy="categorie")
+     */
+    private $sousCategories;
+
+    public function __construct()
+    {
+        $this->sousCategories = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -137,6 +154,49 @@ class Categories
     public function setIcone(?string $icone): self
     {
         $this->icone = $icone;
+
+        return $this;
+    }
+
+    public function getCategorieMere(): ?CategoriesMere
+    {
+        return $this->categorieMere;
+    }
+
+    public function setCategorieMere(?CategoriesMere $categorieMere): self
+    {
+        $this->categorieMere = $categorieMere;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|SousCategories[]
+     */
+    public function getSousCategories(): Collection
+    {
+        return $this->sousCategories;
+    }
+
+    public function addSousCategory(SousCategories $sousCategory): self
+    {
+        if (!$this->sousCategories->contains($sousCategory)) {
+            $this->sousCategories[] = $sousCategory;
+            $sousCategory->setCategorie($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSousCategory(SousCategories $sousCategory): self
+    {
+        if ($this->sousCategories->contains($sousCategory)) {
+            $this->sousCategories->removeElement($sousCategory);
+            // set the owning side to null (unless already changed)
+            if ($sousCategory->getCategorie() === $this) {
+                $sousCategory->setCategorie(null);
+            }
+        }
 
         return $this;
     }

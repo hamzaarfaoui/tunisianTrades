@@ -97,72 +97,77 @@ class ProductsRepository extends ServiceEntityRepository
     */
     public function byNbrAddToCart($store)
     {
-        $qb = $this->createQueryBuilder('Products')
-                ->field('store')->equals($store)
-                ->orderBy('nbrAddToCart', 'desc')
-                ->field('nbrAddToCart')->gt(0)
-                ->limit(6);
+        $qb = $this->createQueryBuilder('u')
+                ->where('u.store = :store')
+                ->andWhere('u.nbrAddToCart > 0')
+                ->orderBy('u.nbrAddToCart', 'desc')
+                ->setMaxResults(6)
+                ->setParameter('store', $store);
         return $qb->getQuery()->execute();
     }
     
     public function byNbrAddToFavorite($store)
     {
-        $qb = $this->createQueryBuilder('Products')
-                ->field('store')->equals($store)
-                ->orderBy('nbrAddToFavorite', 'desc')
-                ->field('nbrAddToFavorite')->gt(0)
-                ->limit(6);
+        $qb = $this->createQueryBuilder('u')
+                ->where('u.store = :store')
+                ->andWhere('u.nbrAddToFavorite > 0')
+                ->orderBy('u.nbrAddToFavorite', 'desc')
+                ->setMaxResults(6)
+                ->setParameter('store', $store);
         return $qb->getQuery()->execute();
     }
     
     public function byPosAndSc($sousCategorie)
     {
-        $qb = $this->createQueryBuilder('Products')
-                ->field('sousCategorie.id')->equals($sousCategorie)
-                ->orderBy('position', 'ASC');
+        $qb = $this->createQueryBuilder('u')
+                ->where('u.sousCategorie = :sc')
+                ->orderBy('u.position', 'ASC')
+                ->setParameter('sc', $sousCategorie);
         return $qb->getQuery()->execute();
     }
     
     public function liees($sousCategorie)
     {
-        $qb = $this->createQueryBuilder('Products')
-                ->field('sousCategorie.id')->equals($sousCategorie)
-                ->orderBy('price', 'ASC');
+        $qb = $this->createQueryBuilder('u')
+                ->where('u.sousCategorie = :sc')
+                ->orderBy('u.price', 'ASC')
+                ->setParameter('sc', $sousCategorie);
         return $qb->getQuery()->execute();
     }
     
     public function byStore($store)
     {
-        $qb = $this->createQueryBuilder('Products')
-                ->field('store.id')->equals($store)
-                ->orderBy('createdAt', 'desc');
+        $qb = $this->createQueryBuilder('u')
+                ->where('u.store = :store')
+                ->orderBy('u.createdAt', 'desc')
+                ->setParameter('store', $store);
         return $qb->getQuery()->execute();
     }
     
     public function byCategorie($params)
     {
-        $qb = $this->createQueryBuilder('Products');
+        $qb = $this->createQueryBuilder('u');
                 
         if ((isset($params['minimum']) && !empty($params['minimum'])) && (isset($params['minimum'])&&!empty($params['minimum']))){
-            $qb->field('price')->range($params['minimum'],$params['maximum']);
+            $qb->orWhere($qb->expr()->between('u.price', ':minimum',':maximum'))
+             ->setParameters(array('minimum' => $params['minimum'], 'maximum' => $params['maximum']));
         }
         if(isset($params['tri'])&&!empty($params['tri'])){
             if ($params['tri'] == 1){
-                $qb->orderBy('price', 'DESC');
+                $qb->orderBy('u.price', 'DESC');
             }elseif ($params['tri'] == 2){
-                $qb->orderBy('price', 'ASC');
+                $qb->orderBy('u.price', 'ASC');
             }elseif ($params['tri'] == 3){
-                $qb->orderBy('nbrView', 'DESC');
+                $qb->orderBy('u.nbrView', 'DESC');
             }
         }
         if(isset($params['categorie'])&&!empty($params['categorie'])){
-            $qb->field('sousCategorie.id')->equals($params['categorie']);
+            $qb->orWhere('u.sousCategorie = :sc')
+            ->setParameter('sc', $params['categorie']);
         }
         if(isset($params['store'])&&!empty($params['store'])){
-            $qb->field('store.id')->equals($params['store']);
-        }
-        if(isset($params['categories'])&&!empty($params['categories'])){
-            $qb->field('sousCategorie.id')->in($params['categories']);
+            $qb->orWhere('u.store = :store')
+            ->setParameter('store', $params['store']);
         }
         return $qb->getQuery()->execute();
     }
@@ -171,9 +176,10 @@ class ProductsRepository extends ServiceEntityRepository
     
     public function byKeyword($keyword)
     {
-        $qb = $this->createQueryBuilder('Products')
-                ->field('keywords.id')->in($keyword)
-                ->orderBy('createdAt', 'desc');
+        $qb = $this->createQueryBuilder('u')
+                ->where($qb->expr()->in('u.keywords', ':keywords'))
+                ->orderBy('u.createdAt', 'desc')
+                ->setParameter('keywords', $keywords);
         return $qb->getQuery()->execute();
     }
 

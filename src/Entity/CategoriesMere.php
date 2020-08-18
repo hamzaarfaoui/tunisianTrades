@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CategoriesMereRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -51,6 +53,16 @@ class CategoriesMere
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $icone;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Categories::class, mappedBy="categorieMere")
+     */
+    private $categories;
+
+    public function __construct()
+    {
+        $this->categories = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -137,6 +149,37 @@ class CategoriesMere
     public function setIcone(?string $icone): self
     {
         $this->icone = $icone;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Categories[]
+     */
+    public function getCategories(): Collection
+    {
+        return $this->categories;
+    }
+
+    public function addCategory(Categories $category): self
+    {
+        if (!$this->categories->contains($category)) {
+            $this->categories[] = $category;
+            $category->setCategorieMere($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCategory(Categories $category): self
+    {
+        if ($this->categories->contains($category)) {
+            $this->categories->removeElement($category);
+            // set the owning side to null (unless already changed)
+            if ($category->getCategorieMere() === $this) {
+                $category->setCategorieMere(null);
+            }
+        }
 
         return $this;
     }

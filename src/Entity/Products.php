@@ -114,6 +114,11 @@ class Products
      */
     private $store;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=SousCategories::class, inversedBy="products")
+     */
+    private $sousCategorie;
+
     public function __construct()
     {
         $this->keywords = new ArrayCollection();
@@ -407,6 +412,18 @@ class Products
     public function setStore(?Stores $store): self
     {
         $this->store = $store;
+
+        return $this;
+    }
+
+    public function getSousCategorie(): ?SousCategories
+    {
+        return $this->sousCategorie;
+    }
+
+    public function setSousCategorie(?SousCategories $sousCategorie): self
+    {
+        $this->sousCategorie = $sousCategorie;
 
         return $this;
     }

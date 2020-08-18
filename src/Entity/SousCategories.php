@@ -74,9 +74,20 @@ class SousCategories
      */
     private $keywords;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Categories::class, inversedBy="sousCategories")
+     */
+    private $categorie;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Products::class, mappedBy="sousCategorie")
+     */
+    private $products;
+
     public function __construct()
     {
         $this->keywords = new ArrayCollection();
+        $this->products = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -229,6 +240,49 @@ class SousCategories
             // set the owning side to null (unless already changed)
             if ($keyword->getCategorie() === $this) {
                 $keyword->setCategorie(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCategorie(): ?Categories
+    {
+        return $this->categorie;
+    }
+
+    public function setCategorie(?Categories $categorie): self
+    {
+        $this->categorie = $categorie;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Products[]
+     */
+    public function getProducts(): Collection
+    {
+        return $this->products;
+    }
+
+    public function addProduct(Products $product): self
+    {
+        if (!$this->products->contains($product)) {
+            $this->products[] = $product;
+            $product->setSousCategorie($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduct(Products $product): self
+    {
+        if ($this->products->contains($product)) {
+            $this->products->removeElement($product);
+            // set the owning side to null (unless already changed)
+            if ($product->getSousCategorie() === $this) {
+                $product->setSousCategorie(null);
             }
         }
 
