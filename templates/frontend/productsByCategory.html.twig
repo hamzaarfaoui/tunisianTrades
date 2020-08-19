@@ -201,12 +201,21 @@
             var min = values[0];
             var max = values[1];
             var categorie =$('#categorieId').val();
+
+            var caracteristiques = [];
+            $("input[name='valeur']:checked").each(function(){
+                caracteristiques.push($(this).val());
+            });
+            var marques = [];
+            $("input[name='marque']:checked").each(function(){
+                marques.push($(this).val());
+            });
         $.ajax({
             url: '{{ path('tri_product') }}',
-            data: {min:min, max:max, categorie:categorie},
+            data: {min:min, max:max, categorie:categorie, caracteristiques:caracteristiques, marques:marques},
             method: "POST",
             error: function (data) {
-                console.log('Erreur de trier les produit');
+                console.log(data['marques']);
             },
             beforeSend:function(){
                 $('#list-produits').html('<div class=text-center><div class="loader"></div></div>');

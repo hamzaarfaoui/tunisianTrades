@@ -71,6 +71,7 @@ class ProductController extends Controller
                 $marque = $dm->getRepository('App:Marques')->find($item);
                 $marques[] = $marque;
             }
+            $query['marques'] = $marques;
         }
         if(!empty($request->get('categorie'))){
             $categorie = $dm->getRepository('App:SousCategories')->find($request->get('categorie'));
@@ -79,8 +80,8 @@ class ProductController extends Controller
             $query['categories'] = $request->get('categories');
         }
         
-        $query['minimum'] = intval($request->get('min'));
-        $query['maximum'] = intval($request->get('max'));
+        $query['minimum'] = $request->get('min')?intval($request->get('min')):null;
+        $query['maximum'] = $request->get('max')?intval($request->get('max')):null;
         $query['tri'] = $request->get('valeur');
         if(!empty($request->get('store'))){
             $query['store'] = $request->get('store');
@@ -89,45 +90,20 @@ class ProductController extends Controller
         $products = $dm->getRepository('App:Products')->byCategorie($query);
         $products_list = array();
         foreach ($products as $product){
-            
-            $valeurs_id = array();
-            foreach ($product->getValeurs() as $v){
-                $valeurs_id[] = $v->getId();
-            }
-            if(!empty($request->get('categorie'))){
-                if($product->getSousCategorie()->getId() == $categorie->getId()){
-                    foreach ($caracteristiques as $caracteristique){
-                        if(in_array($caracteristique, $valeurs_id)){
-                            $products_list[] = $product;
-                        }
-                    }
+            $price = $product->getPricePromotion()?$product->getPricePromotion():$product->getPrice();
+
+            if($request->get('min') && !empty($request->get('min')) && $request->get('max') && !empty($request->get('max'))){
+                if($price <= intval($request->get('min'))){
+                    $products_list[] = $product;
                 }
-            }elseif(!empty($request->get('categories'))){
-                foreach ($caracteristiques as $caracteristique){
-                    if(in_array($caracteristique, $valeurs_id)){
-                        $products_list[] = $product;
-                    }
+            }
+            if($request->get('max') && !empty($request->get('max'))){
+                if($price <= intval($request->get('max'))){
+                    $products_list[] = $product;
                 }
             }
         }
-        foreach ($products as $product){
-            
-            if(!empty($request->get('categorie'))){
-                if($product->getSousCategorie()->getId() == $categorie->getId()){
-                    if(in_array($product->getMarque(), $marques)){
-                        if(!in_array($product, $products_list)){
-                            $products_list[] = $product;
-                        }
-                    }
-                }
-            }elseif(!empty($request->get('categories'))){
-                foreach ($caracteristiques as $caracteristique){
-                    if(in_array($caracteristique, $valeurs_id)){
-                        $products_list[] = $product;
-                    }
-                }
-            }
-        }
+        
         
         if(count($products_list)==0){$products_list=$products;}
         

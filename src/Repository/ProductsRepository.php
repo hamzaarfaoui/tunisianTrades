@@ -147,11 +147,8 @@ class ProductsRepository extends ServiceEntityRepository
     public function byCategorie($params)
     {
         $qb = $this->createQueryBuilder('u');
-                
-        if ((isset($params['minimum']) && !empty($params['minimum'])) && (isset($params['minimum'])&&!empty($params['minimum']))){
-            $qb->orWhere($qb->expr()->between('u.price', ':minimum',':maximum'))
-             ->setParameters(array('minimum' => $params['minimum'], 'maximum' => $params['maximum']));
-        }
+            $qb->where('u.sousCategorie = :sc')
+            ->setParameter('sc', $params['categorie']);    
         if(isset($params['tri'])&&!empty($params['tri'])){
             if ($params['tri'] == 1){
                 $qb->orderBy('u.price', 'DESC');
@@ -161,12 +158,12 @@ class ProductsRepository extends ServiceEntityRepository
                 $qb->orderBy('u.nbrView', 'DESC');
             }
         }
-        if(isset($params['categorie'])&&!empty($params['categorie'])){
-            $qb->orWhere('u.sousCategorie = :sc')
-            ->setParameter('sc', $params['categorie']);
+        if(isset($params['marques'])){
+            $qb->andWhere('u.marque IN (:marques)')
+            ->setParameter('marques', $params['marques']);
         }
         if(isset($params['store'])&&!empty($params['store'])){
-            $qb->orWhere('u.store = :store')
+            $qb->andWhere('u.store = :store')
             ->setParameter('store', $params['store']);
         }
         return $qb->getQuery()->execute();

@@ -218,7 +218,7 @@ class FrontController extends Controller
         $marques = $dm->getRepository('App:Marques')->findBy(array('sousCategorie' => $categorie));
         $products_price = array();
         foreach ($find_products as $product) {
-            $products_price[] = $product->getPrice();
+            $products_price[] = $product->getPricePromotion()?$product->getPricePromotion():$product->getPrice();
         }
         $min = min($products_price);
         $max = max($products_price);
