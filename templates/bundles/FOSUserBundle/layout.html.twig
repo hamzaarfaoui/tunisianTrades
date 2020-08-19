@@ -3,7 +3,17 @@
     <head>
         <meta charset="UTF-8" />
         <link rel="stylesheet" href="{{asset('template/uikit/uikit.min.css')}}" />
-        <title>All TRADE - {% block title %}{% endblock %}</title>
+        <title>Kaiser Mall - {% block title %}{% endblock %}</title>
+        <style type="text/css">
+            .logo{
+                width: 50%;
+                margin-left: 25%;
+                margin-bottom: 24px;
+            }
+            .uk-button-primary{
+                background-color: #39b54a;
+            }
+        </style>
     </head>
     <body>
         
@@ -21,6 +31,7 @@
         <div class="uk-position-cover uk-overlay uk-overlay-default uk-flex uk-flex-center uk-flex-middle">
                     <div>
                         <div class="uk-card uk-card-default uk-card-large uk-card-body">
+                            <img src="{{ asset('e-shop/img/logo.png') }}" alt="logo" class="logo"/>
                             <fieldset class="uk-fieldset">
 
                                 <legend class="uk-legend"><center>{% block legend %}{% endblock %}</center></legend>

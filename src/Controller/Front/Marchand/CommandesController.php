@@ -60,7 +60,7 @@ class CommandesController extends Controller
         $commandes = $dm->getRepository('App:Commandes')->listeInDash();
         $commandes_liste = array();
         foreach ($commandes as $commande){
-            foreach ($commande->getFacture()[0] as $facture){
+            foreach ($commande->getFacture()['product'] as $facture){
                 if($facture['id_vendeur'] == $id){
                     if(!in_array($commande, $commandes_liste)){
                         $commandes_liste [] = $commande;
@@ -69,18 +69,19 @@ class CommandesController extends Controller
                 }
             }
         }
+
         $list = array();
         
         foreach ($commandes_liste as $c){
             $montant = 0;
-            foreach ($c->getFacture()[0] as $f){
+            foreach ($c->getFacture()['product'] as $f){
                 if($f['id_vendeur'] == $id){
                     $montant += $f['price']*$f['quantite'];
                 }
             }
             $list [] = array(
                 'id'=>$c->getId(),
-                'client'=>$c->getFacture()[2]['nom_prenom'],
+                'client'=>$c->getFacture()['client']['nom_prenom'],
                 'montant' => $montant,
                 'date' => $c->getCreatedAt(),
                 'status' => $c->getStatus()
@@ -97,7 +98,7 @@ class CommandesController extends Controller
         $dm = $this->getDoctrine()->getManager();
         $commande = $dm->getRepository('App:Commandes')->find($id);
         $products = array();
-        foreach ($commande->getFacture()[0] as $facture){
+        foreach ($commande->getFacture()['product'] as $facture){
             if($facture['id_vendeur'] == $store){
                 if(!in_array($commande, $products)){
                     $products [] = $facture;
@@ -106,7 +107,7 @@ class CommandesController extends Controller
             }
         }
         $montant = 0;
-        foreach ($commande->getFacture()[0] as $f){
+        foreach ($commande->getFacture()['product'] as $f){
             if($f['id_vendeur'] == $store){
                 $montant += $f['price']*$f['quantite'];
             }
@@ -116,7 +117,7 @@ class CommandesController extends Controller
             'products' => $products,
             'montant' => $montant,
             'date' => $commande->getCreatedAt(),
-            'client'=>$commande->getFacture()[2]['nom_prenom'],
+            'client'=>$commande->getFacture()['client']['nom_prenom'],
             'store' => $store
             ));
     }
@@ -129,7 +130,7 @@ class CommandesController extends Controller
         $dm = $this->getDoctrine()->getManager();
         $commande = $dm->getRepository('App:Commandes')->find($id);
         $products = array();
-        foreach ($commande->getFacture()[0] as $facture){
+        foreach ($commande->getFacture()['product'] as $facture){
             if($facture['id_vendeur'] == $store){
                 if(!in_array($commande, $products)){
                     $product = $dm->getRepository('App:Products')->find($facture['id']);
@@ -140,7 +141,7 @@ class CommandesController extends Controller
             }
         }
         $montant = 0;
-        foreach ($commande->getFacture()[0] as $f){
+        foreach ($commande->getFacture()['product'] as $f){
             if($f['id_vendeur'] == $store){
                 $montant += $f['price']*$f['quantite'];
             }

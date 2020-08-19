@@ -119,11 +119,17 @@ class Products
      */
     private $sousCategorie;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Valeurs::class, inversedBy="products")
+     */
+    private $valeurs;
+
     public function __construct()
     {
         $this->keywords = new ArrayCollection();
         $this->mediasImages = new ArrayCollection();
         $this->mediasVideos = new ArrayCollection();
+        $this->valeurs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -424,6 +430,32 @@ class Products
     public function setSousCategorie(?SousCategories $sousCategorie): self
     {
         $this->sousCategorie = $sousCategorie;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Valeurs[]
+     */
+    public function getValeurs(): Collection
+    {
+        return $this->valeurs;
+    }
+
+    public function addValeur(Valeurs $valeur): self
+    {
+        if (!$this->valeurs->contains($valeur)) {
+            $this->valeurs[] = $valeur;
+        }
+
+        return $this;
+    }
+
+    public function removeValeur(Valeurs $valeur): self
+    {
+        if ($this->valeurs->contains($valeur)) {
+            $this->valeurs->removeElement($valeur);
+        }
 
         return $this;
     }

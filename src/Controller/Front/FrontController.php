@@ -190,7 +190,7 @@ class FrontController extends Controller
         $product = $dm->getRepository('App:Products')->find($id);
         $query = array();
         $query['id'] = $id;
-        $query['sousCategorie'] = $product->getSousCategorie();
+        $query['sousCategorie'] = $product->getSousCategorie()->getId();
         $products = $dm->getRepository('App:Products')->produitsLiees($query);
         $product->setNbrView($product->getNbrView()+1);
         $dm->persist($product);

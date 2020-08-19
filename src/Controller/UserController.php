@@ -26,7 +26,7 @@ class UserController extends Controller
      */
     public function employe()
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         return $this->render('user/espaces/employe.html.twig');
     }
     
@@ -35,7 +35,7 @@ class UserController extends Controller
      */
     public function marchand()
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         if(in_array('ROLE_MARCHAND', $this->getUser()->getRoles(), true)){
             $marchand = $dm->getRepository('App:Marchands')->findOneBy(array('user' => $this->getUser()));
         }else{
@@ -50,7 +50,7 @@ class UserController extends Controller
      */
     public function client()
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->getDoctrine()->getManager();
         return $this->render('user/espaces/client.html.twig');
     }
 }

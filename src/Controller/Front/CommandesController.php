@@ -121,6 +121,10 @@ class CommandesController extends Controller
     {
         $dm = $this->getDoctrine()->getManager();
         $commandes = $dm->getRepository('App:Commandes')->findBy(array('user' => $this->getUser()));
+        // foreach ($commandes as $c) {
+        //     var_dump($c->getFacture());
+        // }
+        // die();
         return $this->render('commandes/front/list.html.twig', array(
             'commandes' => $commandes
         ));

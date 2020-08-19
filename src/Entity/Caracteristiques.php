@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CaracteristiquesRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -22,6 +24,21 @@ class Caracteristiques
      */
     private $name;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Valeurs::class, mappedBy="caracteristique")
+     */
+    private $valeurs;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=SousCategories::class, inversedBy="caracteristiques")
+     */
+    private $sousCategorie;
+
+    public function __construct()
+    {
+        $this->valeurs = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -35,6 +52,49 @@ class Caracteristiques
     public function setName(?string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Valeurs[]
+     */
+    public function getValeurs(): Collection
+    {
+        return $this->valeurs;
+    }
+
+    public function addValeur(Valeurs $valeur): self
+    {
+        if (!$this->valeurs->contains($valeur)) {
+            $this->valeurs[] = $valeur;
+            $valeur->setCaracteristique($this);
+        }
+
+        return $this;
+    }
+
+    public function removeValeur(Valeurs $valeur): self
+    {
+        if ($this->valeurs->contains($valeur)) {
+            $this->valeurs->removeElement($valeur);
+            // set the owning side to null (unless already changed)
+            if ($valeur->getCaracteristique() === $this) {
+                $valeur->setCaracteristique(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getSousCategorie(): ?SousCategories
+    {
+        return $this->sousCategorie;
+    }
+
+    public function setSousCategorie(?SousCategories $sousCategorie): self
+    {
+        $this->sousCategorie = $sousCategorie;
 
         return $this;
     }

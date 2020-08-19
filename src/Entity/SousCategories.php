@@ -84,10 +84,16 @@ class SousCategories
      */
     private $products;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Caracteristiques::class, mappedBy="sousCategorie")
+     */
+    private $caracteristiques;
+
     public function __construct()
     {
         $this->keywords = new ArrayCollection();
         $this->products = new ArrayCollection();
+        $this->caracteristiques = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -283,6 +289,37 @@ class SousCategories
             // set the owning side to null (unless already changed)
             if ($product->getSousCategorie() === $this) {
                 $product->setSousCategorie(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Caracteristiques[]
+     */
+    public function getCaracteristiques(): Collection
+    {
+        return $this->caracteristiques;
+    }
+
+    public function addCaracteristique(Caracteristiques $caracteristique): self
+    {
+        if (!$this->caracteristiques->contains($caracteristique)) {
+            $this->caracteristiques[] = $caracteristique;
+            $caracteristique->setSousCategorie($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCaracteristique(Caracteristiques $caracteristique): self
+    {
+        if ($this->caracteristiques->contains($caracteristique)) {
+            $this->caracteristiques->removeElement($caracteristique);
+            // set the owning side to null (unless already changed)
+            if ($caracteristique->getSousCategorie() === $this) {
+                $caracteristique->setSousCategorie(null);
             }
         }
 
