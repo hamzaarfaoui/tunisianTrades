@@ -34,6 +34,8 @@
                     <div class="aside">
                         <h3 class="aside-title">Prix :</h3>
                         <div id="price-slider"></div>
+                        <input type="hidden" name="minp" id="minp" value="{{min-2}}">
+                        <input type="hidden" name="maxp" id="maxp" value="{{max+2}}">
                     </div>
                     
                     <!-- aside widget -->
@@ -179,6 +181,9 @@
     <script>
         ///filter by range price
     // PRICE SLIDER
+    
+        var minp = $('#minp').val();
+        var maxp = $('#maxp').val();
     var dollarPrefixFormat = wNumb({prefix: 'TND', decimals: 0})
   var slider = document.getElementById('price-slider');
   if (slider) {
@@ -200,6 +205,9 @@
     slider.noUiSlider.on('set', function( values, handle ) {
             var min = values[0];
             var max = values[1];
+            
+        minp = min;
+        maxp = max;
             var categorie =$('#categorieId').val();
 
             var caracteristiques = [];
@@ -228,5 +236,178 @@
             }
         });
     });
-    </script>
+    
+    
+    /// tri and Filter by caractéristiques and marques(couleur, taille, genre.....)
+        var categorie =$('#categorieId').val();
+        var caracteristiques = [];
+        var marques = [];
+        var categories = [];
+        var store = $('#storeId').val();
+        $('input[name="valeur"]').change(function(){
+            var myVal = $(this).val();
+            var marquesc = [];
+            $("input[name='marque']:checked").each(function(){
+                marquesc.push($(this).val());
+            });
+            if($(this).prop("checked")){
+                caracteristiques.push($(this).val());
+            }else{
+               caracteristiques = caracteristiques.filter(function(elem){
+                    return elem != myVal; 
+                 });
+            }
+            $.ajax({
+                url: '{{ path('tri_product') }}',
+                data: {caracteristiques:caracteristiques, categorie:categorie, min:minp, max:maxp, marques:marquesc},
+                method: "POST",
+                error: function (data) {
+                    console.log('Erreur de trier les produit');
+                },
+                beforeSend:function(){
+                    $('#list-produits').html('<div class=text-center><div class="loader"></div></div>');
+                }
+                ,
+                success: function (data) {
+                    console.log(data['nbr']);
+                    {#console.log('caracteristique');
+                    console.log($(this).data('valeur'));
+                    #}
+                    $('#list-produits').html(data['products']);
+                    //setTimeout(function(){ $('#msg-alert').html('<div class="alert alert-success">'+data['message']+'</div><br><br>'); }, 3000);
+                }
+            });
+            console.log(caracteristiques);
+        });
+        
+        $('input[name="cat"]').change(function(){
+            var myVal = $(this).val();
+            if($(this).prop("checked")){
+                categories.push($(this).val());
+            }else{
+               categories = categories.filter(function(elem){
+                    return elem != myVal; 
+                 });
+            }
+            $.ajax({
+                url: '{{ path('tri_product') }}',
+                data: {caracteristiques:caracteristiques, categories:categories, store:store, min:minp, max:maxp},
+                method: "POST",
+                error: function (data) {
+                    console.log('Erreur de trier les produit');
+                },
+                beforeSend:function(){
+                    $('#list-produits').html('<div class=text-center><div class="loader"></div></div>');
+                }
+                ,
+                success: function (data) {
+                    console.log(data['nbr']);
+                    {#console.log('caracteristique');
+                    console.log($(this).data('valeur'));
+                    #}
+                    $('#list-produits').html(data['products']);
+                    //setTimeout(function(){ $('#msg-alert').html('<div class="alert alert-success">'+data['message']+'</div><br><br>'); }, 3000);
+                }
+            });
+            console.log(caracteristiques);
+        });
+        
+        
+        ///Filter By marque
+        
+        $('input[name="marque"]').change(function(){
+        
+            var myVal = $(this).val();
+            var caracteristiques = [];
+            $("input[name='valeur']:checked").each(function(){
+                caracteristiques.push($(this).val());
+            });
+            if($(this).prop("checked")){
+                marques.push($(this).val());
+            }else{
+               marques = marques.filter(function(elem){
+                    return elem != myVal; 
+                 });
+            }
+            var myMarques = $(this).val();
+            if($(this).prop("checked")){
+                marques.push($(this).val());
+            }else{
+               marques = marques.filter(function(elem){
+                    return elem != marques; 
+                 });
+            }
+            $.ajax({
+                url: '{{ path('tri_product') }}',
+                data: {caracteristiques:caracteristiques, categorie:categorie, marques:marques, store:store, min:minp, max:maxp},
+                method: "POST",
+                error: function (data) {
+                    console.log('Erreur de trier les produit');
+                },
+                beforeSend:function(){
+                    $('#list-produits').html('<div class=text-center><div class="loader"></div></div>');
+                }
+                ,
+                success: function (data) {
+                    console.log(data['nbr']);
+                    {#console.log('caracteristique');
+                    console.log($(this).data('valeur'));
+                    #}
+                    $('#list-produits').html(data['products']);
+                    //setTimeout(function(){ $('#msg-alert').html('<div class="alert alert-success">'+data['message']+'</div><br><br>'); }, 3000);
+                }
+            });
+            console.log(caracteristiques);
+        });
+        
+        
+        
+        
+    ////// Tri profuct by facteur
+    $('.filter-product').change(function(){
+    
+        var caracteristiques = [];
+        var valeur = $(this).val();
+        var categorie =$('#categorieId').val();
+        $('input[name="valeur"]').each(function() {
+            if($(this).prop("checked")){
+                caracteristiques.push($(this).val());
+            }else{
+                var myVal = $(this).val();
+               caracteristiques = caracteristiques.filter(function(elem){
+                    return elem != myVal; 
+                 });
+            }
+        });
+        $('input[name="marque"]').each(function() {
+            if($(this).prop("checked")){
+                marques.push($(this).val());
+            }else{
+                var myVal = $(this).val();
+               marques = marques.filter(function(elem){
+                    return elem != myVal; 
+                 });
+            }
+        });
+        $.ajax({
+            url: '{{ path('tri_product') }}',
+            data: {valeur:valeur, categorie:categorie, caracteristiques:caracteristiques, marques:marques, store:store},
+            method: "POST",
+            error: function (data) {
+                console.log('Erreur de trier les produit');
+            },
+            beforeSend:function(){
+                $('#list-produits').html('<div class=text-center><div class="loader"></div></div>');
+            }
+            ,
+            success: function (data) {
+                
+                $('#list-produits').html(data['products']);
+                //setTimeout(function(){ $('#msg-alert').html('<div class="alert alert-success">'+data['message']+'</div><br><br>'); }, 3000);
+            }
+        });
+    });
+    
+    
+</script>
 {% endblock %}

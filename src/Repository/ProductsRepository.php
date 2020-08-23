@@ -149,6 +149,10 @@ class ProductsRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('u');
             $qb->where('u.sousCategorie = :sc')
             ->setParameter('sc', $params['categorie']);    
+            
+        if ((isset($params['minimum']) && !empty($params['minimum'])) && (isset($params['minimum'])&&!empty($params['minimum']))){
+            $qb->andWhere($qb->expr()->between('u.price', $params['minimum'],$params['maximum']));
+        }
         if(isset($params['tri'])&&!empty($params['tri'])){
             if ($params['tri'] == 1){
                 $qb->orderBy('u.price', 'DESC');
