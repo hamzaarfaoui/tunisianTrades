@@ -6,6 +6,8 @@
 /public/uploads/
 /var/
 /vendor/
+/.env
+/config/
 ###< symfony/framework-bundle ###
 
 ###> symfony/phpunit-bridge ###
