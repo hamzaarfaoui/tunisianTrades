@@ -54,6 +54,7 @@
                             {% endfor %}
                         </ul>
                         <hr>
+                        {% for categorie in categories %}
                         {% for caracteristique in categorie.caracteristiques %}
                         <h5>{{ caracteristique.name }}</h5>
                         <ul>
@@ -64,6 +65,8 @@
                                 </li>
                             {% endfor %}
                         </ul>
+                        {% if not loop.last %}<hr>{% endif %}
+                        {% endfor %}
                         {% endfor %}
                     </div>
                     <!-- /aside widget -->

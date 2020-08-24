@@ -161,7 +161,7 @@ class ProductBackController extends Controller
         $product->setNbrView(0);
         $product->setNbrAddToFavorite(0);
         $dm->persist($store);
-        $marque_id = $request->get('categorie');
+        $marque_id = $request->get('marque');
         $marque = $dm->getRepository('App:Marques')->find($marque_id);
         $product->setMarque($marque);
         if($request->get('sc')){

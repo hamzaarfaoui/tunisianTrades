@@ -75,7 +75,7 @@
                                                 <label>Catégorie</label>
                                                 <select name="cm" class="form-control">
                                                     {% for cm in cms %}
-                                                        <option value="{{cm.id}}" {{categorie.categorieMere == cm.id?'selected="true"':''}}>{{cm.name}}</option>
+                                                        <option value="{{cm.id}}" {{categorie.categorieMere.id == cm.id?'selected="true"':''}}>{{cm.name}}</option>
                                                     {% endfor %}
                                                 </select>
                                             </div>
