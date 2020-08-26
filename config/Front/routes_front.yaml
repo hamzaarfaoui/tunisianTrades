@@ -39,7 +39,7 @@ process_order_page:
     controller: App\Controller\Front\FrontController::processOrderPage    
     
 product_by_category:
-    path: /{id}/categorie/{title}
+    path: /categorie/{slug}
     controller: App\Controller\Front\FrontController::productByCategory 
     
 product_by_store:

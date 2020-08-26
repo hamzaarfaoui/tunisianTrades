@@ -204,10 +204,10 @@ class FrontController extends Controller
     /*
      * Product by category
      */
-    public function productByCategory(Request $request, $id)
+    public function productByCategory(Request $request, $slug)
     {
         $dm = $this->getDoctrine()->getManager();
-        $categorie = $dm->getRepository('App:SousCategories')->find($id);
+        $categorie = $dm->getRepository('App:SousCategories')->findOneBy(array('slug' => $slug));
         $find_products = $dm->getRepository('App:Products')->findBy(array('sousCategorie' => $categorie));
         $paginator  = $this->get('knp_paginator');
         $products = $paginator->paginate(

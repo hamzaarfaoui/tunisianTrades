@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\StoresRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -78,6 +79,12 @@ class Stores
      * @ORM\OneToMany(targetEntity=AdressesStore::class, mappedBy="store")
      */
     private $adressesStore;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Gedmo\Slug(fields={"name"})
+     */
+    private $slug;
 
     public function __construct()
     {
@@ -288,6 +295,18 @@ class Stores
                 $adressesStore->setStore(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(?string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }
