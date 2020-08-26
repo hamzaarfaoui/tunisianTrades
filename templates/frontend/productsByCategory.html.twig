@@ -35,7 +35,7 @@
                 <div id="aside" class="col-md-2">
                     
                     <!-- start if mobile -->
-                    <div class="aside mobile-filter">
+                    <div class="aside mobile-filter" id="mobile-filterr">
                         <button class="primary-btn" id="recherche-btn" type="button" data-toggle="modal" data-target="#myModal">Recherche</button>
                     </div>
                     <div id="myModal" class="modal fade" role="dialog">
@@ -469,7 +469,7 @@
 <script>
 window.onscroll = function() {myFunction()};
 
-var header = document.getElementById("recherche-btn");
+var header = document.getElementById("mobile-filterr");
 var sticky = header.offsetTop;
 
 function myFunction() {

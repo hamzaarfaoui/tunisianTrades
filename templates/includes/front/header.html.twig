@@ -259,7 +259,7 @@
                                 <i class="fa fa-user-o"></i> <strong class="text-uppercase">Mon compte <i class="fa fa-caret-down"></i></strong>
                             </div>
                         </div>
-                        <ul class="custom-menu">
+                        <ul class="custom-menu user-acc">
                             {% if(is_granted('ROLE_MARCHAND')) %}
                                 <li><a href="{{ path('marchand_homepage') }}"><i class="fa fa-bars"></i> Store</a></li>
                             {% endif %}
@@ -269,7 +269,7 @@
                             <li><a href="{{ path('fos_user_security_logout') }}"><i class="fa fa-check"></i> Déconnexion</a></li>
                         </ul>
                     {% else %}
-                        <div class="header-btns" style="text-align: center;height: 40px;line-height: 40px;">
+                        <div class="header-btns user-acc" style="text-align: center;height: 40px;line-height: 40px;">
                         <i class="fa fa-user-o"></i> <a href="{{ path('fos_user_security_login') }}" class="text-uppercase">Login</a> / <a href="{{ path('fos_user_registration_register') }}" class="text-uppercase">S'inscrire</a>
                         </div>
                     {% endif %}

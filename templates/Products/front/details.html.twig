@@ -46,7 +46,20 @@
 .span-price::after {
   left: -16px
 }
-          
+         .product.product-single .product-thumb>img {
+    width: 77%;
+    height: 179px;
+    position: relative;
+    top: 12px;
+    left: 10%;
+}
+.product.product-single .product-name{
+    font-size: 12px;
+}
+.product.product-single .product-body {
+    /* padding: 0px; */
+    padding-top: 15px;
+} 
     </style>
 {% endblock %}
 {% block body %}
@@ -219,7 +232,7 @@
                     {% if(p.qte>0) %}
                         <!-- Product Single -->
                         <div class="col-md-3 col-sm-6 col-xs-6">
-                            <div class="product product-single {{p.pricePromotion != null?'product-hot-promotion':'product-hot'}}">
+                            <div class="product product-single {{p.pricePromotion != null?'product-hot-promotion':'product-hot'}}" style="height: 300px;">
                                 <div class="product-thumb">
                                     <div class="product-label">
                                         {#{% set today = "now"|date("d/m/Y") %}
@@ -249,7 +262,7 @@
                                         <i class="fa fa-star"></i>
                                         <i class="fa fa-star-o empty"></i>
                                     </div>#}
-                                    <h2 class="product-name"><a href="#">{{ p.name|slice(0, 20) }}</a></h2>
+                                    <h2 class="product-name"><a href="#">{{ p.name|slice(0, 30) }}</a></h2>
                                     {#<div class="product-btns">
                                         <button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
                                         <button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button>

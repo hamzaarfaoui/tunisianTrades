@@ -124,7 +124,28 @@
     margin-top: 35px;
     width: 100%;
 }
-
+.pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover{
+    background-color: #39b54a;
+    border-color: #39b54a;
+}
+.pagination>.disabled>a,.pagination>li>a, .pagination>li>span{
+    color: #39b54a;
+    border: 1px solid #39b54a;
+}
+.pagination>li>a, .pagination>li>span {
+    margin-left: 0;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
+.cover-store{
+    height: 200px;width: 100%;margin-bottom: 10px;opacity: 0.5;
+}
+.logo-store{
+    height: 170px;width: 170px;border-radius: 50%;border: 6px solid #fff;
+}
+.bloc-logo-store{
+    position: absolute;top: 58%;left: 50%;transform: translate(-50%, -50%);
+}
 @media screen and (max-width: 450px){
     .input-login{
         width: 100%;
@@ -133,7 +154,6 @@
         width: 100%;
     }
     .product.product-single .product-thumb>img{
-        height: auto;
         width: 56%;
         position: relative;
         left: 22%;
@@ -154,12 +174,43 @@
         margin-left: 8%;
     }
     .sticky {
-  position: fixed;
-    top: 46px;
-    left: 6px;
-    width: 18%;
-    width: 97%;
-}
+        position: fixed;
+        top: 32px;
+        left: 6px;
+        width: 69%;
+        background: #fff;
+        height: 56px;
+    }
+    .cover-store{
+        display: none;
+    }
+    .bloc-logo-store {
+        position: relative;
+        top: 54%;
+        left: 50%;
+        /* transform: translate(-50%, -50%); */
+    }
+    .header-search{
+        width: 104%;
+        max-width: 600px;
+    }
+    .header-btns{
+        position: relative;
+        top: -200px;
+        left: 229px;
+        width: 50%;
+    }
+    .header-logo .logo>img {
+        width: 50%;
+        height: 47px;
+        /* max-height: 46px; */
+    }
+    #header .categories{
+        display: none;
+    }
+    #header{
+        height: 146px;
+    }
 }
 @media screen and (min-width: 450px){
     .categories{
@@ -179,7 +230,6 @@
     .btn-login{
         width: 50%;
     }
-    
 }
 @media screen and (min-width: 750px){
     .filter-bloc, .filter-price{
