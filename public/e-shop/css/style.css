@@ -560,8 +560,8 @@ textarea.input {
   display: none;
   padding: 15px;
   text-transform: uppercase;
-  background: #30323A;
-  color: #30323A;
+  background: #757575;
+  color: #FFF;
   font-weight: 700;
 }
 
@@ -1843,9 +1843,6 @@ textarea.input {
 }
 #responsive-nav .dropdown.open .custom-menu {
     display: block;
-   }
-   .category-nav .category-header{
-       display: none;
    }
 .btn-slider{
     border-radius: 50px;

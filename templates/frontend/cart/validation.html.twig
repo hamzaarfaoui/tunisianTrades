@@ -46,7 +46,7 @@
                                         <tr>
                                             <td class="thumb"><img src="{{ asset('uploads/products/images/') }}{{ product.image }}" alt=""></td>
                                             <td class="details">
-                                                <a href="{{ path('product_page', {id:product.id}) }}">{{ product.name }}</a>
+                                                <a href="{{ path('product_page', {slug:product.slug}) }}">{{ product.name }}</a>
                                             </td>
                                             <td class="text-center"><strong>{{ product.price }} TND</strong><br>{#<del class="font-weak"><small>$40.00</small></del>#}</td>
                                             <td class="text-center">

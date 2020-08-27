@@ -108,6 +108,19 @@ class ProductsController extends Controller
         $store->addProduct($product);
         $product->setStore($store);
         $product->setNbrAddToCart(0);
+        $slug = preg_replace('/[^A-Za-z0-9. -]/', '', $request->get('nom'));
+
+        // Replace sequences of spaces with hyphen
+        $slug = preg_replace('/  */', '-', $slug);
+
+        // The above means "a space, followed by a space repeated zero or more times"
+        // (should be equivalent to / +/)
+
+        // You may also want to try this alternative:
+        $slug = preg_replace('/\\s+/', '-', $slug);
+        $p = $dm->getRepository('App:Products')->findOneBy(array('slug'=>$slug));
+        if($p){$slug = $slug.rand(1,25412).'-'.rand(1,2541222).$request->get('price').$request->get('qte');}
+        $product->setSlug($slug);
         $product->setNbrView(0);
         $product->setNbrAddToFavorite(0);
         if($request->get('marque')){

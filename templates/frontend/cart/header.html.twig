@@ -31,7 +31,7 @@
                             </div>
                             <div class="product-body">
                                 <h3 class="product-price">{{ product.pricePromotion!=null?product.pricePromotion:product.price }} TND <span class="qty">x{{ panier[product.id] }}</span></h3>
-                                <h2 class="product-name"><a href="{{ path('product_page', {id:product.id}) }}">{{ product.name }}</a></h2>
+                                <h2 class="product-name"><a href="{{ path('product_page', {slug:product.slug}) }}">{{ product.name }}</a></h2>
                             </div>
                             <button class="cancel-btn" data-id="{{ product.id }}"><i class="fa fa-trash"></i></button>
                         </div>

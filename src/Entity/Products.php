@@ -127,7 +127,6 @@ class Products
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Gedmo\Slug(fields={"name"})
      */
     private $slug;
 

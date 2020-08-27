@@ -41,7 +41,7 @@
                                         </span>
                                     {% endif %}
                                 </div>
-                                <a href="{{ path('product_page', {id:product.id}) }}" class="main-btn quick-view"> Détails</a>
+                                <a href="{{ path('product_page', {slug:product.slug}) }}" class="main-btn quick-view"> Détails</a>
                                 <img src="{{ asset('uploads/products/images/') }}{{ product.image }}" alt="" style="height:150px;">
                             </div>
                             <div class="product-body">
@@ -86,7 +86,7 @@
                                                 </span>
                                             {% endif %}
                                         </div>
-                                        <a href="{{ path('product_page', {id:product.id}) }}" class="main-btn quick-view"> Détails</a>
+                                        <a href="{{ path('product_page', {slug:product.slug}) }}" class="main-btn quick-view"> Détails</a>
                                         <img src="{{ asset('uploads/products/images/') }}{{ product.image }}" alt="" style="height:150px;">
                                     </div>
                                     <div class="product-body">

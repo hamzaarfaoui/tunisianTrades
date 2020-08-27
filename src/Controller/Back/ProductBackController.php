@@ -156,14 +156,28 @@ class ProductBackController extends Controller
         $store = $dm->getRepository('App:Stores')->find($id);
         $store->addProduct($product);
         $product->setStore($store);
-        
+        $slug = preg_replace('/[^A-Za-z0-9. -]/', '', $request->get('nom'));
+
+        // Replace sequences of spaces with hyphen
+        $slug = preg_replace('/  */', '-', $slug);
+
+        // The above means "a space, followed by a space repeated zero or more times"
+        // (should be equivalent to / +/)
+
+        // You may also want to try this alternative:
+        $slug = preg_replace('/\\s+/', '-', $slug);
+        $p = $dm->getRepository('App:Products')->findOneBy(array('slug'=>$slug));
+        if($product){$slug = $slug.rand(1,25412).'-'.rand(1,2541222).$request->get('price').$request->get('qte');}
+        $product->setSlug($slug);
         $product->setNbrAddToCart(0);
         $product->setNbrView(0);
         $product->setNbrAddToFavorite(0);
         $dm->persist($store);
+        if($request->get('marque')){
         $marque_id = $request->get('marque');
         $marque = $dm->getRepository('App:Marques')->find($marque_id);
         $product->setMarque($marque);
+        }
         if($request->get('sc')){
             $sc = $dm->getRepository('App:SousCategories')->find($request->get('sc'));
             $product->setSousCategorie($sc);
@@ -253,10 +267,25 @@ class ProductBackController extends Controller
         $product->setName($request->get('nom'));
         $product->setPrice($request->get('price'));
         $product->setQte($request->get('qte'));
+        $slug = preg_replace('/[^A-Za-z0-9. -]/', '', $request->get('nom'));
+
+        // Replace sequences of spaces with hyphen
+        $slug = preg_replace('/  */', '-', $slug);
+
+        // The above means "a space, followed by a space repeated zero or more times"
+        // (should be equivalent to / +/)
+
+        // You may also want to try this alternative:
+        $slug = preg_replace('/\\s+/', '-', $slug);
+        $p = $dm->getRepository('App:Products')->findOneBy(array('slug'=>$slug));
+        if($product){$slug = $slug.rand(1,25412).'-'.rand(1,2541222).$request->get('price').$request->get('qte');}
+        $product->setSlug($slug);
         $product->setContent($request->get('descriptionC'));
+        if($request->get('marque')){
         $marque_id = $request->get('marque');
         $marque = $dm->getRepository('App:Marques')->find($marque_id);
         $product->setMarque($marque);
+        }
         
         $product->setNbrAddToCart(0);
         $product->setNbrView(0);

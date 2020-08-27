@@ -184,12 +184,12 @@ class FrontController extends Controller
     /*
      * Product page
      */
-    public function productPage($id)
+    public function productPage($slug)
     {
         $dm = $this->getDoctrine()->getManager();
-        $product = $dm->getRepository('App:Products')->find($id);
+        $product = $dm->getRepository('App:Products')->findOneBy(array('slug' => $slug));
         $query = array();
-        $query['id'] = $id;
+        $query['slug'] = $slug;
         $query['sousCategorie'] = $product->getSousCategorie()->getId();
         $products = $dm->getRepository('App:Products')->produitsLiees($query);
         $product->setNbrView($product->getNbrView()+1);
