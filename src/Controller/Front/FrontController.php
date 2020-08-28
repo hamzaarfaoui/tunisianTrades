@@ -27,6 +27,13 @@ class FrontController extends Controller
         ;
 
         $mailer->send($message);
+        $dm = $this->getDoctrine()->getManager();
+        $sc2 = $dm->getRepository('App:SousCategories')->findBy(array('showInIndex' => 1));
+        $categories = $dm->getRepository('App:CategoriesMere')->findAll();
+        return $this->render('index.html.twig', array(
+            'sc2' => $sc2,
+            'categories' => $categories
+        ));
     }
     /*
      * Index page
