@@ -12,6 +12,22 @@ use App\Entity\MySite;
 
 class FrontController extends Controller
 {
+    public function testEmail(\Swift_Mailer $mailer)
+    {
+        $message = (new \Swift_Message('Hello Email'))
+        ->setFrom('contact@kaisermall.tn')
+        ->setTo('hamzaarfaoui105@gmail.com')
+        ->setBody(
+            $this->renderView(
+                // templates/emails/registration.html.twig
+                'test.html.twig'
+            ),
+            'text/html'
+            )
+        ;
+
+        $mailer->send($message);
+    }
     /*
      * Index page
      */

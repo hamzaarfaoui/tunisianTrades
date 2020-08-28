@@ -1,3 +1,6 @@
+test_email:
+    path: /
+    controller: App\Controller\Front\FrontController::testEmail
 index_page:
     path: /
     controller: App\Controller\Front\FrontController::indexPage

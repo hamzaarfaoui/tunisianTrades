@@ -1,6 +1,5 @@
-{% extends "base.html.twig" %}
-{% block title %}Mot de passe oublié{% endblock %}
+{% extends "@FOSUser/layout.html.twig" %}
 
-{% block body %}
+{% block fos_user_content %}
 {% include "@FOSUser/Resetting/request_content.html.twig" %}
-{% endblock %}
+{% endblock fos_user_content %}
