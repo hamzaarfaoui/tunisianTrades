@@ -43,7 +43,7 @@ product_by_category:
     controller: App\Controller\Front\FrontController::productByCategory 
     
 product_by_store:
-    path: /boutique/{id}
+    path: /boutique/{slug}
     controller: App\Controller\Front\FrontController::store      
 tri_product:
     path: /tri_product
@@ -54,7 +54,7 @@ search_result:
     controller: App\Controller\Front\FrontController::searchResult     
     
 product_page:
-    path: /product/{id}
+    path: /product/{slug}
     controller: App\Controller\Front\FrontController::productPage  
 
 livraison_page:
