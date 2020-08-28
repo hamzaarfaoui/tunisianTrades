@@ -245,7 +245,7 @@
                                     </div>
                                     <div class="product-body">
                                         <img src="{% if (store.logo) %}{{ asset('/uploads/shops/logos/') }}{{ store.logo }}{% else %}{{ asset('/uploads/noStoreImg.png') }}{% endif %}" alt="" style="height:150px;width:150px;margin-bottom: 10px;">
-                                        <h2 class="product-name"><a href="{{ path('product_by_store', {id:store.id}) }}">{{ store.name|slice(0, 20) }}</a></h2>
+                                        <h2 class="product-name"><a href="{{ path('product_by_store', {slug:store.slug}) }}">{{ store.name|slice(0, 20) }}</a></h2>
                                         
                                     </div>
                                 </div>

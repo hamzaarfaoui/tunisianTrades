@@ -72,8 +72,22 @@ class StoresBackController extends Controller
         /*start marchand document*/
         $marchand->setMatriculeFiscale($request->get('matricule'));
         $marchand->setNrc($request->get('nrc'));
+        
         $marchand->setUser($user);
         $dm->persist($marchand);
+        $slug = preg_replace('/[^A-Za-z0-9. -]/', '', $request->get('storenom'));
+
+        // Replace sequences of spaces with hyphen
+        $slug = preg_replace('/  */', '-', $slug);
+
+        // The above means "a space, followed by a space repeated zero or more times"
+        // (should be equivalent to / +/)
+
+        // You may also want to try this alternative:
+        $slug = preg_replace('/\\s+/', '-', $slug);
+        $s = $dm->getRepository('App:Stores')->findOneBy(array('slug'=>$slug));
+        if($product){$slug = $slug.'-'.rand(1,25412).'-'.rand(1,2541222).$request->get('nrc').$request->get('matricule');}
+        $store->setSlug($slug);
         /*end marchand document*/
         /*start store document*/
         $store->setName($request->get('storenom'));

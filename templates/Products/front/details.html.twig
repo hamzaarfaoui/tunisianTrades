@@ -186,7 +186,7 @@
                             
                             <strong>Vendeur :</strong>
                             <div class="text-center">
-                                <a href="{{ path('product_by_store', {id:product.store.id}) }}">
+                                <a href="{{ path('product_by_store', {slug:product.store.slug}) }}">
                                     <img src="{{ asset('/uploads/shops/logos/') }}{{ product.store.logo }}" style="height: 120px;width: 120px;border-radius: 50%;border: 6px solid #fff;">
                                     <h1>{{product.store.name}}</h1>
                                 </a>

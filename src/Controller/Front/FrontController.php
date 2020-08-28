@@ -234,11 +234,11 @@ class FrontController extends Controller
     /*
      * Store market
      */
-    public function store(Request $request, $id)
+    public function store(Request $request, $slug)
     {
         $dm = $this->getDoctrine()->getManager();
-        $store = $dm->getRepository('App:Stores')->find($id);
-        $products = $dm->getRepository('App:Products')->byStore($id);
+        $store = $dm->getRepository('App:Stores')->findOneBy(array('slug' => $slug));
+        $products = $dm->getRepository('App:Products')->findBy(array('store' => $store->getId()), array('createdAt' => 'DESC'));
         $categories = array();
         $marques = array();
         $caracteriqtiques = array();
@@ -256,9 +256,11 @@ class FrontController extends Controller
             
         }
         foreach ($categories as $categorie){
-            foreach ($categorie->getCaracteristiques() as $c){
-                if(!in_array($c, $caracteriqtiques)){
-                    $caracteriqtiques []= $c;
+            if($categorie){
+                foreach ($categorie->getCaracteristiques() as $c){
+                    if(!in_array($c, $caracteriqtiques)){
+                        $caracteriqtiques []= $c;
+                    }
                 }
             }
         }

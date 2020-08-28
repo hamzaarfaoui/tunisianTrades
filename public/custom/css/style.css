@@ -149,7 +149,13 @@
 .inscription-form{
     margin-left: 30%;margin-right: 30%;margin-top: 50px;
 }
+.slider-bloc{
+    height: 482px;
+}
 @media screen and (max-width: 450px){
+    .slider-bloc{
+        height: 250px;
+    }
     .category-nav .category-list {
         width: 100%;
     }
@@ -164,6 +170,7 @@
         position: relative;
         left: 22%;
         margin-top: 34px;
+        height: 126px;
     }
     .filter-bloc, .filter-price{
         display: none;
@@ -203,8 +210,9 @@
     .header-btns{
         position: relative;
         top: -200px;
-        left: 229px;
+        left: 220px;
         width: 50%;
+        height: 0;
     }
     .header-logo .logo>img {
         width: 50%;
@@ -223,6 +231,15 @@
     .category-nav {
         border-bottom: 0px solid #78909c;
     }
+    #list-produits .col-xs-6{
+        width: 50%;
+        padding-right: 11px;
+        padding-left: 18px;
+    }
+    .logo-store {
+        position: relative;
+        top: 50px;
+    }
 }
 @media screen and (min-width: 450px){
     
@@ -230,11 +247,11 @@
         width: 50%;
     }
     .search-input{
-        width: 583px;
+        width: 425px;
     }
     .header-search{
         max-width: 605px;
-        width: 585px;
+        width: 427px;
     }
     .btn-login{
         width: 50%;
