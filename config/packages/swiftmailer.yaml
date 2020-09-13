@@ -1,7 +1,7 @@
 swiftmailer:
     transport: smtp
     auth_mode: login
-    port: 587
+    port: 465
     host: ssl0.ovh.net
     username: contact@kaisermall.tn
     password: Ag00teslkgo
