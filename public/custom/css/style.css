@@ -152,6 +152,13 @@
 .slider-bloc{
     height: 482px;
 }
+.category-list .dropdown, .category-list .dropup {
+    position: initial;
+}
+.custom-menu {
+    -webkit-transition: 0s all;
+    transition: 0s all;
+}
 @media screen and (max-width: 450px){
     .slider-bloc{
         height: 250px;
