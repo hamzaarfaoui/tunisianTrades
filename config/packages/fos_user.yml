@@ -5,13 +5,9 @@ fos_user:
     registration:
         form:
             type: App\Form\RegistrationFormType
-        confirmation:
-            enabled: true
-            from_email:
-                address: "contact@kaisermall.tn"
-                sender_name: "contact@kaisermall.tn"
     profile:
         form:
-            type: App\Form\ProfileFormType  
-    service:
-        mailer: fos_user.mailer.twig_swift
+            type: App\Form\ProfileFormType        
+    from_email:
+        address: "test@domain.com"
+        sender_name: "test@domain.com"
