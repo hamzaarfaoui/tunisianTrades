@@ -1,5 +1,5 @@
 test_email:
-    path: /
+    path: /test_email
     controller: App\Controller\Front\FrontController::testEmail
 index_page:
     path: /
