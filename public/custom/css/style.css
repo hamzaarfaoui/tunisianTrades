@@ -253,9 +253,6 @@
     .input-login{
         width: 50%;
     }
-    .search-input{
-        width: 425px;
-    }
     .header-search{
         max-width: 605px;
         width: 427px;
@@ -270,5 +267,21 @@
     }
     .mobile-filter{
         display: none;
+    }
+}
+@media screen and (max-width: 450){
+
+    .header-search{
+        max-width: 605px;
+        width: 427px;
+    }
+    .input-login {
+        width: 100%;
+    }
+    .btn-login {
+        width: 100%;
+    }
+    .register-link{
+        width: 100%
     }
 }
