@@ -17,6 +17,7 @@ class FrontController extends Controller
         $message = (new \Swift_Message('Hello Email'))
         ->setFrom('contact@kaisermall.tn')
         ->setTo('hamzaarfaoui105@gmail.com')
+        ->setObject('Kaiser Test Mail')
         ->setBody(
             $this->renderView(
                 // templates/emails/registration.html.twig
