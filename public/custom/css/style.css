@@ -161,6 +161,8 @@
 }
 .list-links li>a{
     text-transform: inherit;
+}
+.list-links .list-links-title{
     font-size: 14px;
 }
 @media screen and (max-width: 450px){
