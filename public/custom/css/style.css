@@ -159,6 +159,9 @@
     -webkit-transition: 0s all;
     transition: 0s all;
 }
+.list-links li>a{
+    text-transform: inherit;
+}
 @media screen and (max-width: 450px){
     .slider-bloc{
         height: 250px;
@@ -282,6 +285,6 @@
         width: 100%;
     }
     .register-link{
-        width: 100%
+        width: 100%;
     }
 }
