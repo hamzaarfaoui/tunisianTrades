@@ -138,10 +138,10 @@
     border-bottom-left-radius: 0px;
 }
 .cover-store{
-    height: 200px;width: 100%;margin-bottom: 10px;opacity: 0.5;
+    height: 200px;width: 100%;margin-bottom: 10px;
 }
 .logo-store{
-    height: 170px;width: 170px;border-radius: 50%;border: 6px solid #fff;
+    height: 170px;width: 170px;border-radius: 50%;border: 6px solid #fff;position: relative;
 }
 .bloc-logo-store{
     position: absolute;top: 58%;left: 50%;transform: translate(-50%, -50%);

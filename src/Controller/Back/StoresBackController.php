@@ -86,7 +86,7 @@ class StoresBackController extends Controller
         // You may also want to try this alternative:
         $slug = preg_replace('/\\s+/', '-', $slug);
         $s = $dm->getRepository('App:Stores')->findOneBy(array('slug'=>$slug));
-        if($product){$slug = $slug.'-'.rand(1,25412).'-'.rand(1,2541222).$request->get('nrc').$request->get('matricule');}
+        if($slug){$slug = $slug.'-'.rand(1,25412).'-'.rand(1,2541222).$request->get('nrc').$request->get('matricule');}
         $store->setSlug($slug);
         /*end marchand document*/
         /*start store document*/
@@ -189,7 +189,7 @@ class StoresBackController extends Controller
             $File_Ext = substr($file, strrpos($file, '.'));
             $fileName = md5(uniqid()) . $File_Ext;
             move_uploaded_file(
-                    $_FILES["couvertureC"]["tmp_name"], $this->getParameter('images_shop_logo') . "/" . $fileName
+                    $_FILES["couvertureC"]["tmp_name"], $this->getParameter('images_shop_couvertures') . "/" . $fileName
             );
             $store->setImageCouverture($fileName);
         }
