@@ -9,5 +9,5 @@ fos_user:
         form:
             type: App\Form\ProfileFormType        
     from_email:
-        address: "test@domain.com"
-        sender_name: "test@domain.com"
+        address: "contact@kaisermall.tn"
+        sender_name: "Service client"

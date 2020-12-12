@@ -412,6 +412,19 @@ class ProductBackController extends Controller
         $marque_id = $request->get('marque');
         $marque = $dm->getRepository('App:Marques')->find($marque_id);
         $product->setMarque($marque);
+        $slug = preg_replace('/[^A-Za-z0-9. -]/', '', $request->get('nom'));
+
+        // Replace sequences of spaces with hyphen
+        $slug = preg_replace('/  */', '-', $slug);
+
+        // The above means "a space, followed by a space repeated zero or more times"
+        // (should be equivalent to / +/)
+
+        // You may also want to try this alternative:
+        $slug = preg_replace('/\\s+/', '-', $slug);
+        $p = $dm->getRepository('App:Products')->findOneBy(array('slug'=>$slug));
+        if($product){$slug = $slug.rand(1,25412).'-'.rand(1,2541222).$request->get('price').$request->get('qte');}
+        $product->setSlug($slug);
         if($request->get('store')){
             $store = $dm->getRepository('App:Stores')->find($request->get('store'));
             $store->addProduct($product);
@@ -512,10 +525,38 @@ class ProductBackController extends Controller
         $dm = $this->getDoctrine()->getManager();
         $fileSystem = new Filesystem();
         $product = $dm->getRepository('App:Products')->find($id);
+        $sliders = $dm->getRepository('App:Sliders')->findBy(array('product' => $product));
+        $banners = $dm->getRepository('App:Banners')->findBy(array('product' => $product));
+        $promotions = $dm->getRepository('App:Promotions')->findBy(array('product' => $product));
+        $keywords = $product->getKeywords();
+        $valeurs = $product->getValeurs();
+        $images = $product->getMediasImages();
+        $videos = $product->getMediasVideos();
+        foreach ($keywords as $keyword) {
+            $product->removeKeyword($keyword);
+            $dm->remove($keyword);
+        }
+        foreach ($valeurs as $valeur) {
+            $product->removeValeur($valeur);
+            $valeur->removeProduct($product);
+        }
+        foreach ($videos as $video) {
+            $product->removeMediasVideo($video);
+            $dm->remove($video);
+        }
+        foreach ($promotions as $promotion) {
+            $dm->remove($promotion);
+        }
+        foreach ($sliders as $slider) {
+            $dm->remove($slider);
+        }
+        foreach ($banners as $banner) {
+            $dm->remove($banner);
+        }
         $fileSystem->remove(array('symlink', $this->getParameter('images_products_img')."/".$product->getImage(), ''.$product->getImage().''));
         foreach ($product->getMediasImages() as $image){
             $fileSystem->remove(array('symlink', $this->getParameter('images_products_img_gallery')."/".$image->getName(), ''.$image->getName().''));
-            $dm->remove($product);
+            $dm->remove($image);
         }
         $dm->remove($product);
         $dm->flush();

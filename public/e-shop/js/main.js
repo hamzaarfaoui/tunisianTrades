@@ -12,7 +12,6 @@
     menuList.removeClass('open');
     catList.toggleClass('open');
   });
-
   menuToggle.on('click', function() {
     catList.removeClass('open');
     menuList.toggleClass('open');
