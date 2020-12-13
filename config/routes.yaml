@@ -6,6 +6,10 @@ fos_user:
 front:
     resource: "Front/routes_front.yaml"
     prefix:   /
+
+api_index:
+    resource: "Api/routes_index.yaml"
+    prefix:   /
     
 cart:
     resource: "Front/routes_cart.yaml"

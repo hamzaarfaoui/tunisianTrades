@@ -19,6 +19,16 @@ class MediasImagesRepository extends ServiceEntityRepository
         parent::__construct($registry, MediasImages::class);
     }
 
+    public function findByQB($id_product)
+    {
+        $qb = $this->createQueryBuilder('u')
+                ->Select('u.name as image')
+                ->where('u.product = :id_product')
+                ->setParameter(':id_product', $id_product);
+
+        return $qb->getQuery()->execute();
+    }
+
     // /**
     //  * @return MediasImages[] Returns an array of MediasImages objects
     //  */

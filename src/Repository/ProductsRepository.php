@@ -18,12 +18,32 @@ class ProductsRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Products::class);
     }
+    public function findOneByQB($slug)
+    {
+        $qb = $this->createQueryBuilder('u')
+                ->Select('u.id', 'u.name', 'u.price', 'u.image', 'u.qte', 'u.pricePromotion')
+                ->where('u.slug = :slug')
+                ->setParameter(':slug', $slug);
+
+        return $qb->getQuery()->execute();
+    }
+
+    public function findByQB($sousCategorie)
+    {
+        $qb = $this->createQueryBuilder('u')
+                ->Select('u.name', 'u.price', 'u.image', 'u.qte', 'u.pricePromotion', 'u.slug')
+                ->leftJoin('u.sousCategorie', 'sc')
+                ->where('sc.slug = :sousCategorie')
+                ->setParameter(':sousCategorie', $sousCategorie);
+
+        return $qb->getQuery()->execute();
+    }
 
     public function findArray($array)
     {
         $qb = $this->createQueryBuilder('u');
         $qb->add('where', $qb->expr()->in('u.id', ':my_array'))
-        ->setParameter('my_array', $array);;
+        ->setParameter('my_array', $array);
 
         return $qb->getQuery()->execute();
     }

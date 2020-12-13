@@ -34,13 +34,14 @@ class CommandesController extends Controller
 //            {$commande['tva']['%'.$produit->getTva()->getValeur()] = round($prixTTC - $prixHT,2);}
 //            else
 //            {$commande['tva']['%'.$produit->getTva()->getValeur()] += round($prixTTC - $prixHT,2);}
-            
+            $prixPromotion = $product->getPricePromotion() ? round($product->getPricePromotion(), 3) : round($product->getPrice(), 3);
             $commande['product'][$product->getId()] = array(
                 'id' => $product->getId(),
                 'image' => $product->getImage(),
                 'name' => $product->getName(),
                 'quantite' => $panier[$product->getId()],
-                'price' => round($product->getPricePromotion()?$product->getPricePromotion():$product->getPrice(),3),
+                'slug' => $product->getSlug(),
+                'price' => $prixPromotion,
                 'vendeur' => $product->getStore()?$product->getStore()->getName():'SINDBAD',
                 'id_vendeur' => $product->getStore()?$product->getStore()->getId():''
                 //'prixTTC' => round($produit->getPrixunitaireht() / $produit->getTva()->getMultiplicate(),2)
