@@ -86,11 +86,17 @@ class Stores
      */
     private $slug;
 
+    /**
+     * @ORM\OneToMany(targetEntity=ProductsList::class, mappedBy="store")
+     */
+    private $productsLists;
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
         $this->telephonesStore = new ArrayCollection();
         $this->adressesStore = new ArrayCollection();
+        $this->productsLists = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -307,6 +313,37 @@ class Stores
     public function setSlug(?string $slug): self
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ProductsList[]
+     */
+    public function getProductsLists(): Collection
+    {
+        return $this->productsLists;
+    }
+
+    public function addProductsList(ProductsList $productsList): self
+    {
+        if (!$this->productsLists->contains($productsList)) {
+            $this->productsLists[] = $productsList;
+            $productsList->setStore($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProductsList(ProductsList $productsList): self
+    {
+        if ($this->productsLists->contains($productsList)) {
+            $this->productsLists->removeElement($productsList);
+            // set the owning side to null (unless already changed)
+            if ($productsList->getStore() === $this) {
+                $productsList->setStore(null);
+            }
+        }
 
         return $this;
     }

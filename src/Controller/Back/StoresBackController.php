@@ -10,6 +10,7 @@ use App\Entity\AdressesStore;
 use App\Entity\AdressesUser;
 use App\Entity\TelephonesUser;
 use App\Entity\TelephonesStore;
+use App\Entity\ProductsList;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -256,5 +257,59 @@ class StoresBackController extends Controller
         $dm->flush();
         $request->getSession()->getFlashBag()->add('success', "Le marchand ".$store->getName()." supprimée");
         return $this->redirectToRoute('dashboard_stores_back_index');
+    }
+
+    /*
+     * Stores list group products
+     */
+    public function listGroupProductsAction($store)
+    {
+        $dm = $this->getDoctrine()->getManager();
+        $store = $dm->getRepository('App:Stores')->find($store);
+        $lists = $dm->getRepository('App:ProductsList')->findBy(array('store' => $store));
+        return $this->render('stores/back/productsList.html.twig', array('store' => $store, 'lists' => $lists));
+    }
+
+    /*
+     * Stores new group products
+     */
+    public function newGroupProductsAction($store)
+    {
+        $dm = $this->getDoctrine()->getManager();
+        $store = $dm->getRepository('App:Stores')->find($store);
+        $products = $dm->getRepository('App:Products')->findBy(array('store' => $store));
+        return $this->render('stores/back/newProductsList.html.twig', array('store' => $store, 'products' => $products));
+    }
+
+    /*
+     * Stores new group products traitement
+     */
+    public function newGroupProductsTraitementAction(Request $request)
+    {
+        $dm = $this->getDoctrine()->getManager();
+        $id_store = $request->get('store');
+        $store = $dm->getRepository('App:Stores')->find($id_store);
+        $group = new ProductsList();
+        $lists = $dm->getRepository('App:ProductsList')->findBy(array('store' => $store));
+        $postion = count($lists)+1;
+        $group->setName($_POST["nom"]);
+        $group->setPosition($postion);
+        $group->setStore($store);
+        $dm->persist($group);
+        $dm->flush();
+        $request->getSession()->getFlashBag()->add('success', "Le group : ".$group->getName()." a été ajoutée");
+        return $this->redirectToRoute('dashboard_stores_products_liste', array('store' => $id_store));
+    }
+    /*
+     * Stores change position of group products
+     */
+    public function changePositionGroupProductsAction($id)
+    {
+        $dm = $this->getDoctrine()->getManager();
+        $group = $dm->getRepository('App:ProductsList')->find($id);
+        $group->setPosition($request->get('position'));
+        $dm->persist($group);
+        $dm->flush();
+        return $this->redirectToRoute('dashboard_stores_products_liste', array('store' => $id_store));
     }
 }

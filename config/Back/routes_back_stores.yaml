@@ -24,4 +24,20 @@ dashboard_stores_back_edit_traitement:
     
 dashboard_stores_back_delete:
     path: /{id}/delete
-    controller: App\Controller\Back\StoresBackController::deleteAction      
+    controller: App\Controller\Back\StoresBackController::deleteAction
+
+dashboard_stores_products_liste:
+    path: /{store}/list_groups_products
+    controller: App\Controller\Back\StoresBackController::listGroupProductsAction 
+
+dashboard_stores_products_liste_new:
+    path: /{store}/new_group_products
+    controller: App\Controller\Back\StoresBackController::newGroupProductsAction 
+
+dashboard_stores_products_liste_new_traitement:
+    path: /new_group_products_traitement
+    controller: App\Controller\Back\StoresBackController::newGroupProductsTraitementAction
+
+dashboard_stores_products_liste_change_position:
+    path: /group_products_change_position
+    controller: App\Controller\Back\StoresBackController::changePositionGroupProductsAction  
