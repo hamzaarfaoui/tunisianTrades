@@ -78,7 +78,7 @@
                             </div>
                             <ul id="sortable"> 
                             	{% for group in lists|sort((a, b) => a.position <=> b.position) %}
-								    <li class="ui-state-default" id="{{group.position}}"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>{{ group.name }}</li> 
+								    <li class="ui-state-default" id="{{group.id}}"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>{{ group.name }}</li> 
 								{% endfor %}
 							</ul>
                         </div>
@@ -104,10 +104,13 @@
 		        var oldIndex = $(this).attr('data-previndex');
 		        var element_id = ui.item.attr('id');
 		        var url = '{{ path('dashboard_stores_products_liste_change_position', {'id': 'valeurselectionnee'}) }}';
-		        url = url.replace("valeurselectionnee", element_id);
+		        var group_id_array = new Array();
+			    $('#sortable li').each(function(){
+			    	group_id_array.push($(this).attr("id"));
+			    });
 		        $.ajax({
 		            url: url,
-		            data : {position:newIndex},
+		            data : {group_id_array:group_id_array},
 		            method: "POST",
 		            error: function (data) {
 		                console.log('Erreur');

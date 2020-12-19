@@ -303,13 +303,24 @@ class StoresBackController extends Controller
     /*
      * Stores change position of group products
      */
-    public function changePositionGroupProductsAction($id)
+    public function changePositionGroupProductsAction(Request $request)
     {
         $dm = $this->getDoctrine()->getManager();
-        $group = $dm->getRepository('App:ProductsList')->find($id);
-        $group->setPosition($request->get('position'));
-        $dm->persist($group);
+        for($i=0; $i<count($request->get('group_id_array')); $i++)
+        {
+            $group = $dm->getRepository('App:ProductsList')->find($request->get('group_id_array')[$i]);
+            $group->setPosition($i);
+            $dm->persist($group);
+        }
         $dm->flush();
+        return $this->redirectToRoute('dashboard_stores_products_liste', array('store' => $id_store));
+    }
+    /*
+     * Store group products details
+     */
+    public function groupProductsDetailsAction(Request $request, $id)
+    {
+        $group = $dm->getRepository('App:ProductsList')->find($request->get('group_id_array')[$i]);
         return $this->redirectToRoute('dashboard_stores_products_liste', array('store' => $id_store));
     }
 }
