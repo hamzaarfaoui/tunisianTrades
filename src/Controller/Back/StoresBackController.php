@@ -320,7 +320,20 @@ class StoresBackController extends Controller
      */
     public function groupProductsDetailsAction(Request $request, $id)
     {
-        $group = $dm->getRepository('App:ProductsList')->find($request->get('group_id_array')[$i]);
-        return $this->redirectToRoute('dashboard_stores_products_liste', array('store' => $id_store));
+        $dm = $this->getDoctrine()->getManager();
+        $group = $dm->getRepository('App:ProductsList')->find($id);
+        $store = $dm->getRepository('App:Stores')->find($group->getStore()->getId());
+        return $this->render('stores/back/productsListDetails.html.twig', array('group' => $group, 'store'=>$store));
+    }
+    /*
+     * Stores change position of group products
+     */
+    public function addProductInGroupAction(Request $request)
+    {
+        $dm = $this->getDoctrine()->getManager();
+        $product = $dm->getRepository('App:Products')->find($request->get('id_product'));
+        $product->setInListProducts($request->get('ischecked'));
+        $dm->flush();
+        return $this->redirectToRoute('dashboard_stores_add_product_in_group', array('id' => $request->get('id_product')));
     }
 }

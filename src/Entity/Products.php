@@ -130,12 +130,23 @@ class Products
      */
     private $slug;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=ProductsList::class, inversedBy="products")
+     */
+    private $listProduct;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $inListProducts;
+
     public function __construct()
     {
         $this->keywords = new ArrayCollection();
         $this->mediasImages = new ArrayCollection();
         $this->mediasVideos = new ArrayCollection();
         $this->valeurs = new ArrayCollection();
+        $this->listProduct = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -474,6 +485,44 @@ class Products
     public function setSlug(?string $slug): self
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ProductsList[]
+     */
+    public function getListProduct(): Collection
+    {
+        return $this->listProduct;
+    }
+
+    public function addListProduct(ProductsList $listProduct): self
+    {
+        if (!$this->listProduct->contains($listProduct)) {
+            $this->listProduct[] = $listProduct;
+        }
+
+        return $this;
+    }
+
+    public function removeListProduct(ProductsList $listProduct): self
+    {
+        if ($this->listProduct->contains($listProduct)) {
+            $this->listProduct->removeElement($listProduct);
+        }
+
+        return $this;
+    }
+
+    public function getInListProducts(): ?int
+    {
+        return $this->inListProducts;
+    }
+
+    public function setInListProducts(?int $inListProducts): self
+    {
+        $this->inListProducts = $inListProducts;
 
         return $this;
     }

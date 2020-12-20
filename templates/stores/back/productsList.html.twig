@@ -78,7 +78,10 @@
                             </div>
                             <ul id="sortable"> 
                             	{% for group in lists|sort((a, b) => a.position <=> b.position) %}
-								    <li class="ui-state-default" id="{{group.id}}"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>{{ group.name }}</li> 
+								    <li class="ui-state-default" id="{{group.id}}">			
+								    	{{ group.name }}
+								    	<a href="{{ path('dashboard_stores_products_liste_details', {id:group.id}) }}">Produits</a>
+								    </li> 
 								{% endfor %}
 							</ul>
                         </div>
