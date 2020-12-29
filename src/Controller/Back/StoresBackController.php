@@ -322,8 +322,12 @@ class StoresBackController extends Controller
     {
         $dm = $this->getDoctrine()->getManager();
         $group = $dm->getRepository('App:ProductsList')->find($id);
+        $list_ids = array();
+        foreach ($group->getProducts() as $product) {
+            $list_ids[] = $product->getId();
+        }
         $store = $dm->getRepository('App:Stores')->find($group->getStore()->getId());
-        return $this->render('stores/back/productsListDetails.html.twig', array('group' => $group, 'store'=>$store));
+        return $this->render('stores/back/productsListDetails.html.twig', array('group' => $group, 'store'=>$store, 'list_ids' => $list_ids));
     }
     /*
      * Stores change position of group products
@@ -331,8 +335,15 @@ class StoresBackController extends Controller
     public function addProductInGroupAction(Request $request)
     {
         $dm = $this->getDoctrine()->getManager();
+        $checked = $request->get('ischecked');
         $product = $dm->getRepository('App:Products')->find($request->get('id_product'));
-        $product->setInListProducts($request->get('ischecked'));
+        $group = $dm->getRepository('App:ProductsList')->find($request->get('group'));
+        if($checked == 1){
+            $group->addProduct($product);
+        }else{
+            $group->removeProduct($product);
+        }
+        $dm->persist($group);
         $dm->flush();
         return $this->redirectToRoute('dashboard_stores_add_product_in_group', array('id' => $request->get('id_product')));
     }

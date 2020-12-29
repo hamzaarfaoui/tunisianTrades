@@ -262,6 +262,7 @@ class FrontController extends Controller
     {
         $dm = $this->getDoctrine()->getManager();
         $store = $dm->getRepository('App:Stores')->findOneBy(array('slug' => $slug));
+        $groups = $dm->getRepository('App:ProductsList')->findBy(array('store' => $store->getId()));
         $products = $dm->getRepository('App:Products')->findBy(array('store' => $store->getId()), array('createdAt' => 'DESC'));
         $categories = array();
         $marques = array();
@@ -304,6 +305,7 @@ class FrontController extends Controller
             'caracteriqtiques' => $caracteriqtiques,
             'min' => $min,
             'max'=>$max,
+            'groups' => $groups,
             'store' => $store
         ));
     }

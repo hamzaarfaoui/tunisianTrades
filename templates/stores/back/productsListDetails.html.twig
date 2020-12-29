@@ -85,7 +85,7 @@
                                             <li class="ui-state-default" id="{{group.id}}"> 
                                                 <img src="{{ asset('uploads/products/images/') }}{{ product.image }}">
                                                 <a href="">{{product.name|slice(0,20)}}</a><br>
-                                                <input type="checkbox" class="productcheckbox" value="{{product.id}}" {{product.inListProducts == 1 ? 'checked' : ''}} data-image="{{ asset('uploads/products/images/') }}{{ product.image }}" data-name="{{product.name}}">
+                                                <input type="checkbox" class="productcheckbox" value="{{product.id}}" {{product.id in list_ids ? 'checked' : ''}} data-image="{{ asset('uploads/products/images/') }}{{ product.image }}" data-name="{{product.name}}" data-group="{{group.id}}">
                                             </li> 
                                         {% endfor %}
                                     </ul>
@@ -105,6 +105,7 @@ $(".productcheckbox").change(function (argument) {
     var ischecked = 0;
     var img = $(this).data('image');
     var name = $(this).data('name');
+    var group = $(this).data('group');
     var html = '<li class="ui-state-default"><img src="'+img+'"><a href="">'+name+'</a><br></li> ';
     var url = "{{ path('dashboard_stores_add_product_in_group', {'id': 'valeurselectionnee'}) }}";
     url = url.replace("valeurselectionnee", $(this).val());
@@ -112,11 +113,12 @@ $(".productcheckbox").change(function (argument) {
         ischecked = 1;
         $("#sortable").append(html);
     }else{
-        $("#sortable li"+$(this).val()).append(html);
+        ischecked = 0;
+        $("#sortable li#"+$(this).val()).hide();
     }
     $.ajax({
         url: url,
-        data : {id_product:$(this).val(), ischecked:ischecked},
+        data : {id_product:$(this).val(), ischecked:ischecked, group:group},
         method: "POST",
         error: function (data) {
             console.log('Erreur');

@@ -1,6 +1,16 @@
 {% extends "base.html.twig" %}
 {% block title %}{{ store.name }}{% endblock %}
-{% block stylesheets %}{% endblock %}
+{% block stylesheets %}
+    <link type="text/css" rel="stylesheet" href="{{ asset('e-shop/css/nav.css') }}" />
+    <style type="text/css">
+        .section {
+            margin-top: -62px;
+        }
+        .slick-slide {
+            width: 200px;
+        }
+    </style>
+{% endblock %}
 {% block body %}
     <!-- NAVIGATION -->
     {{ render(controller('App\\Controller\\Front\\FrontController::navigation')) }}
@@ -17,19 +27,22 @@
     </div>
     <!-- /BREADCRUMB -->
     <input type="hidden" id="storeId" value="{{ store.id }}">
-
+    <div class="text-center">
+        <img src="{{ asset('/uploads/shops/couvertures/') }}{{ store.imageCouverture }}" class="cover-store">
+        <div class="bloc-logo-store">
+            <img src="{{ asset('/uploads/shops/logos/') }}{{ store.logo }}" class="logo-store">
+        </div>
+        <h1>{{store.name}}</h1>
+        <br><br>
+    </div>
+    <div id="groups-products">
+        {% include 'includes/front/store/groupsList.html.twig' %}
+    </div>
     <!-- section -->
     <div class="section">
         <!-- container -->
         <div class="container">
-            <div class="text-center">
-                <img src="{{ asset('/uploads/shops/couvertures/') }}{{ store.imageCouverture }}" class="cover-store">
-                <div class="bloc-logo-store">
-                    <img src="{{ asset('/uploads/shops/logos/') }}{{ store.logo }}" class="logo-store">
-                </div>
-                <h1>{{store.name}}</h1>
-                <hr>
-            </div>
+            
             <!-- row -->
             <div class="row">
                 <!-- ASIDE -->
@@ -132,6 +145,7 @@
                 <!-- MAIN -->
                 <div id="main" class="col-md-12">
                     <!-- store top filter -->
+                    
                     <div class="store-filter clearfix">
                         <div class="pull-left">
                             <div class="sort-filter">
@@ -152,6 +166,7 @@
 
                     <!-- STORE -->
                     <div id="store">
+
                         <div id="list-produits">
                             <!-- row -->
                             <div class="row">
@@ -236,9 +251,44 @@
     <!-- /section -->
 {% endblock %}
 {% block javascripts %}
+    <script>
+    {% for group in groups %}
+            $('#product-slick-{{group.id}}').slick({
+                slidesToShow: 5,
+                slidesToScroll: 2,
+                autoplay: false,
+                infinite: true,
+                speed: 300,
+                dots: true,
+                arrows: false,
+                appendDots: '.product-slick-dots-1',
+                variableWidth: true,
+                responsive: [{
+                        breakpoint: 991,
+                        settings: {
+                            slidesToShow: 1,
+                            slidesToScroll: 1,
+                        }
+                    },
+                    {
+                        breakpoint: 480,
+                        settings: {
+                            dots: false,
+                            arrows: true,
+                            slidesToShow: 1,
+                            slidesToScroll: 1,
+                        }
+                    },
+                ]
+            });
+        {% endfor %}
+
+    </script>
+
     <script src="{{ asset('custom/js/nouislider.min.js') }}"></script>
     <script src="{{ asset('custom/js/wNumb.js') }}"></script>
-    <script>
+    <script type="text/javascript">
+    
         ///filter by range price
     // PRICE SLIDER
     var dollarPrefixFormat = wNumb({prefix: 'TND', decimals: 0})
