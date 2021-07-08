@@ -41,6 +41,7 @@ class CaracteristiquesController extends Controller
         $dm = $this->getDoctrine()->getManager();
         $caracteristique = new Caracteristiques();
         $caracteristique->setName($request->get('nom'));
+        $caracteristique->setCode($request->get('code'));
         $categorie = $dm->getRepository('App:SousCategories')->find($request->get('categorie'));
         $caracteristique->setSousCategorie($categorie);
         $dm->persist($caracteristique);
@@ -57,6 +58,7 @@ class CaracteristiquesController extends Controller
         $dm = $this->getDoctrine()->getManager();
         $caracteristique = $dm->getRepository('App:Caracteristiques')->find($id);
         $caracteristique->setName($request->get('nom'));
+        $caracteristique->setCode($request->get('code'));
         $categorie = $dm->getRepository('App:SousCategories')->find($request->get('categorie'));
         $caracteristique->setSousCategorie($categorie);
         $dm->persist($caracteristique);

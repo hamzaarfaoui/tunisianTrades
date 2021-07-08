@@ -263,9 +263,15 @@
                                         </div>
                                         <div class="tab-pane" id="tab_reviews">
                                             <h3>Promotion</h3>
+                                            
+                                                
                                             <div id="phones">
                                                 <div class="blocPhone">
                                                 <div class="row">
+                                                    <div class="col-md-12">
+                                                        <input type="hidden" name="haspromotion" id="haspromotion" value="1">
+                                                        <button type="button" class="btn btn-success pull-right disable-promotion">Annuler la promotion</button>
+                                                    </div>
                                                     <div class="col-md-4">
                                                         <input type="hidden" name="promotion" value="{{promotion?promotion.id:''}}">
                                                         Début <br>
@@ -277,8 +283,9 @@
                                                     </div>
                                                     <div class="col-md-4">
                                                         Montant<br>
-                                                        <input type="number" class="form-control" name="fixe" placeholder="Montant" value="{{promotion?promotion.fixe:''}}">
+                                                        <input type="number" class="form-control" id="amount-promotion" name="fixe" placeholder="Montant" value="{{promotion?promotion.fixe:''}}">
                                                     </div>
+                                                    
                                                 </div>
                                                 </div>
                                             </div>
@@ -368,6 +375,12 @@
             allowedFileExtensions: ['jpg', 'png', 'gif', 'jpeg'],
             overwriteInitial: false,
             initialPreviewAsData: true,
+        });
+        $(".disable-promotion").click(function(){
+            $("#from").val("");
+            $("#to").val("");
+            $("#amount-promotion").val("");
+            $("#haspromotion").val(0);
         });
             $('#cm').change(function(){
                 var id = $(this).val();

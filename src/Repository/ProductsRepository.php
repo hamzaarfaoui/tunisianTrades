@@ -171,13 +171,13 @@ class ProductsRepository extends ServiceEntityRepository
             ->setParameter('sc', $params['categorie']);    
             
         if ((isset($params['minimum']) && !empty($params['minimum'])) && (isset($params['minimum'])&&!empty($params['minimum']))){
-            $qb->andWhere($qb->expr()->between('u.price', $params['minimum'],$params['maximum']));
+            $qb->andWhere($qb->expr()->between('u.pricePromotion', $params['minimum'],$params['maximum']));
         }
         if(isset($params['tri'])&&!empty($params['tri'])){
             if ($params['tri'] == 1){
-                $qb->orderBy('u.price', 'DESC');
+                $qb->orderBy('u.pricePromotion', 'DESC');
             }elseif ($params['tri'] == 2){
-                $qb->orderBy('u.price', 'ASC');
+                $qb->orderBy('u.pricePromotion', 'ASC');
             }elseif ($params['tri'] == 3){
                 $qb->orderBy('u.nbrView', 'DESC');
             }

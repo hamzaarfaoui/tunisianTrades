@@ -90,6 +90,7 @@
                                               <div class="modal-body">
 
                                                   <input class="form-control" name="nom" placeholder="Nom" required="true"><br>
+                                                  <input class="form-control" name="code" placeholder="Code" required="true"><br>
                                                   <select name="categorie" class="form-control">
                                                       <option>Séléctionner une categorie</option>
                                                       {% for categorie in categories %}
@@ -118,6 +119,9 @@
                                             Nom
                                         </th>
                                         <th>
+                                            Catégorie
+                                        </th>
+                                        <th>
                                             Actions
                                         </th>
                                     </tr>
@@ -126,6 +130,7 @@
                                     {% for caracteristique in caracteristiques %}
                                         <tr>
                                             <td>{{caracteristique.name}}</td>
+                                            <td>{{caracteristique.sousCategorie.name}}</td>
                                             <td>
                                                 <a href="{{ path('dashboard_caracteristiques_details', {id : caracteristique.id}) }}" class="btn btn-sm btn-primary"><i class="fa fa-search"></i> Détails</a>
                                                 <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#myModalEdit{{caracteristique.id}}"><i class="fa fa-pencil"></i> Modifier</button>
@@ -146,6 +151,8 @@
                                                           <div class="modal-body">
 
                                                                   <input class="form-control" name="nom" placeholder="Nom" required="true" value="{{caracteristique.name}}"><br>    
+                                                                  <input class="form-control" name="code" placeholder="Code" required="true" value="{{caracteristique.code}}"><br>    
+                                                                  
                                                                   <select name="categorie" class="form-control">
                                                                         <option>Séléctionner une categorie</option>
                                                                         {% for categorie in categories %}

@@ -382,7 +382,7 @@ class ProductBackController extends Controller
         $promotion = $dm->getRepository('App:Promotions')->findOneBy(array('product' => $product));
         $categoriesMere = $dm->getRepository('App:CategoriesMere')->findAll();
         $sousCategories1 = $dm->getRepository('App:Categories')->findAll();
-        $caracteristiques = $dm->getRepository('App:Caracteristiques')->findAll();
+        $caracteristiques = $dm->getRepository('App:Caracteristiques')->findBy(array('sousCategorie' => $product->getSousCategorie()));
         $sousCategories2 = $dm->getRepository('App:SousCategories')->findAll();
         $marques = $dm->getRepository('App:Marques')->findAll();
         $stores = $dm->getRepository('App:Stores')->findAll();
@@ -407,24 +407,13 @@ class ProductBackController extends Controller
         $product = $dm->getRepository('App:Products')->find($id);
         $product->setName($request->get('nom'));
         $product->setPrice($request->get('price'));
+        $product->setPricePromotion($request->get('price'));
         $product->setQte($request->get('qte'));
         $product->setContent($request->get('descriptionC'));
         $marque_id = $request->get('marque');
         $marque = $dm->getRepository('App:Marques')->find($marque_id);
         $product->setMarque($marque);
-        $slug = preg_replace('/[^A-Za-z0-9. -]/', '', $request->get('nom'));
-
-        // Replace sequences of spaces with hyphen
-        $slug = preg_replace('/  */', '-', $slug);
-
-        // The above means "a space, followed by a space repeated zero or more times"
-        // (should be equivalent to / +/)
-
-        // You may also want to try this alternative:
-        $slug = preg_replace('/\\s+/', '-', $slug);
-        $p = $dm->getRepository('App:Products')->findOneBy(array('slug'=>$slug));
-        if($product){$slug = $slug.rand(1,25412).'-'.rand(1,2541222).$request->get('price').$request->get('qte');}
-        $product->setSlug($slug);
+        $p = $dm->getRepository('App:Products')->find($id);
         if($request->get('store')){
             $store = $dm->getRepository('App:Stores')->find($request->get('store'));
             $store->addProduct($product);
@@ -465,7 +454,7 @@ class ProductBackController extends Controller
             $product->setImage($fileName);
         }
         /*start promotion document*/
-        if($request->get('datedeb') && $request->get('datefin') && $request->get('fixe')){
+        if($request->get('datedeb') && $request->get('datefin') && $request->get('fixe') && $request->get('haspromotion') == 1){
             if($request->get('promotion')){
                 $promotion = $dm->getRepository('App:Promotions')->find($request->get('promotion'));
             }else{
@@ -479,6 +468,11 @@ class ProductBackController extends Controller
             $promotion->setUpdatedAt(new \DateTime('now'));
             $product->setPricePromotion($request->get('fixe'));
             $dm->persist($promotion);
+        }
+        if($request->get('haspromotion') == 0){
+            $promotion = $dm->getRepository('App:Promotions')->findOneBy(array('product' => $product));
+            $dm->remove($promotion);
+            $dm->flush();
         }
         /*end promotion document*/
         /*start Caractéristique valeur document*/

@@ -23,6 +23,11 @@ class Caracteristiques
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $name;
+    
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $code;
 
     /**
      * @ORM\OneToMany(targetEntity=Valeurs::class, mappedBy="caracteristique")
@@ -52,6 +57,18 @@ class Caracteristiques
     public function setName(?string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+    
+    public function getCode(): ?string
+    {
+        return $this->code;
+    }
+
+    public function setCode(?string $code): self
+    {
+        $this->code = $code;
 
         return $this;
     }

@@ -139,10 +139,7 @@ var FormatOptions = [
 			output += negativeBefore;
 		}
 
-		// Prefix the number
-		if ( prefix ) {
-			output += prefix;
-		}
+		
 
 		// Normal negative option comes after the prefix. Defaults to '-'.
 		if ( inputIsNegative && negative ) {
@@ -152,6 +149,11 @@ var FormatOptions = [
 		// Append the actual number.
 		output += inputBase;
 		output += inputDecimals;
+                
+                // Prefix the number
+		if ( prefix ) {
+			output += prefix;
+		}
 
 		// Apply the suffix.
 		if ( suffix ) {

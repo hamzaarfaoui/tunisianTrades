@@ -211,6 +211,7 @@ class FrontController extends Controller
     public function productPage($slug)
     {
         $dm = $this->getDoctrine()->getManager();
+        //$product = $dm->getRepository('App:Products')->findOneBy(array('slug' => $slug));
         $product = $dm->getRepository('App:Products')->findOneBy(array('slug' => $slug));
         $query = array();
         $query['slug'] = $slug;
@@ -244,8 +245,8 @@ class FrontController extends Controller
         foreach ($find_products as $product) {
             $products_price[] = $product->getPricePromotion()?$product->getPricePromotion():$product->getPrice();
         }
-        $min = min($products_price);
-        $max = max($products_price);
+        $min = count($products_price) > 0 ? min($products_price) : 0;
+        $max = count($products_price) > 0 ? max($products_price) : 0;
         return $this->render('frontend/productsByCategory.html.twig', array(
             'products' => $products,
             'categorie' => $categorie,

@@ -286,6 +286,7 @@ textarea.input {
 }
 
 .breadcrumb {
+    display: none;
   background-color: transparent;
   border: none;
   border-radius: 0px;
@@ -665,6 +666,7 @@ textarea.input {
   left: 100%;
   top: 0;
   width: 750px;
+  height: 323px;
   -webkit-transform: translate(15px, 0px);
   -ms-transform: translate(15px, 0px);
   transform: translate(15px, 0px);

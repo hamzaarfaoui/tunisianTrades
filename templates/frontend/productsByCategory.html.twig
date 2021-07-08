@@ -35,66 +35,17 @@
                 <div id="aside" class="col-md-2">
                     
                     <!-- start if mobile -->
-                    <div class="aside mobile-filter" id="mobile-filterr">
-                        <button class="primary-btn" id="recherche-btn" type="button" data-toggle="modal" data-target="#myModal">Recherche</button>
-                    </div>
-                    <div id="myModal" class="modal fade" role="dialog">
-                      <div class="modal-dialog" style="overflow-y: initial !important">
-
-                        <!-- Modal content-->
-                        <div class="modal-content">
-                                
-
-                              <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                <h4 class="modal-title">Recherche</h4>
-                              </div>
-                              <div class="modal-body" style="overflow-y: auto;height: 550px;">
-                                <div class="aside">
-                                    <h3 >Prix :</h3>
-                                    <div id="price-slider"></div>
-                                    <input type="hidden" name="minp" id="minp" value="{{min-2}}">
-                                    <input type="hidden" name="maxp" id="maxp" value="{{max+2}}">
-                                </div>
-                                <!-- aside widget -->
-                                <div class="aside">
-                                    <h5>Marques</h5>
-                                    <ul>
-                                        {% for marque in marques %}
-                                            <li>
-                                                <input id="marque{{marque.id}}" name="marque" class="marque" type="checkbox" value="{{marque.id}}" data-valeur="{{marque.name}}">
-                                                <label for="marque{{marque.id}}"> {{marque.name}}</label>
-                                            </li>
-                                        {% endfor %}
-                                    </ul>
-                                    <hr>
-                                    {% for caracteristique in categorie.caracteristiques %}
-                                    <h5>{{ caracteristique.name }}</h5>
-                                    <ul>
-                                        {% for valeur in caracteristique.valeurs %}
-                                            <li>
-                                                <input id="valeur{{valeur.id}}" name="valeur" class="valeur" type="checkbox" value="{{valeur.id}}" data-valeur="{{valeur.name}}">
-                                                <label for="valeur{{valeur.id}}"> {{valeur.name}}</label>
-                                            </li>
-                                        {% endfor %}
-                                    </ul>
-                                    {% if not loop.last %}<hr>{% endif %}
-                                    {% endfor %}
-                                </div>
-                              </div>
-                              <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
-                              </div>
-                        </div>
-
-                      </div>
-                    </div>
                     <!-- end if mobile -->
                     <!-- aside widget -->
                     
                     
                     <!-- aside widget -->
                     <div class="aside filter-bloc">
+                        <h3 >Prix :</h3>
+                            <div id="price-slider"></div>
+                            <input type="hidden" name="minp" id="minp" value="{{min-2}}">
+                            <input type="hidden" name="maxp" id="maxp" value="{{max+2}}">
+                            <hr>
                         <h5>Marques</h5>
                         <ul>
                             {% for marque in marques %}
@@ -153,13 +104,13 @@
                                     {% if(product.qte>0) %}
                                     <!-- Product Single -->
                                     <div class="col-md-3 col-sm-6 col-xs-6">
-                                        <div class="product product-single {{product.pricePromotion != null?'product-hot-promotion':'product-hot'}}" style="height: 360px;">
+                                        <div class="product product-single {{product.pricePromotion<product.price?'product-hot-promotion':'product-hot'}}" style="height: 360px;">
                                         <div class="product-thumb">
                                             <div class="product-label">
                                                 {#{% set today = "now"|date("d/m/Y") %}
                                                 {% set difference = date(today).diff(date(product.createdAt|date('d/m/Y'))) %}
                                                 {{difference.days < 7?'<span>New </span>':''}}#}
-                                                {% if(product.pricePromotion != null) %}
+                                                {% if(product.pricePromotion<product.price != null) %}
                                                     <span class="sale">
                                                         {% set difference = product.price - product.pricePromotion %}
                                                         {% set pourcentage = (difference/product.price)*100 %}
@@ -171,7 +122,7 @@
                                             <img src="{{ asset('uploads/products/images/') }}{{ product.image }}" alt="" class="img-product-filter">
                                         </div>
                                         <div class="product-body">
-                                            {% if(product.pricePromotion != null) %}
+                                            {% if(product.pricePromotion<product.price != null) %}
                                                 <h3 class="product-price">{{product.pricePromotion}} TND<del class="product-old-price">  {{product.price}} TND</del></h3>
                                             {% else %}
                                                 <h3 class="product-price">{{product.price}} TND</h3>
@@ -240,7 +191,7 @@
     
         var minp = $('#minp').val();
         var maxp = $('#maxp').val();
-    var dollarPrefixFormat = wNumb({prefix: 'TND', decimals: 0})
+    var dollarPrefixFormat = wNumb({prefix: ' TND', decimals: 0})
   var slider = document.getElementById('price-slider');
   if (slider) {
     noUiSlider.create(slider, {

@@ -53,6 +53,10 @@
     top: 12px;
     left: 10%;
 }
+.add-to-cart{
+    font-size: 27px;
+    font-weight: 100;
+}
 .product.product-single .product-name{
     font-size: 12px;
 }
@@ -141,12 +145,7 @@
                             <h1 class="product-name">{{ product.name }}</h1>
                             <div class="product-btns">
                                 
-                                <div class="pull-right">
-                                    <button class="primary-btn add-to-cart" data-id="{{product.id}}"><i class="fa fa-shopping-cart"></i> Ajouter au panier</button>
-                                    {% if is_granted('AUTHENTIFICATED_FULLY') %}
-                                        <button class="main-btn icon-btn add-to-favoris" data-id="{{product.id}}" title="Ajouter à mes favoris"><i class="fa fa-heart"></i></button>
-                                    {% endif %}
-                                </div>
+                                
                             </div>
                                     <br><br>
                             {#
@@ -160,37 +159,49 @@
                                 </div>
                                 <a href="#">3 Review(s) / Add Review</a>
                             </div>#}
-                            <p><strong>Disponibilité :</strong> 
+                            <p style="text-align : right;">
                             {% if(product.qte>0) %}
-                                <span class="badge badge-error" style="background-color: #00c853;font-size: 16px;">En stock ({{product.qte}})</span>
+                                <span class="badge badge-error" style="background-color: #00c853;font-size: 19px;padding: 10px;border-radius: 24px;">En stock</span>
                             {% else %}
-                                <span class="badge badge-error" style="background-color: #f44336;">Faible</span>
+                                <strong style="font-size: 24px;margin-right: 25px;">Disponibilité :</strong> <span class="badge badge-error" style="background-color: #f44336;font-size: 19px;padding: 10px;border-radius: 24px;">Faible</span>
                             {% endif %}
                             </p>
-                            <div class="product-options">
+                            <div>
                             {% if product.valeurs|length>0 %}    
-                                <strong>Caractéristiques :</strong>
+                                <p><strong>Caractéristiques :</strong></p>
+                                <table class="table">
                                     {% for option in product.valeurs %}
-                                        <ul class="size-option">
-                                            <li><span class="text-uppercase"> - {{ option.caracteristique.name }}:</span></li>
-                                            <li class="active"><a href="#">{{ option.name }}</a></li>
-                                        </ul>
+                                    <tr>
+                                        <td>{{ option.caracteristique.name }}</td>
+                                        <td>{{ option.name }}</td>
+                                    </tr>
                                     {% endfor %}
-                                </div><br>
+                                </table>
                             {% endif %}
+                            </div><br>
+                            
+                            
+                            <div class="text-center">
+                                <button class="primary-btn add-to-cart" data-id="{{product.id}}"><i class="fa fa-shopping-cart"></i> Ajouter au panier</button>
+                                <div>
+                                {% if is_granted('AUTHENTIFICATED_FULLY') %}
+                                    <button class="main-btn icon-btn add-to-favoris" data-id="{{product.id}}" title="Ajouter à mes favoris"><i class="fa fa-heart"></i></button>
+                                {% endif %}
+                                </div>
+                            </div>
                             {% if product.content %}
                                 <strong>Autres détails :</strong>
                                 <p>{{ product.content }}</p>
                             {% endif %}
                             <hr>
                             
-                            <strong>Vendeur :</strong>
+                            {#<strong>Vendeur :</strong>
                             <div class="text-center">
                                 <a href="{{ path('product_by_store', {slug:product.store.slug}) }}">
                                     <img src="{{ asset('/uploads/shops/logos/') }}{{ product.store.logo }}" style="height: 120px;width: 120px;border-radius: 50%;border: 6px solid #fff;">
                                     <h1>{{product.store.name}}</h1>
                                 </a>
-                            </div>
+                            </div>#}
                     </div>
                     {#<div class="col-md-12">
                         <div class="product-tab">
@@ -216,6 +227,7 @@
     <!-- /section -->
 
     <!-- section -->
+    {% if products|length > 0  %}
     <div class="section">
         <!-- container -->
         <div class="container">
@@ -279,6 +291,7 @@
         </div>
         <!-- /container -->
     </div>
+    {% endif %}
     <!-- /section -->
 {% endblock %}
 {% block javascripts %}{% endblock %}
