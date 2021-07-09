@@ -318,24 +318,15 @@ class FrontController extends Controller
     {
         $dm = $this->getDoctrine()->getManager();
         $search = $request->get('search');
-        $products = $dm->getRepository('App:Products')->findAll();
+        //$products = $dm->getRepository('App:Products')->findAll();
         $keywords = $dm->getRepository('App:Keywords')->byName($search);
-        $result = array();
-        foreach ($products as $product){
-            $keys = $dm->getRepository('App:Keywords')->findBy(array('product' => $product));
-            if(count($product->getKeywords())>0){
-                foreach ($keywords as $k){
-                    if(in_array($k, $keys)){
-                        if(!in_array($product, $result)){
-                            $result[] = $product;
-                        }
-                    }
-                }
-            }
+        $products = array();
+        foreach ($keywords as $keyword){
+            $products[] = $keyword->getProduct();
         }
         $paginator  = $this->get('knp_paginator');
         $products_list = $paginator->paginate(
-            $result, /* query NOT result */
+            $products, /* query NOT result */
             $request->query->get('page', 1), /*page number*/
             20 /*limit per page*/
         );

@@ -47,4 +47,14 @@ class KeywordsRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function byName($chaine)
+    {
+        $qb = $this->createQueryBuilder('u')
+                ->Select('u')
+                ->where('u.name LIKE :name')
+                ->groupBy('u.product')
+                ->setParameter('name', '%'.$chaine.'%');
+
+        return $qb->getQuery()->execute();
+    }
 }

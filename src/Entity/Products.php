@@ -24,6 +24,11 @@ class Products
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $name;
+    
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $fullname;
 
     /**
      * @ORM\Column(type="float", nullable=true)
@@ -159,7 +164,19 @@ class Products
         return $this->name;
     }
 
-    public function setName(?string $name): self
+    public function setName(?string $fullname): self
+    {
+        $this->fullname = $fullname;
+
+        return $this;
+    }
+    
+    public function getFullname(): ?string
+    {
+        return $this->fullname;
+    }
+
+    public function setFullname(?string $name): self
     {
         $this->name = $name;
 

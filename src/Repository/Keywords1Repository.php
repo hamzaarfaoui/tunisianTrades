@@ -10,7 +10,7 @@ date_default_timezone_set("Europe/Paris");
  * @method Keywords[]    findAll()
  * @method Keywords[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class KeywordsRepository extends DocumentRepository
+class Keywords1Repository extends DocumentRepository
 {
     public function byName($chaine)
     {

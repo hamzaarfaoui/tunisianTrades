@@ -1,6 +1,6 @@
 {% for categorie in sc2|sortbyfield('orderInIndex') %}
     <!-- section -->
-    <div class="section" style="width: 100%;">
+    <div class="section categorie-products">
         <!-- container -->
         <div class="container">
            
@@ -9,7 +9,7 @@
                 <!-- section title -->
                 <div class="col-md-12">
                     <div class="section-title">
-                        <h3 class="title">{{ categorie.name }}{{categorie.products|length}}</h3>
+                        <h3 class="title">{{ categorie.name }}</h3>
                         <div class="pull-right">
                             <a class="bouton-gris" href="{{ path('product_by_category', {slug: categorie.slug}) }}">Voir plus</a>
                         </div>
@@ -58,7 +58,7 @@
                                             <i class="fa fa-star"></i>
                                             <i class="fa fa-star-o empty"></i>
                                         </div>#}
-                                        <h2 class="product-name"><a href="#">{{ product.name|slice(0, 15) }}</a></h2>
+                                        <h2 class="product-name"><a href="#">{{ product.name }}</a></h2>
                                         {#<div class="product-btns text-center">
                                             {% if is_granted('AUTHENTIFICATED_FULLY') %}
                                             <button class="main-btn icon-btn add-to-favoris" data-id="{{product.id}}"><i class="fa fa-heart"></i></button>

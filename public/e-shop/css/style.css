@@ -64,6 +64,7 @@ body {
   font-family: 'Hind', sans-serif;
   color: #4A4E5A;
   overflow-x: hidden;
+  background-color: #efefef;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -308,7 +309,6 @@ textarea.input {
 
 #header {
   padding-top: 15px;
-  padding-bottom: 15px;
 }
 
 /*----------------------------*\
@@ -466,7 +466,10 @@ textarea.input {
 ===========================================================*/
 
 #navigation {
-  background-color: #FFF;
+    background-color: #FFF;
+    margin-right: auto;
+    margin-left: auto;
+    width: 1170px;
 }
 
 #navigation .container {
@@ -823,7 +826,9 @@ textarea.input {
 #home-slick .banner {
   margin: 0px;
 }
-
+.slick-list{
+    height: 374px;
+}
 
 /*=========================================================
 	06 -> PRODUCT
@@ -1786,8 +1791,8 @@ textarea.input {
     }
     #home-slick{
   margin: 0px;
-    width: 935px;
-    margin-left: -65px;
+  width: 87%;
+  margin-left: -65px;
 }
 .menu-list .mm{
     display: none;

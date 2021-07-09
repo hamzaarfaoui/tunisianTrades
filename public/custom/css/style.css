@@ -168,6 +168,35 @@
 .list-links .list-links-title{
     font-size: 14px;
 }
+.categories-sliders-bloc{
+    
+background-color: #fff;
+    
+padding-top: 20px;
+    
+width: 76%;
+    
+height: 416px;
+    
+position: relative;
+    
+left: 11%;
+    
+margin-bottom: 53px;
+    
+border: 1px solid #ccc;
+}
+.categorie-products{
+    background-color: #fff;
+    padding-top: 20px;
+    width: 76%;
+    position: relative;
+    left: 11%;
+    margin-top: 0;
+    height: 471px;
+    margin-bottom: 35px;
+    border: 1px solid #ccc;
+}
 @media screen and (max-width: 450px){
     .slider-bloc{
         height: 250px;

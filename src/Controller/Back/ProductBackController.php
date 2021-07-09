@@ -150,6 +150,7 @@ class ProductBackController extends Controller
         $dm = $this->getDoctrine()->getManager();
         $product = new Products();
         $product->setName($request->get('nom'));
+        $product->setfullName($request->get('nomcomplet'));
         $product->setPrice($request->get('price'));
         $product->setQte($request->get('qte'));
         $product->setContent($request->get('descriptionC'));
@@ -265,6 +266,7 @@ class ProductBackController extends Controller
         $dm = $this->getDoctrine()->getManager();
         $product = new Products();
         $product->setName($request->get('nom'));
+        $product->setfullName($request->get('nomcomplet'));
         $product->setPrice($request->get('price'));
         $product->setQte($request->get('qte'));
         $slug = preg_replace('/[^A-Za-z0-9. -]/', '', $request->get('nom'));
@@ -406,6 +408,7 @@ class ProductBackController extends Controller
         $dm = $this->getDoctrine()->getManager();
         $product = $dm->getRepository('App:Products')->find($id);
         $product->setName($request->get('nom'));
+        $product->setfullName($request->get('nomcomplet'));
         $product->setPrice($request->get('price'));
         $product->setPricePromotion($request->get('price'));
         $product->setQte($request->get('qte'));
