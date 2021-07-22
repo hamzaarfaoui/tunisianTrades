@@ -118,19 +118,17 @@ class SlidersController extends Controller
     {
         $dm = $this->getDoctrine()->getManager();
         $slider = $dm->getRepository('App:Sliders')->find($id);
-        $product = $dm->getRepository('App:Products')->find($request->get('product'));
-        $slider->setProduct($product);
         if($request->get('status')){
            $slider->setStatus(1);
         }else{
             $slider->setStatus(0);
         }
-        if (isset($_FILES["imageSlider"]["name"]) && !empty($_FILES["imageSlider"]["name"])) {
-            $file = $_FILES["imageSlider"]["name"];
+        if (isset($_FILES["image"]["name"]) && !empty($_FILES["image"]["name"])) {
+            $file = $_FILES["image"]["name"];
             $File_Ext = substr($file, strrpos($file, '.'));
             $fileName = md5(uniqid()) . $File_Ext;
             move_uploaded_file(
-                    $_FILES["imageSlider"]["tmp_name"], $this->getParameter('images_sliders') . "/" . $fileName
+                    $_FILES["image"]["tmp_name"], $this->getParameter('images_sliders') . "/" . $fileName
             );
             $slider->setImage($fileName);
         }else{
@@ -138,8 +136,8 @@ class SlidersController extends Controller
         }
         $dm->persist($slider);
         $dm->flush();
-        $request->getSession()->getFlashBag()->add('success', "La slider du produit ".$product->getName()." a été modifiée");
-        return $this->redirectToRoute('dashboard_product_details', array('id' => $product->getId()));
+        $request->getSession()->getFlashBag()->add('success', "La slider a été modifiée");
+        return $this->redirectToRoute('dashboard_sliders_details', array('id' => $slider->getId()));
     }
     
     /*

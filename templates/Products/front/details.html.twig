@@ -2,6 +2,19 @@
 {% block title %}{{ product.name }}{% endblock %}
 {% block stylesheets %}
     <style>
+        .product-details {
+    bottom: 57px;
+    position: relative;
+    background-color: #FFF;
+    padding: 15px;
+    border: 1px solid #f9f2f2;
+    border-radius: 20px;
+    box-shadow: 1px 2px 9px 0px #ddd;
+}
+.slick-slider{
+    padding-top: 22px;
+    position: relative;
+}
         .img-left-bottom {
             position: absolute;
             bottom: -20px;
@@ -64,6 +77,17 @@
     /* padding: 0px; */
     padding-top: 15px;
 } 
+.other-products{
+    background-color: #fff;
+    padding-top: 20px;
+    width: 74%;
+    position: relative;
+    left: 13%;
+    margin-top: 0;
+    height: 471px;
+    margin-bottom: 35px;
+    border: 1px solid #ccc;
+}
     </style>
 {% endblock %}
 {% block body %}
@@ -192,8 +216,8 @@
                             {% if product.content %}
                                 <strong>Autres détails :</strong>
                                 <p>{{ product.content }}</p>
-                            {% endif %}
                             <hr>
+                            {% endif %}
                             
                             {#<strong>Vendeur :</strong>
                             <div class="text-center">
@@ -228,7 +252,7 @@
 
     <!-- section -->
     {% if products|length > 0  %}
-    <div class="section">
+    <div class="section other-products">
         <!-- container -->
         <div class="container">
             <!-- row -->

@@ -3,11 +3,11 @@ Template Name: E-SHOP HTML E-Commerce Template
 Author: yaminncco
 
 Colors:
-	Body 		  : #4A4E5A
-	Headers 	: #30323A
-	Primary 	: #78909c
-	Dark 		  :	#30323A
-	Grey 		  : #DADADA #F6F7F8
+  Body      : #4A4E5A
+  Headers   : #30323A
+  Primary   : #78909c
+  Dark      : #30323A
+  Grey      : #DADADA #F6F7F8
 
 Fonts: Hind
 
@@ -53,18 +53,17 @@ Table OF Contents
 ------------------------------------*/
 
 /*=========================================================
-	01 -> GENERAL
+  01 -> GENERAL
 ===========================================================*/
 
 /*----------------------------*\
-	Typography
+  Typography
 \*----------------------------*/
 
 body {
   font-family: 'Hind', sans-serif;
   color: #4A4E5A;
   overflow-x: hidden;
-  background-color: #efefef;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -114,7 +113,7 @@ hr {
 }
 
 /*----------------------------*\
-	Buttons
+  Buttons
 \*----------------------------*/
 
 .main-btn, .primary-btn {
@@ -159,7 +158,7 @@ hr {
 }
 
 /*----------------------------*\
-	Inputs
+  Inputs
 \*----------------------------*/
 
 .input {
@@ -199,7 +198,7 @@ textarea.input {
 }
 
 /*----------------------------*\
-	Lists
+  Lists
 \*----------------------------*/
 
 .list-links .list-links-title {
@@ -244,7 +243,7 @@ textarea.input {
 }
 
 /*----------------------------*\
-	Sections
+  Sections
 \*----------------------------*/
 
 .section {
@@ -278,7 +277,7 @@ textarea.input {
 }
 
 /*----------------------------*\
-	Breadcrumb
+  Breadcrumb
 \*----------------------------*/
 
 #breadcrumb {
@@ -304,7 +303,7 @@ textarea.input {
 }
 
 /*=========================================================
-	02 -> HEADER
+  02 -> HEADER
 ===========================================================*/
 
 #header {
@@ -312,7 +311,7 @@ textarea.input {
 }
 
 /*----------------------------*\
-	Top header
+  Top header
 \*----------------------------*/
 
 #top-header {
@@ -335,7 +334,7 @@ textarea.input {
 }
 
 /*----------------------------*\
-	logo
+  logo
 \*----------------------------*/
 
 .header-logo {
@@ -349,7 +348,7 @@ textarea.input {
 }
 
 /*----------------------------*\
-	Search header
+  Search header
 \*----------------------------*/
 
 .header-search {
@@ -385,7 +384,7 @@ textarea.input {
 }
 
 /*----------------------------*\
-	Account header
+  Account header
 \*----------------------------*/
 
 .header-btns>li {
@@ -422,7 +421,7 @@ textarea.input {
 }
 
 /*----------------------------*\
-	Cart header
+  Cart header
 \*----------------------------*/
 
 .header-cart .header-btns-icon .qty {
@@ -462,7 +461,7 @@ textarea.input {
 }
 
 /*=========================================================
-	03 -> NAVIGATION
+  03 -> NAVIGATION
 ===========================================================*/
 
 #navigation {
@@ -478,7 +477,7 @@ textarea.input {
 }
 
 /*----------------------------*\
-	Category nav
+  Category nav
 \*----------------------------*/
 
 .category-nav {
@@ -557,7 +556,7 @@ textarea.input {
 }
 
 /*----------------------------*\
-	Menu nav
+  Menu nav
 \*----------------------------*/
 
 .menu-nav .menu-header {
@@ -590,7 +589,7 @@ textarea.input {
 }
 
 /*----------------------------*\
-	Dropdowns
+  Dropdowns
 \*----------------------------*/
 
 .custom-menu {
@@ -682,7 +681,7 @@ textarea.input {
 }
 
 /*----------------------------*\
-	Mobile nav
+  Mobile nav
 \*----------------------------*/
 
 #header .nav-toggle {
@@ -787,7 +786,7 @@ textarea.input {
 }
 
 /*=========================================================
-	04 -> BANNERS
+  04 -> BANNERS
 ===========================================================*/
 
 .banner {
@@ -816,22 +815,22 @@ textarea.input {
 }
 
 /*=========================================================
-	05 -> HOME SLIDER
+  05 -> HOME SLIDER
 ===========================================================*/
 
 #home .home-wrap {
   margin-left: 270px;
 }
 
-#home-slick .banner {
-  margin: 0px;
-}
 .slick-list{
-    height: 374px;
+    height: 391px;
+    position: relative;
+    bottom: 15px;
+    width: 930px;
 }
 
 /*=========================================================
-	06 -> PRODUCT
+  06 -> PRODUCT
 ===========================================================*/
 
 .product .product-old-price {
@@ -890,7 +889,7 @@ textarea.input {
 }
 
 /*----------------------------*\
-	Single product
+  Single product
 \*----------------------------*/
 
 .product.product-single {
@@ -1005,7 +1004,7 @@ textarea.input {
 /*-- hot product --*/
 
 .product.product-single.product-hot {
-  border: 0.5px solid #90a4ae;
+  border: 0.5px solid #e8e8e8;
   height: 360px;
 }
 
@@ -1024,7 +1023,7 @@ textarea.input {
 }
 
 /*----------------------------*\
-	 Widget product
+   Widget product
 \*----------------------------*/
 
 .product.product-widget {
@@ -1078,7 +1077,7 @@ textarea.input {
 }
 
 /*----------------------------*\
-	Product slick
+  Product slick
 \*----------------------------*/
 
 .product-slick .slick-slide {
@@ -1087,11 +1086,11 @@ textarea.input {
 }
 
 /*=========================================================
-	07 -> PRODUCTS PAGE
+  07 -> PRODUCTS PAGE
 ===========================================================*/
 
 /*----------------------------*\
-	Aside
+  Aside
 \*----------------------------*/
 
 #aside .aside {
@@ -1206,7 +1205,7 @@ textarea.input {
 }
 
 /*----------------------------*\
-	Store
+  Store
 \*----------------------------*/
 
 #store {
@@ -1283,11 +1282,11 @@ textarea.input {
 }
 
 /*=========================================================
-	08 -> PRODUCT DETAILS PAGE
+  08 -> PRODUCT DETAILS PAGE
 ===========================================================*/
 
 /*----------------------------*\
-	Product view
+  Product view
 \*----------------------------*/
 
 #product-main-view .slick-arrow {
@@ -1300,6 +1299,7 @@ textarea.input {
 
 #product-view {
   margin-top: 10px;
+  height: 153px;
   margin-bottom: 15px;
 }
 
@@ -1322,7 +1322,7 @@ textarea.input {
 }
 
 /*----------------------------*\
-	Product details
+  Product details
 \*----------------------------*/
 
 .product.product-details .product-name {
@@ -1434,7 +1434,7 @@ textarea.input {
 }
 
 /*----------------------------*\
-	Product tab
+  Product tab
 \*----------------------------*/
 
 .product-tab {
@@ -1576,7 +1576,7 @@ textarea.input {
 }
 
 /*=========================================================
-	09 -> CHECKOUT PAGE
+  09 -> CHECKOUT PAGE
 ===========================================================*/
 
 .shiping-methods {
@@ -1643,7 +1643,7 @@ textarea.input {
 }
 
 /*=========================================================
-	10 -> FOOTER
+  10 -> FOOTER
 ===========================================================*/
 
 .footer {
@@ -1686,11 +1686,11 @@ textarea.input {
 }
 
 /*=========================================================
-	11 -> SLICK
+  11 -> SLICK
 ===========================================================*/
 
 /*----------------------------*\
-	Arrows
+  Arrows
 \*----------------------------*/
 
 .slick-prev, .slick-next {
@@ -1710,7 +1710,7 @@ textarea.input {
 }
 
 .slick-prev {
-  left: 15px;
+  left: -56px;
 }
 
 .slick-next {
@@ -1726,7 +1726,7 @@ textarea.input {
 }
 
 /*----------------------------*\
-	Dots
+  Dots
 \*----------------------------*/
 
 .slick-dots li, .slick-dots li button, .slick-dots li button:before {
@@ -1768,7 +1768,7 @@ textarea.input {
 }
 
 /*=========================================================
-	12 -> RESPONSIVE
+  12 -> RESPONSIVE
 ===========================================================*/
 @media only screen and (min-width: 480px) {
     .banner.banner-1 .banner-caption {

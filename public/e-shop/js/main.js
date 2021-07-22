@@ -36,7 +36,7 @@
 
   // HOME SLICK
   $('#home-slick').slick({
-    autoplay: true,
+    autoplay: false,
     infinite: true,
     speed: 300,
     arrows: true,
