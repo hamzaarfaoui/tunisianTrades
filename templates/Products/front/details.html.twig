@@ -88,7 +88,14 @@
     margin-bottom: 35px;
     border: 1px solid #ccc;
 }
-    </style>
+#product-main-view .slick-list, #product-view .slick-list{
+    width: 100%
+}
+#product-main-view .slick-prev{
+    left: -7px;
+}
+</style>
+
 {% endblock %}
 {% block body %}
     <!-- NAVIGATION -->
@@ -124,9 +131,9 @@
             <div class="row">
                 <!--  Product Details -->
                 <div class="product product-details clearfix">
-                    <div class="col-md-4">
+                    <div class="col-md-5">
                         <div id="product-main-view">
-                            <div class="product-view">
+                            <div class="product-view" style="width: 100%;">
                                 <img style="height: 400px;" src="{{ asset('uploads/products/images/') }}{{ product.image }}" alt="">
                             </div>
                             {% for image in product.getMediasImages() %}
@@ -146,9 +153,9 @@
                             {% endfor %}
                         </div>
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-7">
                             <div class="pull-right">
-                            {% if(product.pricePromotion != null) %}
+                            {% if(product.pricePromotion<product.price != null) %}
                                 <div class="product-price price-skew">{{product.pricePromotion}} TND<span class="span-price"></span><del class="product-old-price">  {{product.price}} TND</del></div>
                             {% else %}
                                 <div class="product-price price-skew"><span>{{product.price}} TND</span><span class="span-price"></span></div>
@@ -158,7 +165,7 @@
                                 {#{% set today = "now"|date("d/m/Y") %}
                                 {% set difference = date(today).diff(date(product.createdAt|date('d/m/Y'))) %}
                                 {{difference.days < 7?'<span>New </span>':''}}#}
-                                {% if(product.pricePromotion != null) %}
+                                {% if(product.pricePromotion<product.price != null) %}
                                     <span class="sale">
                                         {% set difference = product.price - product.pricePromotion %}
                                         {% set pourcentage = (difference/product.price)*100 %}
@@ -267,14 +274,14 @@
                 {% for p in products %}
                     {% if(p.qte>0) %}
                         <!-- Product Single -->
-                        <div class="col-md-3 col-sm-6 col-xs-6">
-                            <div class="product product-single {{p.pricePromotion != null?'product-hot-promotion':'product-hot'}}" style="height: 300px;">
+                        <div class="col-md-2 col-sm-6 col-xs-6">
+                            <div class="product product-single {{product.pricePromotion<product.price?'product-hot-promotion':'product-hot'}}" style="height: 300px;">
                                 <div class="product-thumb">
                                     <div class="product-label">
                                         {#{% set today = "now"|date("d/m/Y") %}
                                         {% set difference = date(today).diff(date(product.createdAt|date('d/m/Y'))) %}
                                         {{difference.days < 7?'<span>New </span>':''}}#}
-                                        {% if(p.pricePromotion != null) %}
+                                        {% if(p.pricePromotion < p.price) %}
                                             <span class="sale">
                                                 {% set difference = p.price - p.pricePromotion %}
                                                 {% set pourcentage = (difference/p.price)*100 %}
