@@ -29,7 +29,7 @@ class BannersController extends Controller
     {
         $dm = $this->getDoctrine()->getManager();
         $banners = $dm->getRepository('App:Banners')->findBy(array('isTwo' => true));
-        
+        dump(count($banners));
         return $this->render('Banners/front/2banners.html.twig', array('banners' => $banners));
     }
     
@@ -47,20 +47,34 @@ class BannersController extends Controller
     /*
      * Banner details in front
      */
-    public function showInFront($id)
+    public function showInFront(Request $request, $id)
     {
         $dm = $this->getDoctrine()->getManager();
         $slider = $dm->getRepository('App:Banners')->find($id);
         $products_liste = array();
         $produit = $slider->getProduct();
-        $categorie = $produit->getSousCategorie()->getId();
+        $categorie = $produit->getSousCategorie();
         $products = $dm->getRepository('App:Products')->liees($categorie);
         foreach ($products as $p){
             if($p->getId()!=$produit->getId()){
                 $products_liste[] = $p;
             }
         }
-        return $this->render('Banners/front/detailsFront.html.twig', array('product' => $produit, 'products' => $products_liste));
+        $paginator  = $this->get('knp_paginator');
+        $products_liste = $paginator->paginate(
+            $products_liste, /* query NOT result */
+            $request->query->get('page', 1), /*page number*/
+            20 /*limit per page*/
+        );
+        $find_products = $dm->getRepository('App:Products')->findBy(array('sousCategorie' => $categorie));
+        $products_price = array();
+        foreach ($find_products as $product) {
+            $products_price[] = $product->getPricePromotion()?$product->getPricePromotion():$product->getPrice();
+        }
+        $marques = $dm->getRepository('App:Marques')->findBy(array('sousCategorie' => $categorie));
+        $min = count($products_price) > 0 ? min($products_price) : 0;
+        $max = count($products_price) > 0 ? max($products_price) : 0;
+        return $this->render('Banners/front/detailsFront.html.twig', array('product' => $produit, 'products' => $products_liste, 'categorie' => $categorie,'min' => $min,'max'=>$max, 'marques'=>$marques));
     }
     
     /*
